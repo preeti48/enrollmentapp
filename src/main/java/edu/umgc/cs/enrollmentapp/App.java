@@ -21,6 +21,7 @@ public class App
         //Display the window.
         frame.pack();
         frame.setVisible(true);
+	frame.setBounds(100,200,450,300);
     }
 	
     public static void main( String[] args )
