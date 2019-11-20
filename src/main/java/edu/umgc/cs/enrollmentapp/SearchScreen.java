@@ -21,13 +21,17 @@ public class SearchScreen {
 	private JTextField lnField;
 	private JTextField fnfield;
 	private JDateChooser dateChooser;
-
+         
+	//connection
+	Connection connection=null;
 	
 	/**
 	 * Create the searchPage.
 	 */
 	public SearchScreen() {
 		createSearchPage();
+		//connection to ESADBConnection Class File
+		connection=ESADBConnection.dbConnector();
 	}
 
 	/**
