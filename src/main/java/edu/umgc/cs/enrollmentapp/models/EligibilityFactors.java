@@ -10,11 +10,8 @@ public class EligibilityFactors {
 	public boolean financialAidEligibility;
 	
 	public ResidencyStatus residencyStatus;
-	public boolean yearOfResidency;
+	public YearOfResidency yearOfResidency;
 	public boolean isAgeOver55;
 	public boolean areYouDepended;
 		
 }
-// Update Button Selection
-// Reset Button Selection
-// Cancel Button
