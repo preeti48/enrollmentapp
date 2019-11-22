@@ -4,12 +4,17 @@ import javax.swing.*;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 
 public class App {
 	private static JFrame frame;
 	private static JTextField userIdField;
 	private static JPasswordField passwordField;
+	private static JLabel userIdErrorLbl;
+	private static JLabel pwErrorLbl;
 	
 /**
  * This is the main method	
@@ -54,6 +59,12 @@ private static void createGUI() {
         frame.getContentPane().add(lblPassword);
         
         userIdField = new JTextField();
+        userIdField.addKeyListener(new KeyAdapter() {
+        	@Override
+        	public void keyReleased(KeyEvent e) {
+        		userIdErrorLbl.setText("");
+        	}
+        });
         userIdField.setFont(new Font("Tahoma", Font.PLAIN, 13));
         userIdField.setBounds(168, 100, 158, 20);
         frame.getContentPane().add(userIdField);
@@ -61,11 +72,26 @@ private static void createGUI() {
         
         JButton loginBtn = new JButton("Login");
         loginBtn.addActionListener(new ActionListener() {
+        	
         	public void actionPerformed(ActionEvent e) {
-        		//if(userIdField.getText().equals("Admin") && passwordField.getText().equals("123")){
-        		SearchScreen searchPage = new SearchScreen();
-        		frame.dispose();
-        		//}
+        		//error handling for username and password field
+        		if(userIdField.getText().trim().isEmpty() && passwordField.getText().trim().isEmpty()){
+        			userIdErrorLbl.setText("User ID is a required field");
+        			pwErrorLbl.setText("Password is a required field");
+        		}
+        		else if(userIdField.getText().trim().isEmpty()){
+        			userIdErrorLbl.setText("User ID is a required field");
+        		}
+        		else if(passwordField.getText().trim().isEmpty()){
+        			pwErrorLbl.setText("Password is a required field");
+        		}
+        		else{
+        			if(userIdField.getText().equals("Admin") && passwordField.getText().equals("123")){
+                		SearchScreen searchPage = new SearchScreen();
+                		frame.dispose();
+                		}		
+        		}
+        		
         	}
         });
         
@@ -78,6 +104,8 @@ private static void createGUI() {
         	public void actionPerformed(ActionEvent e) {
         		userIdField.setText("");
         		passwordField.setText("");
+        		pwErrorLbl.setText("");
+        		userIdErrorLbl.setText("");
         	}
         });
         resetBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -85,15 +113,32 @@ private static void createGUI() {
         frame.getContentPane().add(resetBtn);
         
         passwordField = new JPasswordField();
+        passwordField.addKeyListener(new KeyAdapter() {
+        	@Override
+        	public void keyReleased(KeyEvent e) {
+        		pwErrorLbl.setText("");
+        	}
+        });
         passwordField.setFont(new Font("Tahoma", Font.PLAIN, 13));
         passwordField.setBounds(168, 158, 157, 20);
         frame.getContentPane().add(passwordField);
+        
+        userIdErrorLbl = new JLabel("             ");
+        userIdErrorLbl.setFont(new Font("Arial", Font.PLAIN, 11));
+        userIdErrorLbl.setForeground(Color.RED);
+        userIdErrorLbl.setBounds(168, 122, 158, 14);
+        frame.getContentPane().add(userIdErrorLbl);
+        
+        pwErrorLbl = new JLabel("");
+        pwErrorLbl.setFont(new Font("Arial", Font.PLAIN, 11));
+        pwErrorLbl.setForeground(Color.RED);
+        pwErrorLbl.setBounds(168, 180, 174, 14);
+        frame.getContentPane().add(pwErrorLbl);
 
         frame.setBounds(500, 200, 400, 380);
         frame.setVisible(true);
        
    }
-	
 }
 
 

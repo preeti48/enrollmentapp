@@ -1,13 +1,7 @@
 package edu.umgc.cs.enrollmentapp;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.*;
 import java.awt.Font;
-import javax.swing.JButton;
-import javax.swing.JTextField;
-
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -17,7 +11,7 @@ import java.awt.event.ActionEvent;
 public class SearchScreen {
 
 	private JFrame frame;
-	private JTextField stdentIDField;
+	private JTextField studentIDField;
 	private JTextField ssnField;
 	private JTextField lnField;
 	private JTextField fnfield;
@@ -79,10 +73,10 @@ public class SearchScreen {
 		dobLbl.setBounds(70, 300, 100, 25);
 		frame.getContentPane().add(dobLbl);
 		
-		stdentIDField = new JTextField();
-		stdentIDField.setBounds(210, 140, 170, 24);
-		frame.getContentPane().add(stdentIDField);
-		stdentIDField.setColumns(10);
+		studentIDField = new JTextField();
+		studentIDField.setBounds(210, 140, 170, 24);
+		frame.getContentPane().add(studentIDField);
+		studentIDField.setColumns(7);
 		
 		ssnField = new JTextField();
 		ssnField.setBounds(210, 180, 170, 24);
@@ -101,9 +95,16 @@ public class SearchScreen {
 		
 		dateChooser = new JDateChooser();
 		dateChooser.setBounds(210, 300, 170, 24);
+		dateChooser.setDateFormatString("MM/dd/yyyy");
 	    frame.getContentPane().add(dateChooser);
 	    
 	    JButton searchBtn = new JButton("Search");
+	    //search button handling
+	    searchBtn.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    		performSearch();
+	    	}
+	    });
 	    searchBtn.setFont(new Font("Tahoma", Font.PLAIN, 13));
 	    searchBtn.setBounds(70, 373, 89, 23);
 	    frame.getContentPane().add(searchBtn);
@@ -116,7 +117,7 @@ public class SearchScreen {
 	    JButton resetBtn = new JButton("Reset");
 	    resetBtn.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
-	    		stdentIDField.setText("");
+	    		studentIDField.setText("");
 	    		ssnField.setText("");
 	    		lnField.setText("");
 	    		fnfield.setText("");
@@ -134,6 +135,72 @@ public class SearchScreen {
 	}
 	
 
+/**
+ * This method validates entered StudentId
+ * @param id is a User Input
+ * @return true if entered studentId is valid false otherwise
+ */
+ private boolean validateID(String id){
+	if (id.matches("[0-9]+") && id.length() == 7 ){
+		return true;
+	}
+	
+	return false;
+}
+
+/**
+ * This method validates SSN 
+ * @param ssn is a user input
+ * @return true if SSN is valid false otherwise
+ */
+private boolean validateSSN(String ssn){
+		if (ssn.length() == 9 && ssn.matches("[0-9]+") ){
+			return true;
+		}
+		
+		return false;
+	}
+/**
+ * This method is to perform search operation 
+ */
+ private void performSearch(){
+	 
+	 if (studentIDField.getText().isEmpty() && ssnField.getText().isEmpty() ){
+		 JOptionPane.showMessageDialog(frame," Please enter Student ID or SSN and Last Name to Search for Student Record ");
+	 }
+	 
+	 //if search by studentID
+	 else if(!studentIDField.getText().isEmpty()){
+			//if studentID is valid
+			if(validateID(studentIDField.getText())){
+				//search for the student in database by ID
+			}
+			else{
+				JOptionPane.showMessageDialog(frame, "Please enter correct Student ID", "Incorrect StudentID", JOptionPane.ERROR_MESSAGE);
+			}
+	 }
+	 
+	 else if(!ssnField.getText().isEmpty()){
+		     //validate ssn
+			 if (validateSSN(ssnField.getText())){
+				 
+				 if (!lnField.getText().isEmpty()){
+					 //search by SSN and Last Name
+				 }
+				 else {
+						JOptionPane.showMessageDialog(frame, "Please enter Last Name to search by SSN", "Enter LastName",  JOptionPane.INFORMATION_MESSAGE);
+				 }
+			
+			 }
+			 
+			 else {
+					JOptionPane.showMessageDialog(frame, "Please enter correct SSN ", "Incorrect SSN", JOptionPane.ERROR_MESSAGE);
+			 } 
+	 }
+	 
+ }
+ 
+ 
 private void searchByID(){
 	
 }
