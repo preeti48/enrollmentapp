@@ -25,41 +25,40 @@ public class App {
  */
 public static void main( String[] args )
     {
-       // System.out.println( "Hello World!" );
-       // TabGui tabGui = new TabGui();
+       
         
      javax.swing.SwingUtilities.invokeLater(new Runnable() {
           public void run() {
         createGUI();
-        	  connect();
+        	//  connect();
           }	
       });
         
     
     }
 
-public static void connect() {
-    Connection conn = null;
-    try {
-        // db parameters
-        String url = "jdbc:sqlite:ESA.db";
-        // create a connection to the database
-        conn = DriverManager.getConnection(url);
-        
-        System.out.println("Connection to SQLite has been established.");
-        
-    } catch (SQLException e) {
-        System.out.println(e.getMessage());
-    } finally {
-        try {
-            if (conn != null) {
-                conn.close();
-            }
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
-}
+//public static void connect() {
+//    Connection conn = null;
+//    try {
+//        // db parameters
+//        String url = "jdbc:sqlite:ESA.db";
+//        // create a connection to the database
+//        conn = DriverManager.getConnection(url);
+//        
+//        System.out.println("Connection to SQLite has been established.");
+//        
+//    } catch (SQLException e) {
+//        System.out.println(e.getMessage());
+//    } finally {
+//        try {
+//            if (conn != null) {
+//                conn.close();
+//            }
+//        } catch (SQLException ex) {
+//            System.out.println(ex.getMessage());
+//        }
+//    }
+//}
 
 /**
  * This method creates a login page
