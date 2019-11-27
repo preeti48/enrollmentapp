@@ -114,6 +114,11 @@ public class SearchScreen {
 		addBtn.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		addBtn.setBounds(291, 373, 89, 23);
 		frame.getContentPane().add(addBtn);
+		addBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TabGui tabGui = new TabGui(new Applicant());
+			}
+		});
 
 		JButton resetBtn = new JButton("Reset");
 		resetBtn.addActionListener(new ActionListener() {

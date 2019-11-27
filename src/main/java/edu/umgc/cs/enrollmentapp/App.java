@@ -1,4 +1,5 @@
 package edu.umgc.cs.enrollmentapp;
+import edu.umgc.cs.enrollmentapp.models.*;
 
 import javax.swing.*;
 import java.awt.Font;
@@ -30,7 +31,8 @@ public static void main( String[] args )
      javax.swing.SwingUtilities.invokeLater(new Runnable() {
           public void run() {
         createGUI();
-        	//  connect();
+        	// connect();
+        	  //TabGui tab = new TabGui(new Applicant());
           }	
       });
         
