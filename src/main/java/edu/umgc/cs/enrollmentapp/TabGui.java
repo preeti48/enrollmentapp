@@ -1,7 +1,16 @@
 package edu.umgc.cs.enrollmentapp;
 
 import java.awt.*;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.swing.*;
+
+import edu.umgc.cs.enrollmentapp.enums.ActiveYears;
+import edu.umgc.cs.enrollmentapp.enums.ResidencyStatus;
+import edu.umgc.cs.enrollmentapp.enums.YearOfResidency;
 import edu.umgc.cs.enrollmentapp.models.Applicant;
 
 public class TabGui extends JFrame{
@@ -18,10 +27,10 @@ public class TabGui extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         jtpTabPane = new JTabbedPane();
-        overviewTab = new OverviewTab();
-        financialInfoTab = new FinancialInfoTab();
-        eligibilityFactorsTab = new EligibilityFactorsTab();
-        enrollmentDecisionTab = new EnrollmentDecisionTab();
+        overviewTab = new OverviewTab(applicant);
+        financialInfoTab = new FinancialInfoTab(applicant);
+        eligibilityFactorsTab = new EligibilityFactorsTab(applicant);
+        enrollmentDecisionTab = new EnrollmentDecisionTab(applicant);
 
         jtpTabPane.addTab("Student Overview", overviewTab);
         jtpTabPane.addTab("Financial Information", financialInfoTab);
@@ -89,7 +98,7 @@ public class TabGui extends JFrame{
         private JButton cancel = new JButton("Cancel");
 
 
-        private OverviewTab(){
+        private OverviewTab(Applicant applicant){
             buttongroup1.add(birthSexRButtonM);
             buttongroup1.add(birthSexRButtonF);
             buttongroup1.add(birthSexRButtonO);
@@ -100,6 +109,8 @@ public class TabGui extends JFrame{
 
             centerPanel.add(studentIdLabel);
             centerPanel.add(studentIDField);
+            studentIDField.setText(applicant.getStudentID());
+            
             centerPanel.add(resiAdrslabel);
             centerPanel.add(resiAdrsEmpty);
 
@@ -107,40 +118,55 @@ public class TabGui extends JFrame{
             
             centerPanel.add(lastNameLabel);
             centerPanel.add(lastNameField);
+            lastNameField.setText(applicant.getLname());
             centerPanel.add(streetLabel);
             centerPanel.add(streetField);
+            streetField.setText(applicant.getStreet());
             centerPanel.add(firstName);
             centerPanel.add(firstNameField);
+            firstNameField.setText(applicant.getFname());
             centerPanel.add(cityLabel);
             centerPanel.add(cityField);
+            cityField.setText(applicant.getCity());
             centerPanel.add(ssnLabel);
             centerPanel.add(ssnField);
+            
+            ssnField.setText(Integer.toString(applicant.getSsn()));
             centerPanel.add(stateLabel);
             centerPanel.add(stateField);
+            stateField.setText(applicant.getState());
             centerPanel.add(dobLabel);
             centerPanel.add(dobField);
+            dobField.setText(dateToString(applicant.getDob()));
             centerPanel.add(zipLabel);
             centerPanel.add(zipField);
+            zipField.setText(Integer.toString(applicant.getZip()));
             
             centerPanel.add(birthSexLabel);
             sexRadioPanel.add(birthSexRButtonM);
             sexRadioPanel.add(birthSexRButtonF);
             sexRadioPanel.add(birthSexRButtonO);
             centerPanel.add(sexRadioPanel);
+            radioHandle(applicant.getGender());
             
             centerPanel.add(usaResiLabel);
             resiRadioPanel.add(usaResiRButtonY);
             resiRadioPanel.add(usaResiRButtonN);
             centerPanel.add(resiRadioPanel);
+            resiRadioHandle(applicant.isUsaResident());
            
             centerPanel.add(e_contactLabel);
             centerPanel.add(e_contactField);
+            e_contactField.setText(applicant.getEmergencyContact());
             centerPanel.add(e_phoneLabel);
             centerPanel.add(e_phoneField);
+            e_phoneField.setText(applicant.getE_phone());
             centerPanel.add(phNumLAbel);
             centerPanel.add(phNumField);
+            phNumField.setText(applicant.getPhone());
             centerPanel.add(mobNumLabel);
             centerPanel.add(mobNumField);
+           
             
             add(buttonPanel, "South");
             buttonPanel.add(update);
@@ -152,6 +178,53 @@ public class TabGui extends JFrame{
             add(leftPanel, "East");
             leftPanel.add(emptyLabel2);
         }
+        
+        /**
+         * This method converts date to String
+         * @param d is a date
+         * @return a date as a String
+         */
+        private String dateToString(Date d){
+        	   DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyy");  
+               String strDate = dateFormat.format(d);  
+               return strDate;
+        }
+        
+        /**
+         * This method handles radio button 
+         * @param gen is gender selected by user
+         */
+       private void radioHandle(String gen){
+    	   if(gen.equals("male")){
+    		   birthSexRButtonM.setSelected(true);
+    		   return;
+    	   }
+    	   else if(gen.equals("female")){
+    		   birthSexRButtonF.setSelected(true);   
+    		   return;
+    	   }
+    	   else
+    	   {
+    		   birthSexRButtonO.setSelected(true);
+    		   return;
+    	   }
+       }
+       
+       /**
+        * This method handles residential status 
+        * @param b is a boolean
+        */
+       private void resiRadioHandle(Boolean b){
+    	   if(b){
+    		usaResiRButtonY.setSelected(true);
+    		   return;
+    	   }
+    	   else {
+    		   usaResiRButtonN.setSelected(true);   
+    		   return;
+    	   }
+    	  
+       }
     }
 
     private class FinancialInfoTab extends JPanel{
@@ -204,7 +277,7 @@ public class TabGui extends JFrame{
         private JButton reset = new JButton("Reset");
         private JButton cancel = new JButton("Cancel");
 
-        private FinancialInfoTab(){
+        private FinancialInfoTab(Applicant applicant){
             buttongroup1.add(finanDependRButtonY);
             buttongroup1.add(finanDependRButtonN);
             buttongroup2.add(hav529AcctRButtonY);
@@ -217,27 +290,44 @@ public class TabGui extends JFrame{
             add(centerPanel, "Center");
             centerPanel.add(studentIdLabel);
             centerPanel.add(studentIDField);
+            studentIDField.setText(applicant.getStudentID());
             centerPanel.add(finanDependLabel);
             financialRadioPanel.add(finanDependRButtonY);
             financialRadioPanel.add(finanDependRButtonN);
             centerPanel.add(financialRadioPanel);
+            finRadioHandle(applicant.finInfo.getDependency());
 
             centerPanel.add(studentLastYearIncomeLabel);
             centerPanel.add(studentLastYearIncomeField);
+            studentLastYearIncomeField.setText(Double.toString(applicant.finInfo.getStudentIncome()));
             centerPanel.add(parentLastYearIncomeLabel);
             centerPanel.add(parenttLastYearIncomeField);
+            parenttLastYearIncomeField.setText(Double.toString(applicant.finInfo.getParentIncome()));
             centerPanel.add(hav529AcctLabel);
             hav529RadioPanel.add(hav529AcctRButtonY);
             hav529RadioPanel.add(hav529AcctRButtonN);
             centerPanel.add(hav529RadioPanel);
+            if(applicant.finInfo.get529Status()){
+            	hav529AcctRButtonY.setSelected(true);
+    	     }
+    	    else {
+    		   hav529AcctRButtonN.setSelected(true);   
+    	   }
 
             centerPanel.add(havRealEstLandLabel);
             realEesRadioPanel.add(havRealEstRButtonY);
             realEesRadioPanel.add(havRealEstRButtonN);
             centerPanel.add(realEesRadioPanel);
+            if(applicant.finInfo.getRealStatus()){
+            	havRealEstRButtonY.setSelected(true);
+    	     }
+    	    else {
+    	    	havRealEstRButtonN.setSelected(true);   
+    	   }
           
             centerPanel.add(valOfOtherProptyLabel);
             centerPanel.add(valOfOtherProptyField);
+            valOfOtherProptyField.setText(Double.toString(applicant.finInfo.getPropValue()));
 
             add(buttonPanel, "South");
             buttonPanel.add(update);
@@ -255,6 +345,18 @@ public class TabGui extends JFrame{
             rightPanel.add(empty6);
             leftPanel.add(empty7);
             leftPanel.add(empty8);
+        }
+        
+        private void finRadioHandle(Boolean b){
+     	   if(b){
+     		  finanDependRButtonY.setSelected(true);
+     		   return;
+     	   }
+     	   else {
+     		  finanDependRButtonN.setSelected(true);   
+     		   return;
+     	   }
+     	  
         }
     }
     private class EligibilityFactorsTab extends JPanel{
@@ -314,6 +416,7 @@ public class TabGui extends JFrame{
         private JRadioButton yearsOfResilessThan1 = new JRadioButton("Less than 1");
         private JRadioButton yearsOfResibetween1_5 = new JRadioButton("Between 1 - 5");
         private JRadioButton yearsOfResimoreThan5 = new JRadioButton("More than 5");
+        
 
         private JLabel overAge55Label = new JLabel("Over the Age 55? ");
         private JRadioButton overAge55Y = new JRadioButton("Yes");
@@ -337,7 +440,7 @@ public class TabGui extends JFrame{
         private JButton reset = new JButton("Reset");
         private JButton cancel = new JButton("Cancel");
 
-        private EligibilityFactorsTab(){
+        private EligibilityFactorsTab(Applicant applicant){
             buttonGroup1.add(havServedMilitaryY);
             buttonGroup1.add(havServedMilitaryN);
             buttonGroup2.add(militaryStatusActive);
@@ -364,53 +467,123 @@ public class TabGui extends JFrame{
             add(centerPanel, "Center");
             centerPanel.add(studentIdLabel);
             centerPanel.add(studentIDField);
+            studentIDField.setText(applicant.getStudentID());
             centerPanel.add(havServedMilitaryLabel);
             servedMilitaryPanel.add(havServedMilitaryY);
             servedMilitaryPanel.add(havServedMilitaryN);
             centerPanel.add(servedMilitaryPanel);
-
+            if(applicant.eligInfo.getMiliServed()){
+            	havServedMilitaryY.setSelected(true);
+            }
+            else{
+            	havServedMilitaryN.setSelected(true);
+            }
+            
             centerPanel.add(militaryStatusLabel);
             militaryStatusPanel.add(militaryStatusActive);
             militaryStatusPanel.add(militaryStatusInactive);
             centerPanel.add(militaryStatusPanel);
-
+            if(applicant.eligInfo.getMiliServed()){
+            if(applicant.eligInfo.getMiliStatus()){
+            	militaryStatusActive.setSelected(true);
+            }
+            else{
+            	militaryStatusInactive.setSelected(true);
+            }
+            }
+            
             centerPanel.add(activeYearLabel);
             activeYearPanel.add(activeYearlessThan1);
             activeYearPanel.add(activeYearBetween1_5);
             activeYearPanel.add(activeYearMoreThan5);
             centerPanel.add(activeYearPanel);
+            if(applicant.eligInfo.getMiliServed()){
+            if(applicant.eligInfo.getActiveYears() == ActiveYears.LessThanOneYears){
+            	activeYearlessThan1.setSelected(true);
+            }
+            else if(applicant.eligInfo.getActiveYears() == ActiveYears.BetweenOneAndFveYears){
+            	activeYearBetween1_5.setSelected(true);
+            }
+            else{
+            	activeYearMoreThan5.setSelected(true);
+            }
+            }
 
             centerPanel.add(disabilityStatusLabel);
             disabilityPanel.add(disabilityY);
             disabilityPanel.add(disabilityN);
             centerPanel.add(disabilityPanel);
+            if(applicant.eligInfo.getdisabilityStatus()){
+            	disabilityY.setSelected(true);
+            }
+            else{
+            	disabilityN.setSelected(true);
+            }
+            
 
             centerPanel.add(financialAidLabel);
             financialAidPanel.add(financialAidY);
             financialAidPanel.add(financialAidN);
             centerPanel.add(financialAidPanel);
+            
+            if(applicant.eligInfo.getFinAidElig()){
+            	financialAidY.setSelected(true);
+            }
+            else{
+            	financialAidN.setSelected(true);
+            }
 
             centerPanel.add(residenStatusLabel);
             residencyStatusPanel.add(residStatusIn);
             residencyStatusPanel.add(residStatusOut);
             residencyStatusPanel.add(residStatuAbroad);
             centerPanel.add(residencyStatusPanel);
+            if(applicant.eligInfo.getResidencyStatus() == ResidencyStatus.InState){
+            	residStatusIn.setSelected(true);
+            }
+            if(applicant.eligInfo.getResidencyStatus() == ResidencyStatus.OutOfState){
+            	residStatusOut.setSelected(true);
+            }
+            if(applicant.eligInfo.getResidencyStatus() == ResidencyStatus.Abroad){
+            	residStatuAbroad.setSelected(true);
+            }
 
             centerPanel.add(yearsOfResiLabel);
             yearsOfResidencyPanel.add(yearsOfResilessThan1);
             yearsOfResidencyPanel.add(yearsOfResibetween1_5);
             yearsOfResidencyPanel.add(yearsOfResimoreThan5);
             centerPanel.add(yearsOfResidencyPanel);
+            if(applicant.eligInfo.getResidencyYears()== YearOfResidency.LessThanOneYears){
+            	yearsOfResilessThan1.setSelected(true);
+            }
+            if(applicant.eligInfo.getResidencyYears() == YearOfResidency.BetweenOneAndFveYears){
+            	activeYearBetween1_5.setSelected(true);
+            }
+            if(applicant.eligInfo.getResidencyYears() == YearOfResidency.Over5Years){
+            	yearsOfResimoreThan5.setSelected(true);
+            }
 
             centerPanel.add(overAge55Label);
             overAge55Panel.add(overAge55Y);
             overAge55Panel.add(overAge55N);
             centerPanel.add(overAge55Panel);
+            if(applicant.eligInfo.isAgeOver55){
+            	overAge55Y.setSelected(true);
+            }
+            else{
+            	overAge55N.setSelected(true);	
+            }
 
             centerPanel.add(areYouDependentLabel);
             areYouDependedPanel.add(areYouDependentY);
             areYouDependedPanel.add(areYouDependentN);
             centerPanel.add(areYouDependedPanel);
+            if(applicant.eligInfo.areYouDepended){
+            	areYouDependentY.setSelected(true);
+            }
+            else{
+            	areYouDependentY.setSelected(true);	
+            }
 
             add(buttonPanel, "South");
             buttonPanel.add(update);
@@ -460,7 +633,7 @@ public class TabGui extends JFrame{
         private JLabel empty7 = new JLabel("      ");
         private JLabel empty8 = new JLabel("      ");
         
-        private EnrollmentDecisionTab(){
+        private EnrollmentDecisionTab(Applicant applicant){
             setLayout(new BorderLayout());
 
             emptyPanel1.add(empty1, "Center");
@@ -478,10 +651,14 @@ public class TabGui extends JFrame{
 
             centerPanel.add(studentIdLabel);
             centerPanel.add(studentIDField);
+            studentIDField.setText(applicant.getStudentID());
             centerPanel.add(entrollDateLabel);
             centerPanel.add(entrollDateField);
+            entrollDateField.setText(dateToString(applicant.enrollDecision.getEnrollDate()));
+            
             centerPanel.add(groupNumLabel);
             centerPanel.add(groupNumField);
+            groupNumField.setText(Integer.toString(applicant.enrollDecision.getGroup()));
             centerPanel.add(empty1);
             centerPanel.add(empty2);
 
@@ -502,6 +679,18 @@ public class TabGui extends JFrame{
             rightPanel.add(empty7);
             rightPanel.add(empty8);   
         }
+        
+        /**
+         * This method converts date to String
+         * @param d is a date
+         * @return a date as a String
+         */
+        private String dateToString(Date d){
+        	   DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyy");  
+               String strDate = dateFormat.format(d);  
+               return strDate;
+        }
+        
     }
     
     

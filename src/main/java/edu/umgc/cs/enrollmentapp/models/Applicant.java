@@ -10,16 +10,20 @@ public class Applicant {
 	public int ssn;
 	public Date dob;
 	public String gender;
-	public int emergencyContact;
-	public int e_phone;
+	public String emergencyContact;
+	public String e_phone;
 	public String ResiAddress;
 	public String street;
 	public String city;
 	public String state;
 	public int zip;
 	public boolean isUsaResident;
-	public int phone;
+	public String phone;
+	public FinancialInformation finInfo;
+	public EligibilityFactors eligInfo;
+	public EnrollmentDecision enrollDecision;
 
+	
 	public String getStudentID() {
 		return studentID;
 	}
@@ -68,19 +72,19 @@ public class Applicant {
 		this.gender = gender;
 	}
 
-	public int getEmergencyContact() {
+	public String getEmergencyContact() {
 		return emergencyContact;
 	}
 
-	public void setEmergencyContact(int emergencyContact) {
+	public void setEmergencyContact(String emergencyContact) {
 		this.emergencyContact = emergencyContact;
 	}
 
-	public int getE_phone() {
+	public String getE_phone() {
 		return e_phone;
 	}
 
-	public void setE_phone(int e_phone) {
+	public void setE_phone(String e_phone) {
 		this.e_phone = e_phone;
 	}
 
@@ -132,11 +136,11 @@ public class Applicant {
 		this.isUsaResident = isUsaResident;
 	}
 
-	public int getPhone() {
+	public String getPhone() {
 		return phone;
 	}
 
-	public void setPhone(int phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 }
