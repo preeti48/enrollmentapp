@@ -109,6 +109,7 @@ public class TabGui extends JFrame{
 
             centerPanel.add(studentIdLabel);
             centerPanel.add(studentIDField);
+            studentIDField.setEditable(false);
             studentIDField.setText(applicant.getStudentID());
             
             centerPanel.add(resiAdrslabel);
@@ -243,6 +244,7 @@ public class TabGui extends JFrame{
 
         private JLabel studentIdLabel = new JLabel("Student ID:");
         private JTextField studentIDField = new JTextField(7);
+        
         private JLabel finanDependLabel = new JLabel("Financially Depended? ");
         private JRadioButton finanDependRButtonY = new JRadioButton("Yes");
         private JRadioButton finanDependRButtonN = new JRadioButton("No");
@@ -290,6 +292,7 @@ public class TabGui extends JFrame{
             add(centerPanel, "Center");
             centerPanel.add(studentIdLabel);
             centerPanel.add(studentIDField);
+            studentIDField.setEditable(false);
             studentIDField.setText(applicant.getStudentID());
             centerPanel.add(finanDependLabel);
             financialRadioPanel.add(finanDependRButtonY);
@@ -467,6 +470,7 @@ public class TabGui extends JFrame{
             add(centerPanel, "Center");
             centerPanel.add(studentIdLabel);
             centerPanel.add(studentIDField);
+            studentIDField.setEditable(false);
             studentIDField.setText(applicant.getStudentID());
             centerPanel.add(havServedMilitaryLabel);
             servedMilitaryPanel.add(havServedMilitaryY);
@@ -651,6 +655,7 @@ public class TabGui extends JFrame{
 
             centerPanel.add(studentIdLabel);
             centerPanel.add(studentIDField);
+            studentIDField.setEditable(false);
             studentIDField.setText(applicant.getStudentID());
             centerPanel.add(entrollDateLabel);
             centerPanel.add(entrollDateField);

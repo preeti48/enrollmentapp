@@ -43,7 +43,7 @@ public class ESADBConnection {
 	public static Applicant searchByStudentID(String studentID) {
 		Applicant applicant = new Applicant();
 		String query = "Select * from Student where student_ID = " + studentID;
-		
+
 		try {
 
 			conn = DriverManager.getConnection(url);
@@ -51,18 +51,17 @@ public class ESADBConnection {
 			ResultSet rs = stmt.executeQuery(query);
 			ResultSetMetaData rsmd = rs.getMetaData();
 			int columnsNumber = rsmd.getColumnCount();
-			String [] data = new String [columnsNumber];
-			
-			   while (rs.next()) {
-			       for (int i = 1; i <= columnsNumber; i++) {
-			       
-			           data[i-1]= rs.getString(i);
-			              
-			       }
-			     
-			   }	
-			
-			 
+			String[] data = new String[columnsNumber];
+
+			while (rs.next()) {
+				for (int i = 1; i <= columnsNumber; i++) {
+
+					data[i - 1] = rs.getString(i);
+
+				}
+
+			}
+
 			applicant = setStudent(applicant, data);
 			setFinancialInfo(applicant);
 			setEligibilityInfo(applicant);
@@ -76,86 +75,88 @@ public class ESADBConnection {
 		return applicant;
 	}
 
-	private static void setFinancialInfo(Applicant student){
+	private static void setFinancialInfo(Applicant student) {
 		student.finInfo = new FinancialInformation();
-		  String  finquery = "Select * from FinancialInformation where Student_ID = " + student.getStudentID();
-			try {
+		String finquery = "Select * from FinancialInformation where Student_ID = " + student.getStudentID();
+		try {
 
-				conn = DriverManager.getConnection(url);
-				Statement stmt = conn.createStatement();
-				ResultSet rs = stmt.executeQuery(finquery);
-				ResultSetMetaData rsmd = rs.getMetaData();
-				int columnsNumber = rsmd.getColumnCount();
-				String [] finData = new String [columnsNumber];
-						
-				   while (rs.next()) {
-				       for (int i = 1; i <= columnsNumber; i++) {
-				         
-				           finData[i-1]= rs.getString(i);
-								       }
-				   }	
-				
-				  /* for (String s: finData)
-						System.out.println(s);*/
-				//  System.out.println(radioHandle(finData[2]));
-				  student.finInfo.setDependency(radioHandle(finData[2]));
-				  student.finInfo.setStudentIncome(Double.parseDouble(finData[3]));
-				  student.finInfo.setParentIncome(Double.parseDouble(finData[4]));
-				  student.finInfo.set529Status(radioHandle(finData[5]));
-				  student.finInfo.setRealStatus(radioHandle(finData[6]));
-				  student.finInfo.setPropValue(Double.parseDouble(finData[7]));
-				 
-				   
+			conn = DriverManager.getConnection(url);
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(finquery);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			String[] finData = new String[columnsNumber];
 
-			} catch (SQLException ex) {
-				System.out.println("Get Student exception " + ex.getMessage());
+			while (rs.next()) {
+				for (int i = 1; i <= columnsNumber; i++) {
+
+					finData[i - 1] = rs.getString(i);
+				}
 			}
+
+			/*
+			 * for (String s: finData) System.out.println(s);
+			 */
+			// System.out.println(radioHandle(finData[2]));
+			student.finInfo.setDependency(radioHandle(finData[2]));
+			student.finInfo.setStudentIncome(Double.parseDouble(finData[3]));
+			student.finInfo.setParentIncome(Double.parseDouble(finData[4]));
+			student.finInfo.set529Status(radioHandle(finData[5]));
+			student.finInfo.setRealStatus(radioHandle(finData[6]));
+			student.finInfo.setPropValue(Double.parseDouble(finData[7]));
+
+		} catch (SQLException ex) {
+			System.out.println("Get Student exception " + ex.getMessage());
+		}
 	}
-	
-	private static void setEligibilityInfo(Applicant student){
+
+	private static void setEligibilityInfo(Applicant student) {
 		student.eligInfo = new EligibilityFactors();
-		  String  eligquery = "Select * from EligibilityFactors where Student_ID = " + student.getStudentID();
-			try {
+		String eligquery = "Select * from EligibilityFactors where Student_ID = " + student.getStudentID();
+		try {
 
-				conn = DriverManager.getConnection(url);
-				Statement stmt = conn.createStatement();
-				ResultSet rs = stmt.executeQuery(eligquery);
-				ResultSetMetaData rsmd = rs.getMetaData();
-				int columnsNumber = rsmd.getColumnCount();
-				String [] eligData = new String [columnsNumber];
-						
-				   while (rs.next()) {
-				       for (int i = 1; i <= columnsNumber; i++) {
-				         
-				           eligData[i-1]= rs.getString(i);
-								       }
-				   }	
-				
-				 /*  for (String s: eligData)
-						System.out.println(s);*/
-				 // System.out.println(radioHandle(finData[2]));
-				  student.eligInfo.setMiliServed(radioHandle(eligData[2]));
-				  student.eligInfo.setMiliStatus(radioHandle(eligData[3]));
-				  student.eligInfo.setActiveYears(getYears(eligData[4]));
-				  student.eligInfo.setdisabilityStatus(radioHandle(eligData[5]));
-				  student.eligInfo.setFinAidElig(radioHandle(eligData[6]));
-				  student.eligInfo.setResidencystatus(getStatus(eligData[7]));
-				  student.eligInfo.setResidencyYears(getResiYears(Integer.parseInt(eligData[8])));
-				 
-				//  student.eligInfo.isAgeOver55 = radioHandle(eligData[8]);
-				  
-				  student.eligInfo.areYouDepended = radioHandle(eligData[9]);
-	
-				   
+			conn = DriverManager.getConnection(url);
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(eligquery);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			String[] eligData = new String[columnsNumber];
 
-			} catch (SQLException ex) {
-				System.out.println("Get Student exception " + ex.getMessage());
+			while (rs.next()) {
+				for (int i = 1; i <= columnsNumber; i++) {
+
+					eligData[i - 1] = rs.getString(i);
+				}
 			}
+
+			/*
+			 * for (String s: eligData) System.out.println(s);
+			 */
+			// System.out.println(radioHandle(finData[2]));
+			student.eligInfo.setMiliServed(radioHandle(eligData[2]));
+			student.eligInfo.setMiliStatus(radioHandle(eligData[3]));
+			student.eligInfo.setActiveYears(getYears(eligData[4]));
+			student.eligInfo.setdisabilityStatus(radioHandle(eligData[5]));
+			student.eligInfo.setFinAidElig(radioHandle(eligData[6]));
+			student.eligInfo.setResidencystatus(getStatus(eligData[7]));
+			if (eligData[8] != null)
+				student.eligInfo.setResidencyYears(getResiYears(Integer.parseInt(eligData[8])));
+			else // eligData[8] == null
+				student.eligInfo.setResidencyYears(null);
+
+			// student.eligInfo.isAgeOver55 = radioHandle(eligData[8]);
+
+			student.eligInfo.areYouDepended = radioHandle(eligData[9]);
+
+		} catch (SQLException ex) {
+			System.out.println("Get Student exception " + ex.getMessage());
+		}
 	}
-	
-	private static void getEnrollmentDecision(Applicant student){
-		student.enrollDecision = new EnrollmentDecision();
-		  String  desquery = "Select * from EnrollMentDecision where Student_ID = " + student.getStudentID();
+
+	private static void getEnrollmentDecision(Applicant student) {
+		if (student != null) {
+			student.enrollDecision = new EnrollmentDecision();
+			String desquery = "Select * from EnrollMentDecision where Student_ID = " + student.getStudentID();
 			try {
 
 				conn = DriverManager.getConnection(url);
@@ -163,79 +164,81 @@ public class ESADBConnection {
 				ResultSet rs = stmt.executeQuery(desquery);
 				ResultSetMetaData rsmd = rs.getMetaData();
 				int columnsNumber = rsmd.getColumnCount();
-				String [] enrollData = new String [columnsNumber];
-						
-				   while (rs.next()) {
-				       for (int i = 1; i <= columnsNumber; i++) {
-				         
-				           enrollData[i-1]= rs.getString(i);
-								       }
-				   }	
-				
-				 /*  for (String s: enrollData)
-						System.out.println(s);*/
-				   student.enrollDecision.setEnrollDate(stringToDate(enrollData[2]));
-				   student.enrollDecision.setGroup(Integer.parseInt(enrollData[3]));
-				
-				   
+				String[] enrollData = new String[columnsNumber];
+
+				while (rs.next()) {
+					for (int i = 1; i <= columnsNumber; i++) {
+
+						enrollData[i - 1] = rs.getString(i);
+					}
+				}
+
+				/*
+				 * for (String s: enrollData) System.out.println(s);
+				 */
+				student.enrollDecision.setEnrollDate(stringToDate(enrollData[2]));
+				student.enrollDecision.setGroup(Integer.parseInt(enrollData[3]));
 
 			} catch (SQLException ex) {
 				System.out.println("Get Student exception " + ex.getMessage());
 			}
+		}
+
 	}
-	
-private static ResidencyStatus getStatus(String s){
-		
-		if (s.equals("In-State")){
-			return ResidencyStatus.InState;
-		}
-		else  if(s.equals("Out of State")){
-			return ResidencyStatus.OutOfState;
-		}
-		else if(s.equals("Abroad")){
-			return ResidencyStatus.Abroad;
-		}
-		else{
-			return null;
-		}
-			
+
+	private static ResidencyStatus getStatus(String s) {
+
+		if (s != null) {
+			if (s.equals("In-State")) {
+				return ResidencyStatus.InState;
+			} else if (s.equals("Out of State")) {
+				return ResidencyStatus.OutOfState;
+			} else if (s.equals("Abroad")) {
+				return ResidencyStatus.Abroad;
+			} else {
+				return ResidencyStatus.NoStatus;
+			}
+		} else
+			return ResidencyStatus.NoStatus;// if s is null
+
 	}
-	
-	
-private static YearOfResidency getResiYears(int a){
-		
-		if (a < 1){
+
+	private static YearOfResidency getResiYears(int a) {
+
+		if (a < 1) {
 			return YearOfResidency.LessThanOneYears;
-		}
-		else if(a >=1 && a <=5){
+		} else if (a >= 1 && a <= 5) {
 			return YearOfResidency.BetweenOneAndFveYears;
-		}
-		else if (a > 5){
+		} else if (a > 5) {
 			return YearOfResidency.Over5Years;
-		}
-		else{
+		} else {
 			return null;
 		}
-			
+
 	}
-	
-	private static ActiveYears getYears(String s){
-		
-		if (s.equals("Less than 1")){
-			return ActiveYears.LessThanOneYears;
+
+	private static ActiveYears getYears(String s) {
+
+		ActiveYears returnResult = ActiveYears.NoActiveYears;
+		if (s != null) {
+			if (s.equals("Less than 1")) {
+
+				returnResult = ActiveYears.LessThanOneYears;
+			} else if (s.equals("Between 1 to 5")) {
+				returnResult = ActiveYears.BetweenOneAndFveYears;
+			} else {
+				returnResult = ActiveYears.Over5Years;
+			}
 		}
-		else if(s.equals("Between 1 to 5")){
-			return ActiveYears.BetweenOneAndFveYears;
-		}
-		else{
-			return ActiveYears.Over5Years;
-		}
-			
+		return returnResult; // checks if s is not null; if null, database field years of service is null and
+								// default value is NoActiveYears
+
 	}
-	
-	private static Applicant setStudent(Applicant student, String[] record){
-	/*	for (String s: record)
-			System.out.println(s);*/
+
+	private static Applicant setStudent(Applicant student, String[] record) {
+		/*
+		 * for (String s: record) System.out.println(s);
+		 */
 		student.setStudentID(record[0]);
 		student.setSsn(Integer.parseInt(record[1]));
 		student.setLname(record[2]);
@@ -249,38 +252,42 @@ private static YearOfResidency getResiYears(int a){
 		student.setState(record[10]);
 		student.setZip(Integer.parseInt(record[11]));
 		student.setUsaResident(radioHandle(record[12]));
-	   student.setPhone(record[13]);
-		
-		
-	return student;
-		
-	}
-	
-	 private static boolean radioHandle(String gen){
-  	   if(gen.equals("Yes") || gen.equals("1")){
-  			   
-  		   return true;
-  	   }
-  	   else {
-  		     
-  		   return false;
-  	   }
-  	  
-     }
+		student.setPhone(record[13]);
 
-	private static Date stringToDate(String s){
-		 Date date = null;
+		return student;
+
+	}
+
+	private static boolean radioHandle(String gen) {
+		boolean returnBool = false;
+		if (gen != null) {
+
+			if (gen.equals("Yes") || gen.equals("1")) {
+
+				returnBool = true;
+			} else {
+
+				returnBool = false;
+			}
+
+		}
+		return returnBool;// if gen is null, returnBool will be false;
+
+	}// end of radioHandle
+
+	private static Date stringToDate(String s) {
+		Date date = null;
 		try {
 			date = (Date) new SimpleDateFormat("MM/dd/yyyy").parse(s);
-			return date;  
+			return date;
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return date;
-		
+
 	}
-	
+
 	private static String generateUniqueStudentID() {
 		String newStudentID = "";
 		return newStudentID;
