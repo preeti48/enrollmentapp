@@ -49,6 +49,9 @@ public class ESADBConnection {
 			conn = DriverManager.getConnection(url);
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
+			
+			if (rs.isBeforeFirst()){ //Pooja
+				
 			ResultSetMetaData rsmd = rs.getMetaData();
 			int columnsNumber = rsmd.getColumnCount();
 			String[] data = new String[columnsNumber];
@@ -66,7 +69,14 @@ public class ESADBConnection {
 			setFinancialInfo(applicant);
 			setEligibilityInfo(applicant);
 			getEnrollmentDecision(applicant);
+			applicant.isFound = true; // Pooja
 			return applicant;
+			} //Pooja
+
+			else{ //Pooja
+				applicant.isFound = false; //Pooja
+				return applicant; //Pooja
+			} //Pooja
 
 		} catch (SQLException ex) {
 			System.out.println("Get Student exception " + ex.getMessage());
@@ -100,7 +110,9 @@ public class ESADBConnection {
 			// System.out.println(radioHandle(finData[2]));
 			student.finInfo.setDependency(radioHandle(finData[2]));
 			student.finInfo.setStudentIncome(Double.parseDouble(finData[3]));
+			if (finData[4] != null)
 			student.finInfo.setParentIncome(Double.parseDouble(finData[4]));
+			else // finData[4] == null
 			student.finInfo.set529Status(radioHandle(finData[5]));
 			student.finInfo.setRealStatus(radioHandle(finData[6]));
 			student.finInfo.setPropValue(Double.parseDouble(finData[7]));
@@ -295,5 +307,85 @@ public class ESADBConnection {
 		// check database if this student ID already exist
 		// regenerate
 
+	}
+
+	public static Applicant checkIfstudentExists(String ssn, String lName, String fName, String dOB) {
+
+		Applicant applicant = new Applicant();
+		// first check if students exists
+
+		String query = "Select * from Student where last_name = \'" + lName + "\' and ssn =\'" + ssn + "\'";
+
+		try {
+
+			conn = DriverManager.getConnection(url);
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			if (rs != null) {
+
+				applicant.setStudentID(rs.getString("student_id"));
+
+			} else if (rs == null)// student does not exist, create new student later
+			{
+				applicant.setStudentID(null);
+				int ssnInt = Integer.parseInt(ssn);
+				applicant.setSsn(ssnInt);
+				applicant.setLname(lName);
+				applicant.setFname(fName);
+				// Olga applicant.setDob(dOB));
+				applicant.setGender("Other");
+			}
+
+		} catch (SQLException ex) {
+			System.out.println("Get Student exception " + ex.getMessage());
+		}
+
+		return applicant;
+	}
+
+	public static Applicant addStudent(String ssn, String lName, String fName, Date date) {
+
+		Applicant applicant = new Applicant();
+		// first check if students exists
+
+		String generatedStudentID = "1234567";
+		String dobStr = "12\12\1990";
+		String insertStatement = "INSERT INTO Student (Student_ID,SSN,Last_Name,First_Name, DOB,Birth_Sex) VALUES (\'"+ generatedStudentID + "\', \'"+ ssn + "\',\'"+lName +"\', \'"+fName+"\'," +" \'"+dobStr + " \', \'Other\');";
+
+		try {
+
+			conn = DriverManager.getConnection(url);
+			Statement stmt = conn.createStatement();
+			int resultCode = 1;//stmt.executeUpdate(insertStatement);
+			if(resultCode == 1)
+			{
+				applicant.setStudentID(null);
+				int ssnInt = Integer.parseInt(ssn);
+				applicant.setStudentID(generatedStudentID);
+				applicant.setSsn(ssnInt);
+				applicant.setLname(lName);
+				applicant.setFname(fName);
+				applicant.setDob(date);
+				applicant.setGender("Other");
+								
+			}
+
+		} catch (SQLException ex) {
+			System.out.println("Get Student exception " + ex.getMessage());
+		}
+
+		return applicant;
+	}
+
+	public String convertStringToDate(Date indate) {
+		String dateString = null;
+		SimpleDateFormat formatedDate = new SimpleDateFormat("dd/mm/yyyy");
+
+		try {
+			dateString = formatedDate.format(indate);
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+		return dateString;
 	}
 }

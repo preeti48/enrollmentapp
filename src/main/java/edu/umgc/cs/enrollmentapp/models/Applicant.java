@@ -23,7 +23,7 @@ public class Applicant {
 	public EligibilityFactors eligInfo;
 	public EnrollmentDecision enrollDecision;
 
-	
+	public boolean isFound;//Pooja
 	public String getStudentID() {
 		return studentID;
 	}

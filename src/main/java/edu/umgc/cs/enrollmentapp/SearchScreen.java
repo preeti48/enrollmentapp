@@ -8,6 +8,8 @@ import edu.umgc.cs.enrollmentapp.models.Applicant;
 
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.util.Calendar;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 
 public class SearchScreen {
@@ -27,7 +29,7 @@ public class SearchScreen {
 	 */
 	public SearchScreen() {
 		createSearchPage();
-		
+
 	}
 
 	/**
@@ -114,9 +116,32 @@ public class SearchScreen {
 		addBtn.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		addBtn.setBounds(291, 373, 89, 23);
 		frame.getContentPane().add(addBtn);
+		// ActionListener for Add button
 		addBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TabGui tabGui = new TabGui(new Applicant());
+				// hard code date for testing purposes
+				// Generate a date for Jan. 9, 2013, 10:11:12 AM
+				// Calendar cal = Calendar.getInstance();
+				// cal.set(2013, Calendar.JANUARY, 9); //Year, month and day of month
+				// Date date = cal.getTime();
+				Date date = dateChooser.getDate();
+				// Date date1=new SimpleDateFormat("MM/dd/yyyy").parse();
+
+				Applicant student = ESADBConnection.checkIfstudentExists(ssnField.getText(), lnField.getText(),
+						fnfield.getText(), null);// fName, String dOB)
+				if (student.getStudentID() != null)
+					System.out.println(
+							"Student exists , studentID = " + student.getStudentID() + ". Please click Search to edit");
+				else if (student.getStudentID() == null) {
+					// generate new student Id
+					// save student to the database
+					Applicant newStudent = ESADBConnection.addStudent(ssnField.getText(), lnField.getText(),
+							fnfield.getText(), date);// fName, String dOB)
+
+					// open tabGUI with saved student:
+
+					TabGui tabGui = new TabGui(newStudent);
+				}
 			}
 		});
 
@@ -186,7 +211,12 @@ public class SearchScreen {
 				String studentID = studentIDField.getText();
 				studentID = studentID.trim();
 				Applicant applicant = ESADBConnection.searchByStudentID(studentID);
-				TabGui tabGui = new TabGui(applicant);
+				if (applicant.isFound) { // Pooja
+					TabGui tabGui = new TabGui(applicant);
+				} else {// Pooja
+					JOptionPane.showMessageDialog(frame, "Are you trying to add a new Applicant ?", //Pooja
+							"The Applicant is Not Found", JOptionPane.CLOSED_OPTION);//Pooja
+				} // Pooja
 			} else {
 				JOptionPane.showMessageDialog(frame, "Please enter correct Student ID", "Incorrect StudentID",
 						JOptionPane.ERROR_MESSAGE);
