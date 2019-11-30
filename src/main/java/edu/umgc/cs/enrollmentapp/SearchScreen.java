@@ -211,12 +211,14 @@ public class SearchScreen {
 				String studentID = studentIDField.getText();
 				studentID = studentID.trim();
 				Applicant applicant = ESADBConnection.searchByStudentID(studentID);
-				if (applicant.isFound) { // Pooja
-					TabGui tabGui = new TabGui(applicant);
-				} else {// Pooja
-					JOptionPane.showMessageDialog(frame, "Are you trying to add a new Applicant ?", //Pooja
-							"The Applicant is Not Found", JOptionPane.CLOSED_OPTION);//Pooja
-				} // Pooja
+				
+				if(applicant.isFound){
+				TabGui tabGui = new TabGui(applicant);
+				}
+				else{
+					JOptionPane.showMessageDialog(frame, "Are you trying to add a new Applicant ?", "The Applicant is Not Found",
+							JOptionPane.CLOSED_OPTION);
+				}
 			} else {
 				JOptionPane.showMessageDialog(frame, "Please enter correct Student ID", "Incorrect StudentID",
 						JOptionPane.ERROR_MESSAGE);

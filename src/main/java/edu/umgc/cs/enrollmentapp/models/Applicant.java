@@ -22,6 +22,8 @@ public class Applicant {
 	public FinancialInformation finInfo;
 	public EligibilityFactors eligInfo;
 	public EnrollmentDecision enrollDecision;
+	
+	public boolean isFound;
 
 	public boolean isFound;//Pooja
 	public String getStudentID() {

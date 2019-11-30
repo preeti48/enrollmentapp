@@ -50,7 +50,9 @@ public class ESADBConnection {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			
-			if (rs.isBeforeFirst()){ //Pooja
+
+			if (rs.isBeforeFirst()){
+
 				
 			ResultSetMetaData rsmd = rs.getMetaData();
 			int columnsNumber = rsmd.getColumnCount();
@@ -69,14 +71,15 @@ public class ESADBConnection {
 			setFinancialInfo(applicant);
 			setEligibilityInfo(applicant);
 			getEnrollmentDecision(applicant);
-			applicant.isFound = true; // Pooja
-			return applicant;
-			} //Pooja
 
-			else{ //Pooja
-				applicant.isFound = false; //Pooja
-				return applicant; //Pooja
-			} //Pooja
+			applicant.isFound = true;
+			return applicant;
+			}
+			
+			else{
+				applicant.isFound = false;
+				return applicant;
+			}
 
 		} catch (SQLException ex) {
 			System.out.println("Get Student exception " + ex.getMessage());
