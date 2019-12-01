@@ -33,7 +33,7 @@ public class TabGui extends JFrame {
 		overviewTab = new OverviewTab(applicant);
 		financialInfoTab = new FinancialInfoTab(applicant);
 		eligibilityFactorsTab = new EligibilityFactorsTab(applicant);
-		if (applicant == null)// Olga
+		if (applicant != null)// Olga
 			enrollmentDecisionTab = new EnrollmentDecisionTab(applicant);
 
 		jtpTabPane.addTab("Student Overview", overviewTab);
