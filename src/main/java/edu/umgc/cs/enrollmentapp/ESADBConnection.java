@@ -116,13 +116,15 @@ public class ESADBConnection {
 			 */
 			// System.out.println(radioHandle(finData[2]));
 			student.finInfo.setDependency(radioHandle(finData[2]));
-			student.finInfo.setStudentIncome(Double.parseDouble(finData[3]));
+			if(finData[3]!= null)
+				student.finInfo.setStudentIncome(Double.parseDouble(finData[3]));
 			if (finData[4] != null)
-			student.finInfo.setParentIncome(Double.parseDouble(finData[4]));
-			else // finData[4] == null
+				student.finInfo.setParentIncome(Double.parseDouble(finData[4]));
+			//else // finData[4] == null
 			student.finInfo.set529Status(radioHandle(finData[5]));
 			student.finInfo.setRealStatus(radioHandle(finData[6]));
-			student.finInfo.setPropValue(Double.parseDouble(finData[7]));
+			if(finData[7]!=null)
+				student.finInfo.setPropValue(Double.parseDouble(finData[7]));
 
 		} catch (SQLException ex) {
 			System.out.println("Get Student exception " + ex.getMessage());
@@ -196,7 +198,8 @@ public class ESADBConnection {
 				 * for (String s: enrollData) System.out.println(s);
 				 */
 				student.enrollDecision.setEnrollDate(stringToDate(enrollData[2]));
-				student.enrollDecision.setGroup(Integer.parseInt(enrollData[3]));
+				if(enrollData[3] !=null)
+					student.enrollDecision.setGroup(Integer.parseInt(enrollData[3]));
 
 			} catch (SQLException ex) {
 				System.out.println("Get Student exception " + ex.getMessage());
@@ -259,17 +262,20 @@ public class ESADBConnection {
 		 * for (String s: record) System.out.println(s);
 		 */
 		student.setStudentID(record[0]);
-		student.setSsn(Integer.parseInt(record[1]));
+		if(record[1] !=null)
+			student.setSsn(Integer.parseInt(record[1]));
 		student.setLname(record[2]);
 		student.setFname(record[3]);
-		student.setDob(stringToDate(record[4]));
+		if(record[4] !=null)
+			student.setDob(stringToDate(record[4]));
 		student.setGender(record[5]);
 		student.setEmergencyContact(record[6]);
 		student.setE_phone(record[7]);
 		student.setStreet(record[8]);
 		student.setCity(record[9]);
 		student.setState(record[10]);
-		student.setZip(Integer.parseInt(record[11]));
+		if(record[11] !=null)
+			student.setZip(Integer.parseInt(record[11]));
 		student.setUsaResident(radioHandle(record[12]));
 		student.setPhone(record[13]);
 
@@ -296,8 +302,10 @@ public class ESADBConnection {
 
 	private static Date stringToDate(String s) {
 		Date date = null;
+		
 		try {
-			date = (Date) new SimpleDateFormat("mm/dd/yyyy").parse(s);
+			if(s!=null)
+				date = (Date) new SimpleDateFormat("MM/dd/yyyy").parse(s);
 			return date;
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
