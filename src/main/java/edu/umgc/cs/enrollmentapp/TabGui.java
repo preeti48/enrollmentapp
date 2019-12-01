@@ -326,13 +326,7 @@ public class TabGui extends JFrame{
         // Empty label for alignment purpose
         private JLabel empty1 = new JLabel("      ");
         private JLabel empty2 = new JLabel("      ");
-        private JLabel empty3 = new JLabel("      ");
-        private JLabel empty4 = new JLabel("      ");
-        private JLabel empty5 = new JLabel("      ");
-        private JLabel empty6 = new JLabel("      ");
-        private JLabel empty7 = new JLabel("      ");
-        private JLabel empty8 = new JLabel("      ");
-
+        
         private JButton update = new JButton("Update");
         private JButton reset = new JButton("Reset");
         private JButton cancel = new JButton("Cancel");
@@ -420,14 +414,8 @@ public class TabGui extends JFrame{
             // Empty label for alignment purpose
             add(leftPanel, "East");
             leftPanel.add(empty1);
-            leftPanel.add(empty2);
-            leftPanel.add(empty3);
-            leftPanel.add(empty4);
             add(rightPanel, "West");
-            rightPanel.add(empty5);
-            rightPanel.add(empty6);
-            leftPanel.add(empty7);
-            leftPanel.add(empty8);
+            rightPanel.add(empty2);
         }
     }
    
