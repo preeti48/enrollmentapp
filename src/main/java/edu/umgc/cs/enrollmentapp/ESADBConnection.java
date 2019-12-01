@@ -90,6 +90,52 @@ public class ESADBConnection {
 		return applicant;
 	}
 
+	public static Applicant searchBySSNandLname(String ssn , String ln) {
+		Applicant applicant = new Applicant();
+		// first check if students exists
+
+		String query = "Select * from Student where last_name = \'" + ln + "\' and ssn =\'" + ssn + "\'";
+
+		try {
+
+			conn = DriverManager.getConnection(url);
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			if (rs.isBeforeFirst()) {
+
+				ResultSetMetaData rsmd = rs.getMetaData();
+				int columnsNumber = rsmd.getColumnCount();
+				String[] data = new String[columnsNumber];
+
+				while (rs.next()) {
+					for (int i = 1; i <= columnsNumber; i++) {
+
+						data[i - 1] = rs.getString(i);
+
+					}
+
+				}
+
+				applicant = setStudent(applicant, data);
+				setFinancialInfo(applicant);
+				setEligibilityInfo(applicant);
+				getEnrollmentDecision(applicant);
+
+				applicant.isFound = true;
+				return applicant;
+			}
+
+			else {
+				applicant.isFound = false;
+				return applicant;
+			}
+
+		} catch (SQLException ex) {
+			System.out.println("Get Student exception " + ex.getMessage());
+		}
+
+		return applicant;
+	}
 	private static void setFinancialInfo(Applicant student) {
 		student.finInfo = new FinancialInformation();
 		String finquery = "Select * from FinancialInformation where Student_ID = " + student.getStudentID();
@@ -198,6 +244,7 @@ public class ESADBConnection {
 				student.enrollDecision.setEnrollDate(stringToDate(enrollData[2]));
 				if (enrollData[3] != null)
 					student.enrollDecision.setGroup(Integer.parseInt(enrollData[3]));
+				student.enrollDecision.serGrpDiscription(enrollData[4]);
 
 			} catch (SQLException ex) {
 				System.out.println("Get Student exception " + ex.getMessage());

@@ -231,6 +231,20 @@ public class SearchScreen {
 
 				if (!lnField.getText().isEmpty()) {
 					// search by SSN and Last Name
+					String ssnNum = ssnField.getText();
+					ssnNum = ssnNum.trim();
+					String lName = lnField.getText();
+					lName = lName.trim();
+					Applicant applicant = ESADBConnection.searchBySSNandLname(ssnNum, lName);
+					
+					if(applicant.isFound){
+						TabGui tabGui = new TabGui(applicant);
+						}
+						else{
+							JOptionPane.showMessageDialog(frame, "Are you trying to add a new Applicant ?", "The Applicant is Not Found",
+									JOptionPane.CLOSED_OPTION);
+						}
+					
 				} else {
 					JOptionPane.showMessageDialog(frame, "Please enter Last Name to search by SSN", "Enter LastName",
 							JOptionPane.INFORMATION_MESSAGE);

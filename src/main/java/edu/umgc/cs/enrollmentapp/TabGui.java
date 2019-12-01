@@ -666,6 +666,8 @@ public class TabGui extends JFrame {
             centerPanel.add(groupDescriptionField);
 			if(applicant.enrollDecision !=null)
 				groupNumField.setText(Integer.toString(applicant.enrollDecision.getGroup()));
+			if(applicant.enrollDecision!= null)
+				groupDescriptionField.setText(applicant.enrollDecision.getGrpDiscription());
 			centerPanel.add(empty1);
 			centerPanel.add(empty2);
 
