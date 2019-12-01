@@ -437,12 +437,6 @@ public class TabGui extends JFrame {
 		// Empty label for alignment purpose
 		private JLabel empty1 = new JLabel("      ");
 		private JLabel empty2 = new JLabel("      ");
-		private JLabel empty3 = new JLabel("      ");
-		private JLabel empty4 = new JLabel("      ");
-		private JLabel empty5 = new JLabel("      ");
-		private JLabel empty6 = new JLabel("      ");
-		private JLabel empty7 = new JLabel("      ");
-		private JLabel empty8 = new JLabel("      ");
 
 		private JButton update = new JButton("Update");
 		private JButton reset = new JButton("Reset");
@@ -604,14 +598,8 @@ public class TabGui extends JFrame {
 			// Empty label for alignment purpose
 			add(leftPanel, "East");
 			leftPanel.add(empty1);
-			leftPanel.add(empty2);
-			leftPanel.add(empty3);
-			leftPanel.add(empty4);
 			add(rightPanel, "West");
-			rightPanel.add(empty5);
-			rightPanel.add(empty6);
-			leftPanel.add(empty7);
-			leftPanel.add(empty8);
+			rightPanel.add(empty2);
 		}
 	}
 
@@ -629,6 +617,8 @@ public class TabGui extends JFrame {
 		private JTextField entrollDateField = new JTextField();
 		private JLabel groupNumLabel = new JLabel("Group Number:");
 		private JTextField groupNumField = new JTextField();
+		private JLabel groupDescriptionLabel = new JLabel("Group description:");
+        private JTextField groupDescriptionField = new JTextField();
 
 		private JButton update = new JButton("Update");
 		private JButton reset = new JButton("Reset");
@@ -648,13 +638,13 @@ public class TabGui extends JFrame {
 			setLayout(new BorderLayout());
 
 			emptyPanel1.add(empty1, "Center");
-			emptyPanel1.add(empty2, "Center");
-			emptyPanel1.add(empty3, "Center");
-			emptyPanel1.add(empty4, "Center");
-			emptyPanel1.add(empty5, "Center");
-			emptyPanel1.add(empty6, "Center");
-			emptyPanel1.add(empty7, "Center");
-			emptyPanel1.add(empty8, "Center");
+//			emptyPanel1.add(empty2, "Center");
+//			emptyPanel1.add(empty3, "Center");
+//			emptyPanel1.add(empty4, "Center");
+//			emptyPanel1.add(empty5, "Center");
+//			emptyPanel1.add(empty6, "Center");
+//			emptyPanel1.add(empty7, "Center");
+//			emptyPanel1.add(empty8, "Center");
 			topPanel.add(emptyPanel1);
 			add(topPanel, "North");
 
@@ -671,6 +661,8 @@ public class TabGui extends JFrame {
 
 			centerPanel.add(groupNumLabel);
 			centerPanel.add(groupNumField);
+			centerPanel.add(groupDescriptionLabel);
+            centerPanel.add(groupDescriptionField);
 			// olga
 			groupNumField.setText(Integer.toString(applicant.enrollDecision.getGroup()));
 			centerPanel.add(empty1);
