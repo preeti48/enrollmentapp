@@ -53,34 +53,32 @@ public class ESADBConnection {
 			conn = DriverManager.getConnection(url);
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
-			
 
-			if (rs.isBeforeFirst()){
+			if (rs.isBeforeFirst()) {
 
-				
-			ResultSetMetaData rsmd = rs.getMetaData();
-			int columnsNumber = rsmd.getColumnCount();
-			String[] data = new String[columnsNumber];
+				ResultSetMetaData rsmd = rs.getMetaData();
+				int columnsNumber = rsmd.getColumnCount();
+				String[] data = new String[columnsNumber];
 
-			while (rs.next()) {
-				for (int i = 1; i <= columnsNumber; i++) {
+				while (rs.next()) {
+					for (int i = 1; i <= columnsNumber; i++) {
 
-					data[i - 1] = rs.getString(i);
+						data[i - 1] = rs.getString(i);
+
+					}
 
 				}
 
+				applicant = setStudent(applicant, data);
+				setFinancialInfo(applicant);
+				setEligibilityInfo(applicant);
+				getEnrollmentDecision(applicant);
+
+				applicant.isFound = true;
+				return applicant;
 			}
 
-			applicant = setStudent(applicant, data);
-			setFinancialInfo(applicant);
-			setEligibilityInfo(applicant);
-			getEnrollmentDecision(applicant);
-
-			applicant.isFound = true;
-			return applicant;
-			}
-			
-			else{
+			else {
 				applicant.isFound = false;
 				return applicant;
 			}
@@ -116,14 +114,14 @@ public class ESADBConnection {
 			 */
 			// System.out.println(radioHandle(finData[2]));
 			student.finInfo.setDependency(radioHandle(finData[2]));
-			if(finData[3]!= null)
+			if (finData[3] != null)
 				student.finInfo.setStudentIncome(Double.parseDouble(finData[3]));
 			if (finData[4] != null)
 				student.finInfo.setParentIncome(Double.parseDouble(finData[4]));
-			//else // finData[4] == null
+			// else // finData[4] == null
 			student.finInfo.set529Status(radioHandle(finData[5]));
 			student.finInfo.setRealStatus(radioHandle(finData[6]));
-			if(finData[7]!=null)
+			if (finData[7] != null)
 				student.finInfo.setPropValue(Double.parseDouble(finData[7]));
 
 		} catch (SQLException ex) {
@@ -198,7 +196,7 @@ public class ESADBConnection {
 				 * for (String s: enrollData) System.out.println(s);
 				 */
 				student.enrollDecision.setEnrollDate(stringToDate(enrollData[2]));
-				if(enrollData[3] !=null)
+				if (enrollData[3] != null)
 					student.enrollDecision.setGroup(Integer.parseInt(enrollData[3]));
 
 			} catch (SQLException ex) {
@@ -262,11 +260,11 @@ public class ESADBConnection {
 		 * for (String s: record) System.out.println(s);
 		 */
 		student.setStudentID(record[0]);
-		if(record[1] !=null)
+		if (record[1] != null)
 			student.setSsn(Integer.parseInt(record[1]));
 		student.setLname(record[2]);
 		student.setFname(record[3]);
-		if(record[4] !=null)
+		if (record[4] != null)
 			student.setDob(stringToDate(record[4]));
 		student.setGender(record[5]);
 		student.setEmergencyContact(record[6]);
@@ -274,7 +272,7 @@ public class ESADBConnection {
 		student.setStreet(record[8]);
 		student.setCity(record[9]);
 		student.setState(record[10]);
-		if(record[11] !=null)
+		if (record[11] != null)
 			student.setZip(Integer.parseInt(record[11]));
 		student.setUsaResident(radioHandle(record[12]));
 		student.setPhone(record[13]);
@@ -302,9 +300,9 @@ public class ESADBConnection {
 
 	private static Date stringToDate(String s) {
 		Date date = null;
-		
+
 		try {
-			if(s!=null)
+			if (s != null)
 				date = (Date) new SimpleDateFormat("MM/dd/yyyy").parse(s);
 			return date;
 		} catch (ParseException e) {
@@ -340,8 +338,8 @@ public class ESADBConnection {
 
 				applicant.setStudentID(rs.getString("student_id"));
 
-			} else if (rs == null)// student does not exist, create new student later
-			{
+			} else if (rs == null) {// student does not exist, create new student later
+
 				applicant.setStudentID(null);
 				int ssnInt = Integer.parseInt(ssn);
 				applicant.setSsn(ssnInt);
@@ -361,27 +359,33 @@ public class ESADBConnection {
 	public static Applicant addStudent(String ssn, String lName, String fName, java.util.Date date) {
 
 		Applicant applicant = new Applicant();
-		// first check if students exists
-
-		String generatedStudentID = generateStudentID();
-		//String dobStr = "12/12/1990";
+		String generatedStudentID = null;
 		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 		String dateString = dateFormat.format(date);
-		
-		//java.sql.Date db = new java.sql.Date
-		
-		String insertStatement = "INSERT INTO Student (Student_ID,SSN,Last_Name,First_Name, DOB,Birth_Sex) VALUES (\'"+ generatedStudentID + "\', \'"+ ssn + "\',\'"+lName +"\', \'"+fName+"\'," +" \'"+dateString + " \', \'Other\');";
+
+		String insertStatement = null;
 
 		try {
 
 			conn = DriverManager.getConnection(url);
+			
+			generatedStudentID = generateStudentID(conn);
+			insertStatement = "INSERT INTO Student (Student_ID,SSN,Last_Name,First_Name, DOB,Birth_Sex) VALUES (\'"
+					+ generatedStudentID + "\', \'" + ssn + "\',\'" + lName + "\', \'" + fName + "\'," + " \'" + dateString
+					+ " \', \'Other\');";
+
 			Statement stmt = conn.createStatement();
 			int resultCode = stmt.executeUpdate(insertStatement);
-			//conn.commit();
-			
-			if(resultCode == 1)
-			{
-				applicant.setStudentID(null);
+			// conn.commit();
+
+			if (resultCode == 1) {
+				populateEligibilityFactorsAddStudent(generatedStudentID, conn);
+				populateEnrollmentDecision(generatedStudentID, conn);
+				populateFinancialInformation(generatedStudentID, conn);
+			}
+
+			if (resultCode == 1) {
+				// applicant.setStudentID(null);
 				int ssnInt = Integer.parseInt(ssn);
 				applicant.setStudentID(generatedStudentID);
 				applicant.setSsn(ssnInt);
@@ -389,7 +393,7 @@ public class ESADBConnection {
 				applicant.setFname(fName);
 				applicant.setDob(date);
 				applicant.setGender("Other");
-								
+
 			}
 
 		} catch (SQLException ex) {
@@ -410,19 +414,170 @@ public class ESADBConnection {
 		}
 		return dateString;
 	}
-	
-	public static String generateStudentID()
-	{
+
+	public static String generateStudentID(Connection conn) {
 		String number = null;
-		
-		// create instance of Random class 
-        Random rand = new Random(); 
-  
-        
-        int n = 1000000 + rand.nextInt(9000000);
-        number = String.valueOf(n);
-		
-		return number; 
+
+		// create instance of Random class
+		Random rand = new Random();
+
+		int n = -1; // if number exist 
+		// loop to check if new number should be generated 
+		boolean regenerate = true;
+		while (regenerate)
+		{
+			n = 1000000 + rand.nextInt(9000000);
+			number = String.valueOf(n);
+
+		// check if it existis , otherwise regenerate 
+			// if student id does not exist, leave the loop 
+			String query = "Select * from Student where student_id=\'" + n + "\'";
+
+			try {
+
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				if (rs != null && rs.next()) {
+
+					regenerate  = true; 
+
+				} 
+				else // rs == null
+					regenerate = false; 
+		} catch (SQLException ex) {
+			System.out.println("generate student id  exception " + ex.getMessage());
+		}
+
+		}
+		return number;
 	}
-	
+
+	private static int populateEligibilityFactorsAddStudent(String studentID, Connection conn) {
+
+		String query = "Select max(Eligibility_Information_ID) from EligibilityFactors ";
+		int tempIDint = 1;
+		int count = -1;// if no records are inserted
+		try {
+
+			// conn = DriverManager.getConnection(url);
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+
+			// if there is a record in the EligibilityTable, get the maximum value for the
+			// ID and add 1, otherwise 1 since there are no record
+			if (rs != null) {
+
+				String tempID = rs.getString(1);
+
+				if (tempID != null) {
+					tempIDint = Integer.parseInt(tempID);
+					tempIDint = tempIDint + 1;
+				}
+			}
+
+		} catch (SQLException ex) {
+			System.out.println("select max value for eligibilityFactors ID  " + ex.getMessage());
+		}
+
+		// insert record to the database for studentID
+
+		String enrollmentIDstr = Integer.toString(tempIDint);
+		String insertStatement = "INSERT INTO EligibilityFactors  (Eligibility_Information_ID, Student_ID) VALUES (\'"
+				+ enrollmentIDstr + "\', \'" + studentID + "\');";
+
+		try {
+
+			// conn = DriverManager.getConnection(url);
+			Statement stmt = conn.createStatement();
+			count = stmt.executeUpdate(insertStatement);
+			// conn.commit();
+
+		} catch (SQLException ex) {
+			System.out.println("Insert new student to eligibility factors table  " + ex.getMessage());
+		}
+		return count;
+	}
+
+	private static int populateEnrollmentDecision(String studentID, Connection conn) {
+
+		String query = "Select max(Enrollment_ID) from EnrollmentDecision ";
+		int tempIDint = 1;
+		int count = -1;// if no records are inserted
+		try {
+
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+
+			if (rs != null) {
+
+				String tempID = rs.getString(1);
+
+				if (tempID != null) {
+					tempIDint = Integer.parseInt(tempID);
+					tempIDint = tempIDint + 1;
+				}
+			}
+
+		} catch (SQLException ex) {
+			System.out.println("select max value for Enrollment_ID  " + ex.getMessage());
+		}
+
+		// insert record to the database for studentID
+
+		String enrollmentIDstr = Integer.toString(tempIDint);
+		String insertStatement = "INSERT INTO EnrollmentDecision   (Enrollment_ID, Student_ID) VALUES (\'"
+				+ enrollmentIDstr + "\', \'" + studentID + "\');";
+
+		try {
+
+			Statement stmt = conn.createStatement();
+			count = stmt.executeUpdate(insertStatement);
+
+		} catch (SQLException ex) {
+			System.out.println("Insert new student to enrollment decision table  " + ex.getMessage());
+		}
+		return count;
+	}
+
+	private static int populateFinancialInformation(String studentID, Connection conn) {
+
+		String query = "Select max(Financial_Information_ID) from FinancialInformation  ";
+		int tempIDint = 1;
+		int count = -1;// if no records are inserted
+		try {
+
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+
+			if (rs != null) {
+
+				String tempID = rs.getString(1);
+
+				if (tempID != null) {
+					tempIDint = Integer.parseInt(tempID);
+					tempIDint = tempIDint + 1;
+				}
+			}
+
+		} catch (SQLException ex) {
+			System.out.println("select max value for Financial_Information_ID  " + ex.getMessage());
+		}
+
+		// insert record to the database for studentID
+
+		String enrollmentIDstr = Integer.toString(tempIDint);
+		String insertStatement = "INSERT INTO FinancialInformation  (Financial_Information_ID, Student_ID) VALUES (\'"
+				+ enrollmentIDstr + "\', \'" + studentID + "\');";
+
+		try {
+
+			Statement stmt = conn.createStatement();
+			count = stmt.executeUpdate(insertStatement);
+
+		} catch (SQLException ex) {
+			System.out.println("Insert new record to FinancialInformation  table  " + ex.getMessage());
+		}
+		return count;
+	}
+
 }

@@ -202,6 +202,7 @@ public class TabGui extends JFrame {
 		 * @param gen is gender selected by user
 		 */
 		private void radioHandle(String gen) {
+			
 			if (gen.equals("male")) {
 				birthSexRButtonM.setSelected(true);
 				return;
@@ -663,8 +664,8 @@ public class TabGui extends JFrame {
 			centerPanel.add(groupNumField);
 			centerPanel.add(groupDescriptionLabel);
             centerPanel.add(groupDescriptionField);
-			// olga
-			groupNumField.setText(Integer.toString(applicant.enrollDecision.getGroup()));
+			if(applicant.enrollDecision !=null)
+				groupNumField.setText(Integer.toString(applicant.enrollDecision.getGroup()));
 			centerPanel.add(empty1);
 			centerPanel.add(empty2);
 
