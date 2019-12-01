@@ -25,8 +25,7 @@ public class Applicant {
 	
 	public boolean isFound;
 
-	public boolean isFound;//Pooja
-	public String getStudentID() {
+public String getStudentID() {
 		return studentID;
 	}
 

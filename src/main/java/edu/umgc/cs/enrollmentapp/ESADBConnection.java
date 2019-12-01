@@ -1,6 +1,16 @@
 package edu.umgc.cs.enrollmentapp;
 
-import javax.swing.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Random;
 
 import edu.umgc.cs.enrollmentapp.enums.ActiveYears;
 import edu.umgc.cs.enrollmentapp.enums.ResidencyStatus;
@@ -9,12 +19,6 @@ import edu.umgc.cs.enrollmentapp.models.Applicant;
 import edu.umgc.cs.enrollmentapp.models.EligibilityFactors;
 import edu.umgc.cs.enrollmentapp.models.EnrollmentDecision;
 import edu.umgc.cs.enrollmentapp.models.FinancialInformation;
-
-import java.sql.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 
 public class ESADBConnection {
 	static Connection conn = null;
@@ -293,7 +297,7 @@ public class ESADBConnection {
 	private static Date stringToDate(String s) {
 		Date date = null;
 		try {
-			date = (Date) new SimpleDateFormat("MM/dd/yyyy").parse(s);
+			date = (Date) new SimpleDateFormat("mm/dd/yyyy").parse(s);
 			return date;
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -346,20 +350,27 @@ public class ESADBConnection {
 		return applicant;
 	}
 
-	public static Applicant addStudent(String ssn, String lName, String fName, Date date) {
+	public static Applicant addStudent(String ssn, String lName, String fName, java.util.Date date) {
 
 		Applicant applicant = new Applicant();
 		// first check if students exists
 
-		String generatedStudentID = "1234567";
-		String dobStr = "12\12\1990";
-		String insertStatement = "INSERT INTO Student (Student_ID,SSN,Last_Name,First_Name, DOB,Birth_Sex) VALUES (\'"+ generatedStudentID + "\', \'"+ ssn + "\',\'"+lName +"\', \'"+fName+"\'," +" \'"+dobStr + " \', \'Other\');";
+		String generatedStudentID = generateStudentID();
+		//String dobStr = "12/12/1990";
+		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+		String dateString = dateFormat.format(date);
+		
+		//java.sql.Date db = new java.sql.Date
+		
+		String insertStatement = "INSERT INTO Student (Student_ID,SSN,Last_Name,First_Name, DOB,Birth_Sex) VALUES (\'"+ generatedStudentID + "\', \'"+ ssn + "\',\'"+lName +"\', \'"+fName+"\'," +" \'"+dateString + " \', \'Other\');";
 
 		try {
 
 			conn = DriverManager.getConnection(url);
 			Statement stmt = conn.createStatement();
-			int resultCode = 1;//stmt.executeUpdate(insertStatement);
+			int resultCode = stmt.executeUpdate(insertStatement);
+			//conn.commit();
+			
 			if(resultCode == 1)
 			{
 				applicant.setStudentID(null);
@@ -382,7 +393,7 @@ public class ESADBConnection {
 
 	public String convertStringToDate(Date indate) {
 		String dateString = null;
-		SimpleDateFormat formatedDate = new SimpleDateFormat("dd/mm/yyyy");
+		SimpleDateFormat formatedDate = new SimpleDateFormat("mm/dd/yyyy");
 
 		try {
 			dateString = formatedDate.format(indate);
@@ -391,4 +402,19 @@ public class ESADBConnection {
 		}
 		return dateString;
 	}
+	
+	public static String generateStudentID()
+	{
+		String number = null;
+		
+		// create instance of Random class 
+        Random rand = new Random(); 
+  
+        
+        int n = 1000000 + rand.nextInt(9000000);
+        number = String.valueOf(n);
+		
+		return number; 
+	}
+	
 }

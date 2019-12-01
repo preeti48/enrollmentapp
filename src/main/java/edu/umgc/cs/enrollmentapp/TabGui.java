@@ -189,8 +189,10 @@ public class TabGui extends JFrame {
 		 * @return a date as a String
 		 */
 		private String dateToString(Date d) {
-			DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyy");
-			String strDate = dateFormat.format(d);
+			DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+			String strDate = null;
+			if(d != null)
+			 strDate = dateFormat.format(d);
 			return strDate;
 		}
 
