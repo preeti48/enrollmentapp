@@ -203,6 +203,15 @@ public class TabGui extends JFrame {
 				}
 			});
 			buttonPanel.add(cancel);
+			cancel.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					SearchScreen searchPage = new SearchScreen();
+					searchPage.connection();
+					
+					TabGui.this.setVisible(false);
+					new SearchScreen().setVisible(true);
+				}
+			});
 
 			add(rightPanel, "West");
 			rightPanel.add(emptyLabel1);
@@ -469,6 +478,15 @@ public class TabGui extends JFrame {
 				}
 			});
 			buttonPanel.add(cancel);
+			cancel.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					SearchScreen searchPage = new SearchScreen();
+					searchPage.connection();
+					
+					TabGui.this.setVisible(false);
+					new SearchScreen().setVisible(true);
+				}
+			});
 
 			// Added empty spaces for alignment
 			add(leftPanel, "East");
@@ -749,6 +767,15 @@ public class TabGui extends JFrame {
 				}
 			});
 			buttonPanel.add(cancel);
+			cancel.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					SearchScreen searchPage = new SearchScreen();
+					searchPage.connection();
+					
+					TabGui.this.setVisible(false);
+					new SearchScreen().setVisible(true);
+				}
+			});
 
 			// Empty label for alignment purpose
 			add(leftPanel, "East");
@@ -852,6 +879,15 @@ public class TabGui extends JFrame {
 				}
 			});
 			buttonPanel.add(cancel);
+			cancel.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					SearchScreen searchPage = new SearchScreen();
+					searchPage.connection();
+					
+					TabGui.this.setVisible(false);
+					new SearchScreen().setVisible(true);
+				}
+			});
 
 			// Empty label for alignment purpose
 			add(leftPanel, "East");
