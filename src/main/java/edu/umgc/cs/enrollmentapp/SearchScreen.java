@@ -1,16 +1,24 @@
 package edu.umgc.cs.enrollmentapp;
 
-import javax.swing.*;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.util.Date;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+import javax.swing.JTextField;
+
 import com.toedter.calendar.JDateChooser;
 
 import edu.umgc.cs.enrollmentapp.models.Applicant;
-
-import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.util.Calendar;
-import java.util.Date;
-import java.awt.event.ActionEvent;
 
 public class SearchScreen {
 
@@ -35,6 +43,7 @@ public class SearchScreen {
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	@SuppressWarnings("serial")
 	private void createSearchPage() {
 		frame = new JFrame("Enrollment Scholarship Application");
 		frame.setBounds(100, 100, 450, 500);
@@ -46,9 +55,60 @@ public class SearchScreen {
 		esaLable.setBounds(70, 30, 310, 22);
 		frame.getContentPane().add(esaLable);
 
+		// Reports menu
 		JButton reportBtn = new JButton("View Reports");
 		reportBtn.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		reportBtn.setBounds(70, 83, 110, 23);
+		final JPopupMenu popup = new JPopupMenu();
+		
+		JMenuItem jmiGroup1 = new JMenuItem("Enrollment in Group#1");
+		jmiGroup1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// JOptionPane.showMessageDialog(frame, "Group 1 selected");
+				System.out.println(" Group 1 report is selected.");
+			}
+		});
+		popup.add(jmiGroup1);
+		popup.addSeparator();
+
+		JMenuItem jmiGroup2 = new JMenuItem("Enrollment in Group#2");
+		jmiGroup2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(" Group 2 report is selected.");
+			}
+		});
+		popup.add(jmiGroup2);
+		popup.addSeparator();
+
+		JMenuItem jmiGroup3 = new JMenuItem("Enrollment in Group#3");
+		jmiGroup3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(" Group 3 report is selected.");
+			}
+		});
+		popup.add(jmiGroup3);
+		popup.addSeparator();
+		JMenuItem jmiGroup4 = new JMenuItem("Enrollment in Group#4");
+		jmiGroup4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(" Group 4 report is selected.");
+			}
+		});
+		popup.add(jmiGroup4);
+		popup.addSeparator();
+		
+		JMenuItem jmiGroup5 = new JMenuItem("Enrollment in Group#5");
+		jmiGroup5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(" Group 5 report is selected.");
+			}
+		});
+		popup.add(jmiGroup5);		
+		reportBtn.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
 		frame.getContentPane().add(reportBtn);
 
 		JLabel studentIDLbl = new JLabel("Student ID");
@@ -119,14 +179,9 @@ public class SearchScreen {
 		// ActionListener for Add button
 		addBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// hard code date for testing purposes
-				// Generate a date for Jan. 9, 2013, 10:11:12 AM
-				// Calendar cal = Calendar.getInstance();
-				// cal.set(2013, Calendar.JANUARY, 9); //Year, month and day of month
-				// Date date = cal.getTime();
-				Date date = dateChooser.getDate();
-				// Date date1=new SimpleDateFormat("MM/dd/yyyy").parse();
 
+				Date date = dateChooser.getDate();
+			
 				Applicant student = ESADBConnection.checkIfstudentExists(ssnField.getText(), lnField.getText(),
 						fnfield.getText(), null);// fName, String dOB)
 				if (student.getStudentID() != null)
@@ -211,13 +266,12 @@ public class SearchScreen {
 				String studentID = studentIDField.getText();
 				studentID = studentID.trim();
 				Applicant applicant = ESADBConnection.searchByStudentID(studentID);
-				
-				if(applicant.isFound){
-				TabGui tabGui = new TabGui(applicant);
-				}
-				else{
-					JOptionPane.showMessageDialog(frame, "Are you trying to add a new Applicant ?", "The Applicant is Not Found",
-							JOptionPane.CLOSED_OPTION);
+
+				if (applicant.isFound) {
+					TabGui tabGui = new TabGui(applicant);
+				} else {
+					JOptionPane.showMessageDialog(frame, "Are you trying to add a new Applicant ?",
+							"The Applicant is Not Found", JOptionPane.CLOSED_OPTION);
 				}
 			} else {
 				JOptionPane.showMessageDialog(frame, "Please enter correct Student ID", "Incorrect StudentID",
@@ -236,15 +290,14 @@ public class SearchScreen {
 					String lName = lnField.getText();
 					lName = lName.trim();
 					Applicant applicant = ESADBConnection.searchBySSNandLname(ssnNum, lName);
-					
-					if(applicant.isFound){
+
+					if (applicant.isFound) {
 						TabGui tabGui = new TabGui(applicant);
-						}
-						else{
-							JOptionPane.showMessageDialog(frame, "Are you trying to add a new Applicant ?", "The Applicant is Not Found",
-									JOptionPane.CLOSED_OPTION);
-						}
-					
+					} else {
+						JOptionPane.showMessageDialog(frame, "Are you trying to add a new Applicant ?",
+								"The Applicant is Not Found", JOptionPane.CLOSED_OPTION);
+					}
+
 				} else {
 					JOptionPane.showMessageDialog(frame, "Please enter Last Name to search by SSN", "Enter LastName",
 							JOptionPane.INFORMATION_MESSAGE);
