@@ -1,8 +1,10 @@
 package edu.umgc.cs.enrollmentapp;
 
 import java.awt.*;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -12,6 +14,7 @@ import edu.umgc.cs.enrollmentapp.enums.ActiveYears;
 import edu.umgc.cs.enrollmentapp.enums.ResidencyStatus;
 import edu.umgc.cs.enrollmentapp.enums.YearOfResidency;
 import edu.umgc.cs.enrollmentapp.models.Applicant;
+import edu.umgc.cs.enrollmentapp.models.ESAInterface;
 
 public class TabGui extends JFrame {
 	private static JFrame frame = new JFrame();
@@ -46,7 +49,7 @@ public class TabGui extends JFrame {
 		setVisible(true);
 	}
 
-	private class OverviewTab extends JPanel {
+	private class OverviewTab extends JPanel implements ESAInterface{
 		private JPanel buttonPanel = new JPanel(new FlowLayout());
 		private JPanel centerPanel = new JPanel(new GridLayout(8, 4, 35, 35));
 		private JPanel sexRadioPanel = new JPanel(new FlowLayout());
@@ -100,8 +103,9 @@ public class TabGui extends JFrame {
 		private JButton update = new JButton("Update");
 		private JButton reset = new JButton("Reset");
 		private JButton cancel = new JButton("Cancel");
-
-		private OverviewTab(Applicant applicant) {
+        private Applicant applicant; 
+		private OverviewTab(Applicant appli) {
+			applicant = appli;
 			buttongroup1.add(birthSexRButtonM);
 			buttongroup1.add(birthSexRButtonF);
 			buttongroup1.add(birthSexRButtonO);
@@ -173,6 +177,11 @@ public class TabGui extends JFrame {
 
 			add(buttonPanel, "South");
 			buttonPanel.add(update);
+			update.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					performUpdate(applicant);
+				}
+			});
 			buttonPanel.add(reset);
 			buttonPanel.add(cancel);
 
@@ -195,6 +204,21 @@ public class TabGui extends JFrame {
 			 strDate = dateFormat.format(d);
 			return strDate;
 		}
+		
+		private Date stringToDate(String s) {
+			Date date = null;
+	       // System.out.println("Printing date" + s);
+			try {
+				if (s != null)
+					date = (Date) new SimpleDateFormat("MM/dd/yyyy").parse(s);
+				return date;
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return date;
+
+		}
 
 		/**
 		 * This method handles radio button
@@ -209,11 +233,12 @@ public class TabGui extends JFrame {
 			} else if (gen.equals("female")) {
 				birthSexRButtonF.setSelected(true);
 				return;
-			} else {
+			} else if (gen.equals("Other")) {
 				birthSexRButtonO.setSelected(true);
 				return;
 			}
-		}
+			
+		}	
 
 		/**
 		 * This method handles residential status
@@ -230,9 +255,80 @@ public class TabGui extends JFrame {
 			}
 
 		}
+
+		public void performUpdate(Applicant student) {
+			
+			
+			student.setLname(lastNameField.getText());
+			student.setFname(firstNameField.getText());
+			
+			//validating entered ssn for update
+			if (ssnField.getText().trim().length() == 9 && ssnField.getText().trim().matches("[0-9]+")) {
+			if(student.getSsn() != Integer.parseInt(ssnField.getText().trim())){
+				//check if ssn exist in db
+				boolean duplicateSSN = ESADBConnection.checkDuplicateSSN(ssnField.getText().trim());
+				if(duplicateSSN){
+					JOptionPane.showMessageDialog(frame, "Entered SSN already exist, Please enter correct SSN ", "Duplicate SSN",
+							JOptionPane.ERROR_MESSAGE);
+				}
+				else{
+					student.setSsn(Integer.parseInt(ssnField.getText().trim()));
+				}
+			}
+			}
+			else{
+				JOptionPane.showMessageDialog(frame, "Please enter correct SSN, with 9 digits only ", "Incorrect SSN",
+						JOptionPane.ERROR_MESSAGE);
+			}
+			
+			student.setDob(stringToDate(dobField.getText()));
+			
+			//setting a gender
+			String gen = getSelectedGender();
+			student.setGender(gen);
+			student.setUsaResident((usaResiRButtonY.isSelected())? true : false);
+			student.setEmergencyContact(e_contactField.getText());
+			student.setPhone(phNumField.getText());
+			student.setStreet(streetField.getText());
+			student.setCity(cityField.getText());
+			student.setState(stateField.getText());
+			student.setZip(Integer.parseInt(zipField.getText()));
+			student.setE_phone(e_phoneField.getText());
+			ESADBConnection.updateRecord(student);
+			
+		}
+		/**
+		 * This method returns a selected gender
+		 * @return selected gender
+		 */
+		private String getSelectedGender() {
+			String gender;
+			if (birthSexRButtonM.isSelected()){
+				gender = "male";
+			} else if  (birthSexRButtonF.isSelected()){
+				gender = "female";
+			} else if (birthSexRButtonO.isSelected()) {
+				gender ="Other";
+			}
+			else {
+				gender ="NULL";
+			}
+			return gender;
+			
+		}
+
+		public void performCancel() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void performReset() {
+			// TODO Auto-generated method stub
+			
+		}
 	}
 
-	private class FinancialInfoTab extends JPanel {
+	private class FinancialInfoTab extends JPanel implements ESAInterface{
 
 		private JPanel buttonPanel = new JPanel(new FlowLayout());
 		private JPanel leftPanel = new JPanel(new FlowLayout());
@@ -367,9 +463,24 @@ public class TabGui extends JFrame {
 			}
 
 		}
+
+		public void performUpdate(Applicant s) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void performCancel() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void performReset() {
+			// TODO Auto-generated method stub
+			
+		}
 	}
 
-	private class EligibilityFactorsTab extends JPanel {
+	private class EligibilityFactorsTab extends JPanel implements ESAInterface {
 		private JPanel buttonPanel = new JPanel(new FlowLayout());
 		private JPanel leftPanel = new JPanel(new FlowLayout());
 		private JPanel rightPanel = new JPanel(new FlowLayout());
@@ -602,9 +713,24 @@ public class TabGui extends JFrame {
 			add(rightPanel, "West");
 			rightPanel.add(empty2);
 		}
+
+		public void performUpdate(Applicant s) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void performCancel() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void performReset() {
+			// TODO Auto-generated method stub
+			
+		}
 	}
 
-	private class EnrollmentDecisionTab extends JPanel {
+	private class EnrollmentDecisionTab extends JPanel implements ESAInterface {
 		private JPanel buttonPanel = new JPanel(new FlowLayout());
 		private JPanel topPanel = new JPanel(new FlowLayout());
 		private JPanel leftPanel = new JPanel(new FlowLayout());
@@ -700,6 +826,23 @@ public class TabGui extends JFrame {
 			String strDate = dateFormat.format(d);
 			return strDate;
 		}
+
+		public void performUpdate(Applicant s) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void performCancel() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void performReset() {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		
 
 	}
 
