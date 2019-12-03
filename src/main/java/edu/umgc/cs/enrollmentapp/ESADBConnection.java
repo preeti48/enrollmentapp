@@ -2,6 +2,7 @@ package edu.umgc.cs.enrollmentapp;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -347,7 +348,7 @@ public class ESADBConnection {
 
 	private static Date stringToDate(String s) {
 		Date date = null;
-
+       // System.out.println(s);
 		try {
 			if (s != null)
 				date = (Date) new SimpleDateFormat("MM/dd/yyyy").parse(s);
@@ -450,9 +451,9 @@ public class ESADBConnection {
 		return applicant;
 	}
 
-	public String convertStringToDate(Date indate) {
+	public static String convertStringToDate(Date indate) {
 		String dateString = null;
-		SimpleDateFormat formatedDate = new SimpleDateFormat("mm/dd/yyyy");
+		SimpleDateFormat formatedDate = new SimpleDateFormat("MM/dd/yyyy");
 
 		try {
 			dateString = formatedDate.format(indate);
@@ -626,5 +627,91 @@ public class ESADBConnection {
 		}
 		return count;
 	}
+	
+	/**
+	 * This method updates the record in database.
+	 * @param applicant is an applicant who's data needs to be updated
+	 */
+	public static void updateRecord(Applicant applicant){
+		String query = "UPDATE student SET "
+				       + " SSN =  '" + Integer.toString(applicant.getSsn())
+				       +"', Last_Name = '" + applicant.getLname()
+				       +"', First_Name = '" + applicant.getFname()
+				       +"', DOB = '" + convertStringToDate(applicant.getDob())
+				       +"', Birth_Sex = '" + applicant.getGender()
+				       +"', Emergency_Contact = '" + applicant.getEmergencyContact()
+				       +"', Emergency_Phone = '" + applicant.getE_phone()
+				       +"', Student_Street = '" + applicant.getStreet()
+				       +"', Student_City = '" + applicant.getCity()
+				       +"', Student_State = '" + applicant.getState()
+				       +"', Student_Zip = '" + Integer.toString(applicant.getZip())
+				       +"', USA_Resident = '" + ((applicant.isUsaResident)? "yes" : "No") 
+				       +"', Student_Phone = '" + applicant.getPhone()
+				       +"' where student_id = " + applicant.getStudentID();
+		
+		try {
+
+			conn = DriverManager.getConnection(url);
+			//Statement stmt = conn.createStatement();
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.executeUpdate();
+			System.out.println("Database updated successfully ");
+			
+			String pquery = "Select * from Student where student_ID = " + applicant.getStudentID();
+
+			
+
+				conn = DriverManager.getConnection(url);
+				Statement s = conn.createStatement();
+				ResultSet resultSet = s.executeQuery(pquery);
+
+				ResultSetMetaData rsmd = resultSet.getMetaData();
+				int columnsNumber = rsmd.getColumnCount();
+				//prints data to check update
+				
+				/*while (resultSet.next()) {
+				    for (int i = 1; i <= columnsNumber; i++) {
+				        if (i > 1) System.out.print(",  ");
+				        String columnValue = resultSet.getString(i);
+				        System.out.print(columnValue + " " + rsmd.getColumnName(i));
+				    }
+				    System.out.println("");
+				}*/
+			
+
+		} catch (SQLException ex) {
+			System.out.println("Get Student exception " + ex.getMessage());
+		}
+
+	}
+	
+	/**
+	 * This method checks for a duplicate SSN in database
+	 * @param ssn is SSN entered by user
+	 * @return true is duplicate ssn exist, false otherwise
+	 */
+	public static boolean checkDuplicateSSN(String ssn){
+		String query = "Select * from Student where SSN=\'" + ssn + "\'";
+		boolean duplicate = false;
+		try{
+			conn = DriverManager.getConnection(url);
+			Statement s = conn.createStatement();
+			ResultSet resultSet = s.executeQuery(query);
+			if(resultSet.isBeforeFirst()){
+				//duplicate ssn exist
+				duplicate = true;
+			}
+			else{
+				duplicate = false;
+			}
+		}
+		 catch (SQLException ex) {
+				System.out.println("Get Student exception " + ex.getMessage());
+			}
+		return duplicate;
+		
+	}
+	
+	
 
 }
