@@ -183,6 +183,25 @@ public class TabGui extends JFrame {
 				}
 			});
 			buttonPanel.add(reset);
+			reset.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					buttongroup1.clearSelection();
+					buttongroup2.clearSelection();
+					lastNameField.setText("");
+					firstNameField.setText("");
+					ssnField.setText("");
+					dobField.setText("");
+					streetField.setText("");
+					stateField.setText("");
+					cityField.setText("");
+					zipField.setText("");
+					e_contactField.setText("");
+					e_phoneField.setText("");
+					phNumField.setText("");
+					mobNumField.setText("");
+				
+				}
+			});
 			buttonPanel.add(cancel);
 
 			add(rightPanel, "West");
@@ -438,6 +457,17 @@ public class TabGui extends JFrame {
 			add(buttonPanel, "South");
 			buttonPanel.add(update);
 			buttonPanel.add(reset);
+			reset.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					buttongroup1.clearSelection();
+					buttongroup2.clearSelection();
+					buttongroup3.clearSelection();
+					studentLastYearIncomeField.setText("");
+					parenttLastYearIncomeField.setText("");
+					valOfOtherProptyField.setText("");
+
+				}
+			});
 			buttonPanel.add(cancel);
 
 			// Added empty spaces for alignment
@@ -705,6 +735,19 @@ public class TabGui extends JFrame {
 			add(buttonPanel, "South");
 			buttonPanel.add(update);
 			buttonPanel.add(reset);
+			reset.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					buttonGroup1.clearSelection();
+					buttonGroup2.clearSelection();
+					buttonGroup3.clearSelection();
+					buttonGroup4.clearSelection();
+					buttonGroup5.clearSelection();
+					buttonGroup6.clearSelection();
+					buttonGroup7.clearSelection();
+					buttonGroup8.clearSelection();
+					buttonGroup9.clearSelection();
+				}
+			});
 			buttonPanel.add(cancel);
 
 			// Empty label for alignment purpose
@@ -800,6 +843,14 @@ public class TabGui extends JFrame {
 			add(buttonPanel, "South");
 			buttonPanel.add(update);
 			buttonPanel.add(reset);
+			reset.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					entrollDateField.setText("");
+					groupNumField.setText("");
+					groupDescriptionField.setText("");
+
+				}
+			});
 			buttonPanel.add(cancel);
 
 			// Empty label for alignment purpose
