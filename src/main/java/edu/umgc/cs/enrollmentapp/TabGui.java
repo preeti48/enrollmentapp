@@ -405,8 +405,10 @@ public class TabGui extends JFrame {
 		private JButton update = new JButton("Update");
 		private JButton reset = new JButton("Reset");
 		private JButton cancel = new JButton("Cancel");
+		private Applicant applicant; 
 
-		private FinancialInfoTab(Applicant applicant) {
+		private FinancialInfoTab(Applicant appli) {
+			applicant = appli;
 			buttongroup1.add(finanDependRButtonY);
 			buttongroup1.add(finanDependRButtonN);
 			buttongroup2.add(hav529AcctRButtonY);
@@ -465,6 +467,11 @@ public class TabGui extends JFrame {
 
 			add(buttonPanel, "South");
 			buttonPanel.add(update);
+			update.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					performUpdate(applicant);
+				}
+			});
 			buttonPanel.add(reset);
 			reset.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -513,10 +520,47 @@ public class TabGui extends JFrame {
 		}
 
 		public void performUpdate(Applicant s) {
-			// TODO Auto-generated method stub
+			s.finInfo.setDependency((finanDependRButtonY.isSelected())? true : false);
+			
+			//studentincome
+			if(!studentLastYearIncomeField.getText().isEmpty()){
+				String str =studentLastYearIncomeField.getText();
+				//check if entered string is number only
+				s.finInfo.setStudentIncome(Double.parseDouble(str));
+			}
+			else{
+				AllFiledReqPopup();
+			}
+			
+			//parentincome
+			if(!parenttLastYearIncomeField.getText().isEmpty()){
+				String str =parenttLastYearIncomeField.getText();
+				//check if entered string is number only
+				s.finInfo.setParentIncome(Double.parseDouble(str));
+			}
+			else{
+				AllFiledReqPopup();
+			}
+			
+			s.finInfo.set529Status((hav529AcctRButtonY.isSelected())? true : false);
+			s.finInfo.setRealStatus((havRealEstRButtonY.isSelected())? true : false);
+			
+			
+			//propvalue
+			if(!valOfOtherProptyField.getText().isEmpty()){
+				String str =valOfOtherProptyField.getText();
+				//check if entered string is number only
+				s.finInfo.setPropValue(Double.parseDouble(str));
+			}
+			else{
+				AllFiledReqPopup();
+			}
+			
+			ESADBConnection.updateFinancialRecord(s);
 			
 		}
 
+		
 		public void performCancel() {
 			// TODO Auto-generated method stub
 			
@@ -525,6 +569,11 @@ public class TabGui extends JFrame {
 		public void performReset() {
 			// TODO Auto-generated method stub
 			
+		}
+		
+		public void AllFiledReqPopup(){
+			JOptionPane.showMessageDialog(frame, "Please enter all the fields", "All Fields are Required",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

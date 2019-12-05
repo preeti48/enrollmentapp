@@ -669,16 +669,16 @@ public class ESADBConnection {
 				int columnsNumber = rsmd.getColumnCount();
 				//prints data to check update
 				
-				/*while (resultSet.next()) {
+			/*	while (resultSet.next()) {
 				    for (int i = 1; i <= columnsNumber; i++) {
-				        if (i > 1) System.out.print(",  ");
+				        if (i > 1) System.out.print(",\n");
 				        String columnValue = resultSet.getString(i);
-				        System.out.print(columnValue + " " + rsmd.getColumnName(i));
+				        System.out.print(columnValue + ": " + rsmd.getColumnName(i));
 				    }
 				    System.out.println("");
-				}*/
-			
-
+				}
+              */			
+ 
 		} catch (SQLException ex) {
 			System.out.println("Get Student exception " + ex.getMessage());
 		}
@@ -710,6 +710,52 @@ public class ESADBConnection {
 			}
 		return duplicate;
 		
+	}
+	
+	public static void updateFinancialRecord(Applicant applicant){
+		String query = "UPDATE FinancialInformation SET "
+				       + " Financially_Depended =  '" + ((applicant.finInfo.getDependency()) ? "1" : "0")
+				       +"', Student_Last_Year_Income = '" + Double.toString(applicant.finInfo.getStudentIncome())
+				       +"', [Parent_Last_ Year_Income] = '" + Double.toString(applicant.finInfo.getParentIncome())
+				       +"', Own_529_Account = '" + (applicant.finInfo.get529Status()? "1" : "0")
+				       +"', Own_Real_Estate_Land = '" + (applicant.finInfo.getRealStatus()? "1" : "0")
+				       +"', Value_Of_Other_Properties = '" + Double.toString(applicant.finInfo.getPropValue())
+				       +"' where student_id = " + applicant.getStudentID();
+		
+		try {
+
+			conn = DriverManager.getConnection(url);
+			//Statement stmt = conn.createStatement();
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.executeUpdate();
+			System.out.println("Database updated successfully ");
+			
+			String pquery = "Select * from FinancialInformation where student_ID = " + applicant.getStudentID();
+
+			
+
+				conn = DriverManager.getConnection(url);
+				Statement s = conn.createStatement();
+				ResultSet resultSet = s.executeQuery(pquery);
+
+				ResultSetMetaData rsmd = resultSet.getMetaData();
+				int columnsNumber = rsmd.getColumnCount();
+				//prints data to check update
+				
+				while (resultSet.next()) {
+				    for (int i = 1; i <= columnsNumber; i++) {
+				        if (i > 1) System.out.print(",\n");
+				        String columnValue = resultSet.getString(i);
+				        System.out.print(columnValue + ": " + rsmd.getColumnName(i));
+				    }
+				    System.out.println("");
+				}
+			
+
+		} catch (SQLException ex) {
+			System.out.println("Get Student exception " + ex.getMessage());
+		}
+
 	}
 	
 	
