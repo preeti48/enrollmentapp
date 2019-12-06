@@ -209,7 +209,7 @@ public class ESADBConnection {
 			student.eligInfo.setFinAidElig(radioHandle(eligData[6]));
 			student.eligInfo.setResidencystatus(getStatus(eligData[7]));
 			if (eligData[8] != null)
-				student.eligInfo.setResidencyYears(getResiYears(Integer.parseInt(eligData[8])));
+				student.eligInfo.setResidencyYears(getResiYears(eligData[8]));
 			else // eligData[8] == null
 				student.eligInfo.setResidencyYears(null);
 
@@ -284,19 +284,23 @@ public class ESADBConnection {
 
 	}
 
-	private static YearOfResidency getResiYears(int a) {
+	private static YearOfResidency getResiYears(String s) {
 
-		if (a < 1) {
-			return YearOfResidency.LessThanOneYears;
-		} else if (a >= 1 && a <= 5) {
-			return YearOfResidency.BetweenOneAndFveYears;
-		} else if (a > 5) {
-			return YearOfResidency.Over5Years;
-		} else {
-			return null;
+		YearOfResidency returnResult = YearOfResidency.NoYearsOfResidency;
+		if (s != null) {
+			if (s.equals("Less than 1")) {
+
+				returnResult = YearOfResidency.LessThanOneYears;
+			} else if (s.equals("Between 1 to 5")) {
+				returnResult = YearOfResidency.BetweenOneAndFveYears;
+			} else {
+				returnResult = YearOfResidency.Over5Years;
+			}
 		}
+		return returnResult;	
 
 	}
+
 
 	private static ActiveYears getYears(String s) {
 
@@ -682,7 +686,7 @@ public class ESADBConnection {
 				int columnsNumber = rsmd.getColumnCount();
 				//prints data to check update
 				
-			/*	while (resultSet.next()) {
+				/*while (resultSet.next()) {
 				    for (int i = 1; i <= columnsNumber; i++) {
 				        if (i > 1) System.out.print(",\n");
 				        String columnValue = resultSet.getString(i);
@@ -690,11 +694,21 @@ public class ESADBConnection {
 				    }
 				    System.out.println("");
 				}
-              */			
+              		*/	
  
 		} catch (SQLException ex) {
 			System.out.println("Get Student exception " + ex.getMessage());
 		}
+		finally {
+			try{
+			  conn.close();
+			  
+			}
+			catch(SQLException ex){
+				System.out.println("Connection exception" + ex.getMessage());	
+			}
+		}
+		
 
 	}
 	
@@ -755,6 +769,113 @@ public class ESADBConnection {
 				int columnsNumber = rsmd.getColumnCount();
 				//prints data to check update
 				
+			/*	while (resultSet.next()) {
+				    for (int i = 1; i <= columnsNumber; i++) {
+				        if (i > 1) System.out.print(",\n");
+				        String columnValue = resultSet.getString(i);
+				        System.out.print(columnValue + ": " + rsmd.getColumnName(i));
+				    }
+				    System.out.println("");
+				}*/
+			
+
+		} catch (SQLException ex) {
+			System.out.println("Get Student exception " + ex.getMessage());
+		}
+		finally {
+			try{
+			  conn.close();
+			  
+			}
+			catch(SQLException ex){
+				System.out.println("Connection exception" + ex.getMessage());	
+			}
+		}
+
+	}
+	
+	public static void updateEligibilityRecord(Applicant applicant){
+		String query = "UPDATE EligibilityFactors SET "
+				       + " Served_In_Military =  '" + ((applicant.eligInfo.getMiliServed()) ? "1" : "0")
+				       +"', Military_Status = '" + ((applicant.eligInfo.getMiliStatus()) ? "1" : "0")
+				       +"', Active_Years = '" + applicant.eligInfo.getActiveYears()
+				       +"', Disability_Status = '" + (applicant.eligInfo.getdisabilityStatus()? "1" : "0")
+				       +"', Financial_Aid_Eligibility = '" + (applicant.eligInfo.getFinAidElig()? "1" : "0")
+				       +"', Residency_Status = '" + applicant.eligInfo.getResidencyStatus()
+				       +"', Years_of_Residency = '" + applicant.eligInfo.getResidencyYears()
+				       +"', Dependent_Status = '" + ((applicant.eligInfo.getFinAidElig()) ? "1" : "0")
+				       +"' where student_id = " + applicant.getStudentID();
+		
+		try {
+
+			conn = DriverManager.getConnection(url);
+			//Statement stmt = conn.createStatement();
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.executeUpdate();
+			System.out.println("Database updated successfully ");
+			
+			String pquery = "Select * from EligibilityFactors where student_ID = " + applicant.getStudentID();
+
+			
+
+				conn = DriverManager.getConnection(url);
+				Statement s = conn.createStatement();
+				ResultSet resultSet = s.executeQuery(pquery);
+
+				ResultSetMetaData rsmd = resultSet.getMetaData();
+				int columnsNumber = rsmd.getColumnCount();
+				//prints data to check update
+				
+			/*	while (resultSet.next()) {
+				    for (int i = 1; i <= columnsNumber; i++) {
+				        if (i > 1) System.out.print(",\n");
+				        String columnValue = resultSet.getString(i);
+				        System.out.print(columnValue + ": " + rsmd.getColumnName(i));
+				    }
+				    System.out.println("");
+			   }
+			*/
+
+		} catch (SQLException ex) {
+			System.out.println("Get Student exception " + ex.getMessage());
+		}
+		finally {
+			try{
+			  conn.close();
+			  
+			}
+			catch(SQLException ex){
+				System.out.println("Connection exception" + ex.getMessage());	
+			}
+		}
+
+	}
+	
+	public static void updateEnrollmentRecord(Applicant applicant){
+		String query = "UPDATE EnrollmentDecision SET "
+				       + " Enrollment_Date =  '" + convertStringToDate(applicant.enrollDecision.getEnrollDate())
+				       +"' where student_id = " + applicant.getStudentID();
+		
+		try {
+
+			conn = DriverManager.getConnection(url);
+			//Statement stmt = conn.createStatement();
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.executeUpdate();
+			System.out.println("Database updated successfully ");
+			
+			String pquery = "Select * from EnrollmentDecision where student_ID = " + applicant.getStudentID();
+
+			
+
+				conn = DriverManager.getConnection(url);
+				Statement s = conn.createStatement();
+				ResultSet resultSet = s.executeQuery(pquery);
+
+				ResultSetMetaData rsmd = resultSet.getMetaData();
+				int columnsNumber = rsmd.getColumnCount();
+				//prints data to check update
+				
 				while (resultSet.next()) {
 				    for (int i = 1; i <= columnsNumber; i++) {
 				        if (i > 1) System.out.print(",\n");
@@ -762,11 +883,20 @@ public class ESADBConnection {
 				        System.out.print(columnValue + ": " + rsmd.getColumnName(i));
 				    }
 				    System.out.println("");
-				}
+			   }
 			
 
 		} catch (SQLException ex) {
 			System.out.println("Get Student exception " + ex.getMessage());
+		}
+		finally {
+			try{
+			  conn.close();
+			  
+			}
+			catch(SQLException ex){
+				System.out.println("Connection exception" + ex.getMessage());	
+			}
 		}
 
 	}
