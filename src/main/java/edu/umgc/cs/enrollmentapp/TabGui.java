@@ -6,6 +6,10 @@ import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Date;
 
 import javax.swing.*;
@@ -23,6 +27,7 @@ public class TabGui extends JFrame {
 	private FinancialInfoTab financialInfoTab;
 	private EligibilityFactorsTab eligibilityFactorsTab;
 	private EnrollmentDecisionTab enrollmentDecisionTab;
+	int age;
 
 	Applicant theApplicant = null;
 
@@ -38,12 +43,14 @@ public class TabGui extends JFrame {
 		eligibilityFactorsTab = new EligibilityFactorsTab(applicant);
 		if (applicant != null)// Olga
 			enrollmentDecisionTab = new EnrollmentDecisionTab(applicant);
-
+		
 		jtpTabPane.addTab("Student Overview", overviewTab);
 		jtpTabPane.addTab("Financial Information", financialInfoTab);
 		jtpTabPane.addTab("Eligibility Factors", eligibilityFactorsTab);
 		jtpTabPane.addTab("Enrollment Decision", enrollmentDecisionTab);
 		getContentPane().add(jtpTabPane);
+		
+
 
 		setSize(800, 600);
 		setVisible(true);
@@ -97,8 +104,8 @@ public class TabGui extends JFrame {
 		private JTextField e_phoneField = new JTextField();
 		private JLabel phNumLAbel = new JLabel("Phone #: ");
 		private JTextField phNumField = new JTextField();
-		private JLabel mobNumLabel = new JLabel("Mobile #: ");
-		private JTextField mobNumField = new JTextField();
+		//private JLabel mobNumLabel = new JLabel("Mobile #: ");
+		//private JTextField mobNumField = new JTextField();
 
 		private JButton update = new JButton("Update");
 		private JButton reset = new JButton("Reset");
@@ -145,6 +152,9 @@ public class TabGui extends JFrame {
 			stateField.setText(applicant.getState());
 			centerPanel.add(dobLabel);
 			centerPanel.add(dobField);
+			
+		
+			
 			dobField.setText(dateToString(applicant.getDob()));
 			centerPanel.add(zipLabel);
 			centerPanel.add(zipField);
@@ -172,8 +182,8 @@ public class TabGui extends JFrame {
 			centerPanel.add(phNumLAbel);
 			centerPanel.add(phNumField);
 			phNumField.setText(applicant.getPhone());
-			centerPanel.add(mobNumLabel);
-			centerPanel.add(mobNumField);
+			//centerPanel.add(mobNumLabel);
+			//centerPanel.add(mobNumField);
 
 			add(buttonPanel, "South");
 			buttonPanel.add(update);
@@ -198,7 +208,7 @@ public class TabGui extends JFrame {
 					e_contactField.setText("");
 					e_phoneField.setText("");
 					phNumField.setText("");
-					mobNumField.setText("");
+					//mobNumField.setText("");
 				
 				}
 			});
@@ -283,6 +293,8 @@ public class TabGui extends JFrame {
 			}
 
 		}
+		
+		
 
 		public void performUpdate(Applicant student) {
 			
@@ -734,11 +746,13 @@ public class TabGui extends JFrame {
 			centerPanel.add(overAge55Panel);
 			if (applicant.eligInfo != null) {
 				if (applicant.eligInfo.isAgeOver55) {
+					
 					overAge55Y.setSelected(true);
 				} else {
 					overAge55N.setSelected(true);
 				}
 			}
+			
 			centerPanel.add(areYouDependentLabel);
 			areYouDependedPanel.add(areYouDependentY);
 			areYouDependedPanel.add(areYouDependentN);
@@ -815,7 +829,9 @@ public class TabGui extends JFrame {
 		private JLabel groupNumLabel = new JLabel("Group Number:");
 		private JTextField groupNumField = new JTextField();
 		private JLabel groupDescriptionLabel = new JLabel("Group description:");
-        private JTextField groupDescriptionField = new JTextField();
+        //private JTextField groupDescriptionField = new JTextField();
+        private JTextArea groupDescriptionField = new JTextArea(10, 60);
+        JScrollPane scrollPane = new JScrollPane(groupDescriptionField); 
 
 		private JButton update = new JButton("Update");
 		private JButton reset = new JButton("Reset");
@@ -833,6 +849,7 @@ public class TabGui extends JFrame {
 
 		private EnrollmentDecisionTab(Applicant applicant) {
 			setLayout(new BorderLayout());
+			groupDescriptionField.setEditable(false);
 
 			emptyPanel1.add(empty1, "Center");
 //			emptyPanel1.add(empty2, "Center");

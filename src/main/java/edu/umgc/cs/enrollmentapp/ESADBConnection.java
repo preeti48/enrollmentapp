@@ -10,6 +10,9 @@ import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.Random;
 
@@ -210,8 +213,18 @@ public class ESADBConnection {
 			else // eligData[8] == null
 				student.eligInfo.setResidencyYears(null);
 
-			// student.eligInfo.isAgeOver55 = radioHandle(eligData[8]);
-
+			// student.eligInfo.isAgeOver55 = radioHandle(eligData[8]);'
+			
+			//preethi
+			LocalDate today = LocalDate.now(); //Today's date
+			LocalDate birthday = student.getDob().toInstant()
+				      .atZone(ZoneId.systemDefault())
+				      .toLocalDate();
+			
+			Period period = Period.between(birthday, today);//Finding age
+			
+			student.eligInfo.isAgeOver55 = period.getYears() > 55;
+	
 			student.eligInfo.areYouDepended = radioHandle(eligData[9]);
 
 		} catch (SQLException ex) {
