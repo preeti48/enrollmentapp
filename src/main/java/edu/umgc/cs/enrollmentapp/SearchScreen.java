@@ -81,6 +81,13 @@ public class SearchScreen {
 		jmiGroup2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(" Group 2 report is selected.");
+				try {
+					Reports.generateGroup2Report();
+
+				} catch (Exception e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
 			}
 		});
 		popup.add(jmiGroup2);
@@ -90,6 +97,13 @@ public class SearchScreen {
 		jmiGroup3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(" Group 3 report is selected.");
+				try {
+					Reports.generateGroup3Report();
+
+				} catch (Exception e3) {
+					// TODO Auto-generated catch block
+					e3.printStackTrace();
+				}
 			}
 		});
 		popup.add(jmiGroup3);
@@ -98,6 +112,13 @@ public class SearchScreen {
 		jmiGroup4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(" Group 4 report is selected.");
+				try {
+					Reports.generateGroup4Report();
+
+				} catch (Exception e4) {
+					// TODO Auto-generated catch block
+					e4.printStackTrace();
+				}
 			}
 		});
 		popup.add(jmiGroup4);
@@ -107,6 +128,13 @@ public class SearchScreen {
 		jmiGroup5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(" Group 5 report is selected.");
+				try {
+					Reports.generateGroup5Report();
+
+				} catch (Exception e5) {
+					// TODO Auto-generated catch block
+					e5.printStackTrace();
+				}
 			}
 		});
 		popup.add(jmiGroup5);

@@ -133,23 +133,23 @@ public class TabGui extends JFrame {
 
 			centerPanel.add(lastNameLabel);
 			centerPanel.add(lastNameField);
-			lastNameField.setText(applicant.getLname());
+			lastNameField.setText(applicant.getLname().toUpperCase());
 			centerPanel.add(streetLabel);
 			centerPanel.add(streetField);
-			streetField.setText(applicant.getStreet());
+			streetField.setText(applicant.getStreet().toUpperCase());
 			centerPanel.add(firstName);
 			centerPanel.add(firstNameField);
-			firstNameField.setText(applicant.getFname());
+			firstNameField.setText(applicant.getFname().toUpperCase());
 			centerPanel.add(cityLabel);
 			centerPanel.add(cityField);
-			cityField.setText(applicant.getCity());
+			cityField.setText(applicant.getCity().toUpperCase());
 			centerPanel.add(ssnLabel);
 			centerPanel.add(ssnField);
 
 			ssnField.setText(Integer.toString(applicant.getSsn()));
 			centerPanel.add(stateLabel);
 			centerPanel.add(stateField);
-			stateField.setText(applicant.getState());
+			stateField.setText(applicant.getState().toUpperCase());
 			centerPanel.add(dobLabel);
 			centerPanel.add(dobField);
 			
@@ -175,7 +175,7 @@ public class TabGui extends JFrame {
 
 			centerPanel.add(e_contactLabel);
 			centerPanel.add(e_contactField);
-			e_contactField.setText(applicant.getEmergencyContact());
+			e_contactField.setText(applicant.getEmergencyContact().toUpperCase());
 			centerPanel.add(e_phoneLabel);
 			centerPanel.add(e_phoneField);
 			e_phoneField.setText(applicant.getE_phone());
