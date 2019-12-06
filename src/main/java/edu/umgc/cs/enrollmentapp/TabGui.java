@@ -685,6 +685,9 @@ public class TabGui extends JFrame {
 			buttonGroup8.add(overAge55N);
 			buttonGroup9.add(areYouDependentY);
 			buttonGroup9.add(areYouDependentN);
+			
+			overAge55Y.setEnabled(false);
+            overAge55N.setEnabled(false);
 
 			setLayout(new BorderLayout());
 			add(centerPanel, "Center");
