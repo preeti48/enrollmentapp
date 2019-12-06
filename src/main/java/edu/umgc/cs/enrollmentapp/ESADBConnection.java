@@ -461,8 +461,17 @@ public class ESADBConnection {
 
 			}
 
-		} catch (SQLException ex) {
+		}  catch (SQLException ex) {
 			System.out.println("Get Student exception " + ex.getMessage());
+		}
+		finally {
+			try{
+			  conn.close();
+			  
+			}
+			catch(SQLException ex){
+				System.out.println("Connection exception" + ex.getMessage());	
+			}
 		}
 
 		return applicant;
