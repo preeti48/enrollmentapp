@@ -3,6 +3,8 @@ package edu.umgc.cs.enrollmentapp;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,6 +32,11 @@ public class TabGui extends JFrame {
 	int age;
 
 	Applicant theApplicant = null;
+	
+	
+	private void calculatePriority(Applicant applicant) {
+		System.out.println("calculatePriority called");
+	}
 
 	public TabGui(Applicant applicant) {
 
@@ -111,6 +118,7 @@ public class TabGui extends JFrame {
 		private JButton reset = new JButton("Reset");
 		private JButton cancel = new JButton("Cancel");
         private Applicant applicant; 
+        
 		private OverviewTab(Applicant appli) {
 			applicant = appli;
 			buttongroup1.add(birthSexRButtonM);
@@ -227,8 +235,11 @@ public class TabGui extends JFrame {
 			rightPanel.add(emptyLabel1);
 			add(leftPanel, "East");
 			leftPanel.add(emptyLabel2);
+			
+			
+			
 		}
-
+		
 		/**
 		 * This method converts date to String
 		 * 
@@ -334,6 +345,9 @@ public class TabGui extends JFrame {
 			student.setState(stateField.getText());
 			student.setZip(Integer.parseInt(zipField.getText()));
 			student.setE_phone(e_phoneField.getText());
+			
+			TabGui.this.calculatePriority(student);
+			
 			ESADBConnection.updateRecord(student);
 			
 		}
@@ -568,6 +582,7 @@ public class TabGui extends JFrame {
 				AllFiledReqPopup();
 			}
 			
+			TabGui.this.calculatePriority(s);
 			ESADBConnection.updateFinancialRecord(s);
 			
 		}
@@ -662,8 +677,10 @@ public class TabGui extends JFrame {
 		private JButton update = new JButton("Update");
 		private JButton reset = new JButton("Reset");
 		private JButton cancel = new JButton("Cancel");
+		private Applicant _applicant; 
 
-		private EligibilityFactorsTab(Applicant applicant) {
+		private EligibilityFactorsTab( Applicant applicant) {
+			this._applicant = applicant;
 			buttonGroup1.add(havServedMilitaryY);
 			buttonGroup1.add(havServedMilitaryN);
 			buttonGroup2.add(militaryStatusActive);
@@ -816,6 +833,13 @@ public class TabGui extends JFrame {
 					areYouDependentY.setSelected(true);
 				}
 			}
+			
+			update.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					performUpdate(_applicant);
+				}
+			});
+			
 			add(buttonPanel, "South");
 			buttonPanel.add(update);
 			buttonPanel.add(reset);
@@ -831,7 +855,12 @@ public class TabGui extends JFrame {
 					buttonGroup8.clearSelection();
 					buttonGroup9.clearSelection();
 				}
+				
+				
 			});
+			
+			
+			
 			buttonPanel.add(cancel);
 			cancel.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -852,11 +881,14 @@ public class TabGui extends JFrame {
 
 		public void performUpdate(Applicant s) {
 			// TODO Auto-generated method stub
+			TabGui.this.calculatePriority(s);
+			//save to  db
 			
 		}
 
 		public void performCancel() {
 			// TODO Auto-generated method stub
+			
 			
 		}
 
