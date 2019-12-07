@@ -1,5 +1,8 @@
 package edu.umgc.cs.enrollmentapp.models;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Date;
 
 public class Applicant {
@@ -25,6 +28,30 @@ public class Applicant {
 	
 	public boolean isFound;
 
+public Applicant()
+{
+	 finInfo = new FinancialInformation();
+	 eligInfo = new EligibilityFactors();
+	 enrollDecision = new EnrollmentDecision();
+	
+}
+
+public Applicant(java.util.Date date)
+{
+	
+	 finInfo = new FinancialInformation();
+	 eligInfo = new EligibilityFactors();
+	 enrollDecision = new EnrollmentDecision();
+	 this.setDob(date);
+	 LocalDate today = LocalDate.now(); // Today's date
+		LocalDate birthday = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+		Period period = Period.between(birthday, today);// Finding age
+
+		this.eligInfo.isAgeOver55 = period.getYears() > 55;
+	
+	
+}
 public String getStudentID() {
 		return studentID;
 	}

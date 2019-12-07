@@ -19,6 +19,8 @@ import edu.umgc.cs.enrollmentapp.enums.ResidencyStatus;
 import edu.umgc.cs.enrollmentapp.enums.YearOfResidency;
 import edu.umgc.cs.enrollmentapp.models.Applicant;
 import edu.umgc.cs.enrollmentapp.models.ESAInterface;
+import edu.umgc.cs.enrollmentapp.models.EligibilityFactors;
+import edu.umgc.cs.enrollmentapp.models.FinancialInformation;
 
 public class TabGui extends JFrame {
 	private static JFrame frame = new JFrame();
@@ -521,9 +523,18 @@ public class TabGui extends JFrame {
 		}
 
 		public void performUpdate(Applicant s) {
-			s.finInfo.setDependency((finanDependRButtonY.isSelected())? true : false);
+			
+			if(s.finInfo!=null)
+				s.finInfo.setDependency((finanDependRButtonY.isSelected())? true : false);
+			else if (s.finInfo == null)
+			{
+				System.out.println("peformUpdate s.finInfo=" + s.finInfo);
+				s.finInfo = new FinancialInformation();
+				s.finInfo.setDependency((finanDependRButtonY.isSelected())? true : false);
+			}
 			
 			//studentincome
+			
 			if(!studentLastYearIncomeField.getText().isEmpty()){
 				String str =studentLastYearIncomeField.getText();
 				//check if entered string is number only
@@ -874,6 +885,7 @@ public class TabGui extends JFrame {
 
 		public void performUpdate(Applicant student) {
 			if(havServedMilitaryY.isSelected()){
+				
 				student.eligInfo.setMiliServed(true);
 				ActiveYears year = activeYearlessThan1.isSelected()? ActiveYears.LessThanOneYears : activeYearBetween1_5.isSelected()? ActiveYears.BetweenOneAndFveYears :
 					activeYearMoreThan5.isSelected()? ActiveYears.Over5Years : ActiveYears.NoActiveYears;
@@ -888,6 +900,10 @@ public class TabGui extends JFrame {
 				
 			}
 			else{
+				if(student.eligInfo == null)
+				{
+					student.eligInfo = new EligibilityFactors();
+				}
 				student.eligInfo.setMiliServed(false);
 				student.eligInfo.setMiliStatus(false);
 				student.eligInfo.setActiveYears(ActiveYears.NoActiveYears);
