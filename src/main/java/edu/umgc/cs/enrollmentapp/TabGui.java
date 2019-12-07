@@ -254,20 +254,7 @@ public class TabGui extends JFrame {
 			return strDate;
 		}
 		
-		private Date stringToDate(String s) {
-			Date date = null;
-	       // System.out.println("Printing date" + s);
-			try {
-				if (s != null)
-					date = (Date) new SimpleDateFormat("MM/dd/yyyy").parse(s);
-				return date;
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return date;
-
-		}
+		
 
 		/**
 		 * This method handles radio button
@@ -332,8 +319,10 @@ public class TabGui extends JFrame {
 						JOptionPane.ERROR_MESSAGE);
 			}
 			
-			student.setDob(stringToDate(dobField.getText()));
-			
+			Date date = stringToDate(dobField.getText());
+			if(date != null){
+			student.setDob(date);
+			}
 			//setting a gender
 			String gen = getSelectedGender();
 			student.setGender(gen);
@@ -598,10 +587,7 @@ public class TabGui extends JFrame {
 			
 		}
 		
-		public void AllFiledReqPopup(){
-			JOptionPane.showMessageDialog(frame, "Please enter all the fields", "All Fields are Required",
-					JOptionPane.ERROR_MESSAGE);
-		}
+		
 	}
 
 	private class EligibilityFactorsTab extends JPanel implements ESAInterface {
@@ -677,10 +663,10 @@ public class TabGui extends JFrame {
 		private JButton update = new JButton("Update");
 		private JButton reset = new JButton("Reset");
 		private JButton cancel = new JButton("Cancel");
-		private Applicant _applicant; 
+		private Applicant applicant;
 
-		private EligibilityFactorsTab( Applicant applicant) {
-			this._applicant = applicant;
+		private EligibilityFactorsTab(Applicant appli) {
+			applicant = appli;
 			buttonGroup1.add(havServedMilitaryY);
 			buttonGroup1.add(havServedMilitaryN);
 			buttonGroup2.add(militaryStatusActive);
@@ -716,11 +702,40 @@ public class TabGui extends JFrame {
 			servedMilitaryPanel.add(havServedMilitaryY);
 			servedMilitaryPanel.add(havServedMilitaryN);
 			centerPanel.add(servedMilitaryPanel);
+			havServedMilitaryY.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e)
+		        {
+					militaryStatusActive.setEnabled(true);
+					militaryStatusInactive.setEnabled(true);
+					activeYearlessThan1.setEnabled(true);
+					activeYearBetween1_5.setEnabled(true);
+					activeYearMoreThan5.setEnabled(true);
+		          
+		        }
+		        });
+		havServedMilitaryN.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+	        {
+				militaryStatusActive.setEnabled(false);
+				militaryStatusInactive.setEnabled(false);
+				activeYearlessThan1.setEnabled(false);
+				activeYearBetween1_5.setEnabled(false);
+				activeYearMoreThan5.setEnabled(false);
+				buttonGroup2.clearSelection();
+				buttonGroup3.clearSelection();
+	          
+	        }
+	        });
 			if (applicant.eligInfo != null) {
 				if (applicant.eligInfo.getMiliServed()) {
 					havServedMilitaryY.setSelected(true);
 				} else {
 					havServedMilitaryN.setSelected(true);
+					militaryStatusActive.setEnabled(false);
+					militaryStatusInactive.setEnabled(false);
+					activeYearlessThan1.setEnabled(false);
+					activeYearBetween1_5.setEnabled(false);
+					activeYearMoreThan5.setEnabled(false);
 				}
 			}
 			centerPanel.add(militaryStatusLabel);
@@ -747,7 +762,7 @@ public class TabGui extends JFrame {
 						activeYearlessThan1.setSelected(true);
 					} else if (applicant.eligInfo.getActiveYears() == ActiveYears.BetweenOneAndFveYears) {
 						activeYearBetween1_5.setSelected(true);
-					} else {
+					} else if(applicant.eligInfo.getActiveYears() == ActiveYears.Over5Years){
 						activeYearMoreThan5.setSelected(true);
 					}
 				}
@@ -842,6 +857,11 @@ public class TabGui extends JFrame {
 			
 			add(buttonPanel, "South");
 			buttonPanel.add(update);
+			update.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					performUpdate(applicant);
+				}
+			});
 			buttonPanel.add(reset);
 			reset.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -879,10 +899,49 @@ public class TabGui extends JFrame {
 			rightPanel.add(empty2);
 		}
 
-		public void performUpdate(Applicant s) {
-			// TODO Auto-generated method stub
-			TabGui.this.calculatePriority(s);
-			//save to  db
+		public void performUpdate(Applicant student) {
+			if(havServedMilitaryY.isSelected()){
+				student.eligInfo.setMiliServed(true);
+				ActiveYears year = activeYearlessThan1.isSelected()? ActiveYears.LessThanOneYears : activeYearBetween1_5.isSelected()? ActiveYears.BetweenOneAndFveYears :
+					activeYearMoreThan5.isSelected()? ActiveYears.Over5Years : ActiveYears.NoActiveYears;
+				if((!militaryStatusActive.isSelected() && !militaryStatusInactive.isSelected()) || year == ActiveYears.NoActiveYears ){
+					AllFiledReqPopup();
+					}
+				else {
+					student.eligInfo.setMiliStatus((militaryStatusActive.isSelected()? true : false));
+					student.eligInfo.setActiveYears(year);
+					}
+				
+				
+			}
+			else{
+				student.eligInfo.setMiliServed(false);
+				student.eligInfo.setMiliStatus(false);
+				student.eligInfo.setActiveYears(ActiveYears.NoActiveYears);
+				
+				
+				militaryStatusActive.setSelected(false);
+				militaryStatusInactive.setSelected(false);
+				activeYearlessThan1.setSelected(false);
+				activeYearBetween1_5.setSelected(false);
+				activeYearMoreThan5.setSelected(false);
+			}
+			
+			student.eligInfo.setdisabilityStatus(disabilityY.isSelected()? true : false);
+			student.eligInfo.setFinAidElig(financialAidY.isSelected()? true : false);
+			ResidencyStatus status = residStatusIn.isSelected()? ResidencyStatus.InState : residStatusOut.isSelected() ? ResidencyStatus.OutOfState :
+				                     residStatuAbroad.isSelected()? ResidencyStatus.Abroad : ResidencyStatus.NoStatus;
+			student.eligInfo.setResidencystatus(status);
+			YearOfResidency y = yearsOfResilessThan1.isSelected()? YearOfResidency.LessThanOneYears :
+			                    yearsOfResibetween1_5.isSelected() ? YearOfResidency.BetweenOneAndFveYears :
+			                    yearsOfResimoreThan5.isSelected() ? YearOfResidency.Over5Years : YearOfResidency.NoYearsOfResidency;
+			student.eligInfo.setResidencyYears(y);
+			student.eligInfo.setdisabilityStatus(areYouDependentY.isSelected()? true : false);
+			
+			ESADBConnection.updateEligibilityRecord(student);
+			
+			
+		
 			
 		}
 
@@ -930,8 +989,10 @@ public class TabGui extends JFrame {
 		private JLabel empty6 = new JLabel("      ");
 		private JLabel empty7 = new JLabel("      ");
 		private JLabel empty8 = new JLabel("      ");
+		private Applicant applicant;
 
-		private EnrollmentDecisionTab(Applicant applicant) {
+		private EnrollmentDecisionTab(Applicant appli) {
+			applicant = appli;
 			setLayout(new BorderLayout());
 			groupDescriptionField.setEditable(false);
 
@@ -970,6 +1031,11 @@ public class TabGui extends JFrame {
 
 			add(buttonPanel, "South");
 			buttonPanel.add(update);
+			update.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					performUpdate(applicant);
+				}
+			});
 			buttonPanel.add(reset);
 			reset.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -1015,8 +1081,12 @@ public class TabGui extends JFrame {
 			return strDate;
 		}
 
-		public void performUpdate(Applicant s) {
-			// TODO Auto-generated method stub
+		public void performUpdate(Applicant student) {
+			Date date = stringToDate(entrollDateField.getText());
+			if(date != null){
+			student.enrollDecision.setEnrollDate(date);
+			ESADBConnection.updateEnrollmentRecord(student);
+			}
 			
 		}
 
@@ -1031,6 +1101,28 @@ public class TabGui extends JFrame {
 		}
 		
 		
+
+	}
+	
+	public void AllFiledReqPopup(){
+		JOptionPane.showMessageDialog(frame, "Please enter all the fields", "All Fields are Required",
+				JOptionPane.ERROR_MESSAGE);
+	}
+	
+	private Date stringToDate(String s) {
+		Date date = null;
+       // System.out.println("Printing date" + s);
+		try {
+			if (s != null)
+				date = (Date) new SimpleDateFormat("MM/dd/yyyy").parse(s);
+			return date;
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			JOptionPane.showMessageDialog(frame, "Please enter date in MM/dd/yyyy formate", "Incorrect Date Formate Entered",
+					JOptionPane.ERROR_MESSAGE);
+		}
+		return date;
 
 	}
 
