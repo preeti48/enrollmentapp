@@ -21,6 +21,8 @@ import edu.umgc.cs.enrollmentapp.enums.ResidencyStatus;
 import edu.umgc.cs.enrollmentapp.enums.YearOfResidency;
 import edu.umgc.cs.enrollmentapp.models.Applicant;
 import edu.umgc.cs.enrollmentapp.models.ESAInterface;
+import edu.umgc.cs.enrollmentapp.models.EligibilityFactors;
+import edu.umgc.cs.enrollmentapp.models.FinancialInformation;
 
 public class TabGui extends JFrame {
 	private static JFrame frame = new JFrame();
@@ -257,11 +259,11 @@ public class TabGui extends JFrame {
 			buttonPanel.add(cancel);
 			cancel.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					SearchScreen searchPage = new SearchScreen();
-					searchPage.connection();
+				//	SearchScreen searchPage = new SearchScreen();
+					//searchPage.connection();
 					
 					TabGui.this.setVisible(false);
-					new SearchScreen().setVisible(true);
+					//new SearchScreen().setVisible(true);
 				}
 			});
 
@@ -269,11 +271,208 @@ public class TabGui extends JFrame {
 			rightPanel.add(emptyLabel1);
 			add(leftPanel, "East");
 			leftPanel.add(emptyLabel2);
-			
-			
-			
-		}
-		
+		//lastname text limit
+		lastNameField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent evt) {
+				 char c= evt.getKeyChar();
+				 //validate input are letters
+                 if (Character.isLetter(c) ||Character.isWhitespace(c) || Character.isISOControl(c))
+                   {
+                	 lastNameField.setEditable(true);
+                   }else
+                   {
+                	 lastNameField.setEditable(false);
+                	//output error message if input is wrong
+                	 JOptionPane.showMessageDialog(lastNameField, "Enter Letters Only");
+	                evt.consume();//ignore event
+	            } 
+			}
+		});
+		//streetfield text/digit
+		streetField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent evt) {
+				 char c= evt.getKeyChar();
+				 //validate input are letters
+                 if (Character.isLetterOrDigit(c) ||Character.isWhitespace(c) || Character.isISOControl(c))
+                   {
+                	 streetField.setEditable(true);
+                   }else
+                   {
+                	 streetField.setEditable(false);
+                	//output error message if input is wrong
+                	 JOptionPane.showMessageDialog(streetField, "Enter Letters/Digits Only");
+	                evt.consume();//ignore event
+	            } 
+			}
+		});
+		//firstname text limit
+		firstNameField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent evt) {
+				 char c= evt.getKeyChar();
+				 //validate input are letters
+                 if (Character.isLetter(c) ||Character.isWhitespace(c) || Character.isISOControl(c))
+                   {
+                	 firstNameField.setEditable(true);
+                   }else
+                   {
+                	 firstNameField.setEditable(false);
+                	//output error message if input is wrong
+                	 JOptionPane.showMessageDialog(firstNameField, "Enter Letters Only");
+	                evt.consume();//ignore event
+	            } 
+			}
+		});
+		//city text limit
+		cityField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent evt) {
+				 char c= evt.getKeyChar();
+				 //validate input are letters
+                 if (Character.isLetter(c) ||Character.isWhitespace(c) || Character.isISOControl(c))
+                   {
+                	 cityField.setEditable(true);
+                   }else
+                   {
+                	 cityField.setEditable(false);
+                	//output error message if input is wrong
+                	 JOptionPane.showMessageDialog(cityField, "Enter Letters Only");
+	                evt.consume();//ignore event
+	            } 
+			}
+		});
+		//ssn digit limit
+		ssnField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent evt) {
+				 char c= evt.getKeyChar();
+				 //validate input are digits
+				if (Character.isDigit(c)||Character.isWhitespace(c)|| Character.isISOControl(c))
+                   {
+					ssnField.setEditable(true);
+                   }else 
+                   {
+                	ssnField.setEditable(false);
+                	//output error message if input is wrong
+                	JOptionPane.showMessageDialog(ssnField, "Enter Digits Only");
+	                evt.consume();//ignore event
+	            } 
+                 
+			}
+		});
+		//state text limit
+		stateField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent evt) {
+				 char c= evt.getKeyChar();
+				 //validate input are letters
+                 if (Character.isLetter(c) ||Character.isWhitespace(c) || Character.isISOControl(c))
+                   {
+                	 stateField.setEditable(true);
+                   }else
+                   {
+                	 stateField.setEditable(false);
+                	//output error message if input is wrong
+                	 JOptionPane.showMessageDialog(stateField, "Enter Letters Only");
+	                evt.consume();//ignore event
+	            } 
+			}
+		});
+		//contact name text limit
+		e_contactField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent evt) {
+				 char c= evt.getKeyChar();
+				 //validate input are letters
+                 if (Character.isLetter(c) ||Character.isWhitespace(c) || Character.isISOControl(c))
+                   {
+                	 e_contactField.setEditable(true);
+                   }else
+                   {
+                	 e_contactField.setEditable(false);
+                	//output error message if input is wrong
+                	 JOptionPane.showMessageDialog(e_contactField, "Enter Letters Only");
+	                evt.consume();//ignore event
+	            } 
+			}
+		});
+		//phone digit limit
+		e_phoneField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent evt) {
+				 char c= evt.getKeyChar();
+				 //validate input are digits
+				if (Character.isDigit(c)||Character.isWhitespace(c)|| Character.isISOControl(c))
+                   {
+					e_phoneField.setEditable(true);
+                   }else 
+                   {
+                	e_phoneField.setEditable(false);
+                	//output error message if input is wrong
+                	JOptionPane.showMessageDialog(e_phoneField, "Enter Digits Only");
+	                evt.consume();//ignore event
+	            } 
+                 
+			}
+		});
+		//Phone digit limit
+		phNumField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent evt) {
+				 char c= evt.getKeyChar();
+				//validate input are digits
+				if (Character.isDigit(c)||Character.isWhitespace(c)|| Character.isISOControl(c))
+                   {
+					phNumField.setEditable(true);
+                   }else 
+                   {
+                	phNumField.setEditable(false);
+                	//output error message if input is wrong
+                	JOptionPane.showMessageDialog(phNumField, "Enter Digits Only");
+	                evt.consume();//ignore event
+	            } 
+                 
+			}
+		});
+		//dob digit limit **implement "/" I do not know how to do symbol validation
+		dobField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent evt) {
+				 char c= evt.getKeyChar();
+				//validate input are digits
+				if (Character.isDigit(c)||Character.isWhitespace(c)|| Character.isISOControl(c))
+                   {
+					dobField.setEditable(true);
+                   }else 
+                   {
+                	dobField.setEditable(false);
+	                evt.consume();//ignore event
+	            } 
+                 
+			}
+		});
+		//zipcode digit limit
+		zipField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent evt) {
+				 char c= evt.getKeyChar();
+				//validate input are digits
+				if (Character.isDigit(c)||Character.isWhitespace(c)|| Character.isISOControl(c))
+                   {
+                	 zipField.setEditable(true);
+                   }else 
+                   {
+                	 zipField.setEditable(false);
+                	 //output error message if input is wrong
+                	 JOptionPane.showMessageDialog(zipField, "Enter Digits Only");
+	                evt.consume();//ignore event
+	            } 
+                 
+			}	
+		});}
+
 		/**
 		 * This method converts date to String
 		 * 
@@ -536,11 +735,68 @@ public class TabGui extends JFrame {
 			buttonPanel.add(cancel);
 			cancel.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					SearchScreen searchPage = new SearchScreen();
-					searchPage.connection();
+					//SearchScreen searchPage = new SearchScreen();
+					//searchPage.connection();
 					
 					TabGui.this.setVisible(false);
-					new SearchScreen().setVisible(true);
+					//new SearchScreen().setVisible(true);
+				}
+			});
+			
+			//student income digit only limit
+			studentLastYearIncomeField.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent evt) {
+					 char c= evt.getKeyChar();
+					 //validate value input is digits
+					if (Character.isDigit(c)||Character.isWhitespace(c)|| Character.isISOControl(c))
+	                   {
+						studentLastYearIncomeField.setEditable(true);
+	                   }else 
+	                   {
+	                	studentLastYearIncomeField.setEditable(false);
+	                	//output error message if input is wrong
+	                	JOptionPane.showMessageDialog(studentLastYearIncomeField, "Enter Digit Only");
+		                evt.consume();//ignore event
+		            } 
+	                 
+				}
+			});
+			//parent income digit limit
+			parenttLastYearIncomeField.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent evt) {
+					 char c= evt.getKeyChar();
+					 //validate value input is digits
+					if (Character.isDigit(c)||Character.isWhitespace(c)|| Character.isISOControl(c))
+	                   {
+						parenttLastYearIncomeField.setEditable(true);
+	                   }else 
+	                   {
+	                	parenttLastYearIncomeField.setEditable(false);
+	                	//output error message if input is wrong
+	                	JOptionPane.showMessageDialog(parenttLastYearIncomeField, "Enter Digit Only");
+		                evt.consume();//ignore event
+		            } 
+	                 
+				}
+			});
+			valOfOtherProptyField.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent evt) {
+					 char c= evt.getKeyChar();
+					 //validate value input is digits
+					if (Character.isDigit(c)||Character.isWhitespace(c)|| Character.isISOControl(c))
+	                   {
+						valOfOtherProptyField.setEditable(true);
+	                   }else 
+	                   {
+	                	valOfOtherProptyField.setEditable(false);
+	                	//output error message if input is wrong
+	                	JOptionPane.showMessageDialog(valOfOtherProptyField, "Enter Digit Only");
+		                evt.consume();//ignore event
+		            } 
+	                 
 				}
 			});
 
@@ -569,9 +825,18 @@ public class TabGui extends JFrame {
 		}
 
 		public void performUpdate(Applicant s) {
-			s.finInfo.setDependency((finanDependRButtonY.isSelected())? true : false);
+			
+			if(s.finInfo!=null)
+				s.finInfo.setDependency((finanDependRButtonY.isSelected())? true : false);
+			else if (s.finInfo == null)
+			{
+				System.out.println("peformUpdate s.finInfo=" + s.finInfo);
+				s.finInfo = new FinancialInformation();
+				s.finInfo.setDependency((finanDependRButtonY.isSelected())? true : false);
+			}
 			
 			//studentincome
+			
 			if(!studentLastYearIncomeField.getText().isEmpty()){
 				String str =studentLastYearIncomeField.getText();
 				//check if entered string is number only
@@ -913,11 +1178,11 @@ public class TabGui extends JFrame {
 			buttonPanel.add(cancel);
 			cancel.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					SearchScreen searchPage = new SearchScreen();
-					searchPage.connection();
+				//	SearchScreen searchPage = new SearchScreen();
+					//searchPage.connection();
 					
 					TabGui.this.setVisible(false);
-					new SearchScreen().setVisible(true);
+					//new SearchScreen().setVisible(true);
 				}
 			});
 
@@ -930,6 +1195,7 @@ public class TabGui extends JFrame {
 
 		public void performUpdate(Applicant student) {
 			if(havServedMilitaryY.isSelected()){
+				
 				student.eligInfo.setMiliServed(true);
 				ActiveYears year = activeYearlessThan1.isSelected()? ActiveYears.LessThanOneYears : activeYearBetween1_5.isSelected()? ActiveYears.BetweenOneAndFveYears :
 					activeYearMoreThan5.isSelected()? ActiveYears.Over5Years : ActiveYears.NoActiveYears;
@@ -944,6 +1210,10 @@ public class TabGui extends JFrame {
 				
 			}
 			else{
+				if(student.eligInfo == null)
+				{
+					student.eligInfo = new EligibilityFactors();
+				}
 				student.eligInfo.setMiliServed(false);
 				student.eligInfo.setMiliStatus(false);
 				student.eligInfo.setActiveYears(ActiveYears.NoActiveYears);
@@ -1078,13 +1348,33 @@ public class TabGui extends JFrame {
 			buttonPanel.add(cancel);
 			cancel.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					SearchScreen searchPage = new SearchScreen();
-					searchPage.connection();
+			//		SearchScreen searchPage = new SearchScreen();
+				//	searchPage.connection();
 					
 					TabGui.this.setVisible(false);
-					new SearchScreen().setVisible(true);
+					//new SearchScreen().setVisible(true);
 				}
 			});
+			
+				//enrolldate digit limit but need to **implement date format
+		entrollDateField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent evt) {
+				 char c= evt.getKeyChar();
+				//validate input are digits
+			if (Character.isDigit(c)||Character.isWhitespace(c)|| Character.isISOControl(c))
+                   {
+				entrollDateField.setEditable(true);
+                   }    else 
+                   {
+                	        entrollDateField.setEditable(false);
+	                         evt.consume();//ignore event
+	            } 
+                 
+			}
+		});
+			
+			
 
 			// Empty label for alignment purpose
 			add(leftPanel, "East");

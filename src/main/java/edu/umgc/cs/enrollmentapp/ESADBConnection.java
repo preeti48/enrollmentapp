@@ -94,7 +94,7 @@ public class ESADBConnection {
 		return applicant;
 	}
 
-	public static Applicant searchBySSNandLname(String ssn , String ln) {
+	public static Applicant searchBySSNandLname(String ssn, String ln) {
 		Applicant applicant = new Applicant();
 		// first check if students exists
 
@@ -140,6 +140,7 @@ public class ESADBConnection {
 
 		return applicant;
 	}
+
 	private static void setFinancialInfo(Applicant student) {
 		student.finInfo = new FinancialInformation();
 		String finquery = "Select * from FinancialInformation where Student_ID = " + student.getStudentID();
@@ -214,17 +215,15 @@ public class ESADBConnection {
 				student.eligInfo.setResidencyYears(null);
 
 			// student.eligInfo.isAgeOver55 = radioHandle(eligData[8]);'
-			
-			//preethi
-			LocalDate today = LocalDate.now(); //Today's date
-			LocalDate birthday = student.getDob().toInstant()
-				      .atZone(ZoneId.systemDefault())
-				      .toLocalDate();
-			
-			Period period = Period.between(birthday, today);//Finding age
-			
+
+			// preethi
+			LocalDate today = LocalDate.now(); // Today's date
+			LocalDate birthday = student.getDob().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+			Period period = Period.between(birthday, today);// Finding age
+
 			student.eligInfo.isAgeOver55 = period.getYears() > 55;
-	
+
 			student.eligInfo.areYouDepended = radioHandle(eligData[9]);
 
 		} catch (SQLException ex) {
@@ -297,10 +296,9 @@ public class ESADBConnection {
 				returnResult = YearOfResidency.Over5Years;
 			}
 		}
-		return returnResult;	
+		return returnResult;
 
 	}
-
 
 	private static ActiveYears getYears(String s) {
 
@@ -365,7 +363,7 @@ public class ESADBConnection {
 
 	private static Date stringToDate(String s) {
 		Date date = null;
-       // System.out.println(s);
+		// System.out.println(s);
 		try {
 			if (s != null)
 				date = (Date) new SimpleDateFormat("MM/dd/yyyy").parse(s);
@@ -423,7 +421,7 @@ public class ESADBConnection {
 
 	public static Applicant addStudent(String ssn, String lName, String fName, java.util.Date date) {
 
-		Applicant applicant = new Applicant();
+		Applicant applicant = new Applicant(date);
 		String generatedStudentID = null;
 		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 		String dateString = dateFormat.format(date);
@@ -433,11 +431,11 @@ public class ESADBConnection {
 		try {
 
 			conn = DriverManager.getConnection(url);
-			
+
 			generatedStudentID = generateStudentID(conn);
 			insertStatement = "INSERT INTO Student (Student_ID,SSN,Last_Name,First_Name, DOB,Birth_Sex) VALUES (\'"
-					+ generatedStudentID + "\', \'" + ssn + "\',\'" + lName + "\', \'" + fName + "\'," + " \'" + dateString
-					+ " \', \'Other\');";
+					+ generatedStudentID + "\', \'" + ssn + "\',\'" + lName + "\', \'" + fName + "\'," + " \'"
+					+ dateString + " \', \'Other\');";
 
 			Statement stmt = conn.createStatement();
 			int resultCode = stmt.executeUpdate(insertStatement);
@@ -461,16 +459,14 @@ public class ESADBConnection {
 
 			}
 
-		}  catch (SQLException ex) {
+		} catch (SQLException ex) {
 			System.out.println("Get Student exception " + ex.getMessage());
-		}
-		finally {
-			try{
-			  conn.close();
-			  
-			}
-			catch(SQLException ex){
-				System.out.println("Connection exception" + ex.getMessage());	
+		} finally {
+			try {
+				conn.close();
+
+			} catch (SQLException ex) {
+				System.out.println("Connection exception" + ex.getMessage());
 			}
 		}
 
@@ -495,16 +491,15 @@ public class ESADBConnection {
 		// create instance of Random class
 		Random rand = new Random();
 
-		int n = -1; // if number exist 
-		// loop to check if new number should be generated 
+		int n = -1; // if number exist
+		// loop to check if new number should be generated
 		boolean regenerate = true;
-		while (regenerate)
-		{
+		while (regenerate) {
 			n = 1000000 + rand.nextInt(9000000);
 			number = String.valueOf(n);
 
-		// check if it existis , otherwise regenerate 
-			// if student id does not exist, leave the loop 
+			// check if it existis , otherwise regenerate
+			// if student id does not exist, leave the loop
 			String query = "Select * from Student where student_id=\'" + n + "\'";
 
 			try {
@@ -513,14 +508,13 @@ public class ESADBConnection {
 				ResultSet rs = stmt.executeQuery(query);
 				if (rs != null && rs.next()) {
 
-					regenerate  = true; 
+					regenerate = true;
 
-				} 
-				else // rs == null
-					regenerate = false; 
-		} catch (SQLException ex) {
-			System.out.println("generate student id  exception " + ex.getMessage());
-		}
+				} else // rs == null
+					regenerate = false;
+			} catch (SQLException ex) {
+				System.out.println("generate student id  exception " + ex.getMessage());
+			}
 
 		}
 		return number;
@@ -643,6 +637,9 @@ public class ESADBConnection {
 		String insertStatement = "INSERT INTO FinancialInformation  (Financial_Information_ID, Student_ID) VALUES (\'"
 				+ enrollmentIDstr + "\', \'" + studentID + "\');";
 
+//		String insertStatement = "INSERT INTO FinancialInformation ( Financial_Information_ID, Student_ID, Financially_Depended, Student_Last_Year_Income,[Parent_Last_ Year_Income], Own_529_Account, Own_Real_Estate_Land, Value_Of_Other_Properties)\r\n"
+//				+ "VALUES ( \'" +  enrollmentIDstr + "\', \'" + studentID + "\\', 0, 0.0, 0.0, 0, 0, 0.0);";
+
 		try {
 
 			Statement stmt = conn.createStatement();
@@ -653,263 +650,229 @@ public class ESADBConnection {
 		}
 		return count;
 	}
-	
+
 	/**
 	 * This method updates the record in database.
+	 * 
 	 * @param applicant is an applicant who's data needs to be updated
 	 */
-	public static void updateRecord(Applicant applicant){
-		String query = "UPDATE student SET "
-				       + " SSN =  '" + Integer.toString(applicant.getSsn())
-				       +"', Last_Name = '" + applicant.getLname()
-				       +"', First_Name = '" + applicant.getFname()
-				       +"', DOB = '" + convertStringToDate(applicant.getDob())
-				       +"', Birth_Sex = '" + applicant.getGender()
-				       +"', Emergency_Contact = '" + applicant.getEmergencyContact()
-				       +"', Emergency_Phone = '" + applicant.getE_phone()
-				       +"', Student_Street = '" + applicant.getStreet()
-				       +"', Student_City = '" + applicant.getCity()
-				       +"', Student_State = '" + applicant.getState()
-				       +"', Student_Zip = '" + Integer.toString(applicant.getZip())
-				       +"', USA_Resident = '" + ((applicant.isUsaResident)? "yes" : "No") 
-				       +"', Student_Phone = '" + applicant.getPhone()
-				       +"' where student_id = " + applicant.getStudentID();
-		
+	public static void updateRecord(Applicant applicant) {
+		String query = "UPDATE student SET " + " SSN =  '" + Integer.toString(applicant.getSsn()) + "', Last_Name = '"
+				+ applicant.getLname() + "', First_Name = '" + applicant.getFname() + "', DOB = '"
+				+ convertStringToDate(applicant.getDob()) + "', Birth_Sex = '" + applicant.getGender()
+				+ "', Emergency_Contact = '" + applicant.getEmergencyContact() + "', Emergency_Phone = '"
+				+ applicant.getE_phone() + "', Student_Street = '" + applicant.getStreet() + "', Student_City = '"
+				+ applicant.getCity() + "', Student_State = '" + applicant.getState() + "', Student_Zip = '"
+				+ Integer.toString(applicant.getZip()) + "', USA_Resident = '"
+				+ ((applicant.isUsaResident) ? "yes" : "No") + "', Student_Phone = '" + applicant.getPhone()
+				+ "' where student_id = " + applicant.getStudentID();
+
 		try {
 
 			conn = DriverManager.getConnection(url);
-			//Statement stmt = conn.createStatement();
+			// Statement stmt = conn.createStatement();
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.executeUpdate();
 			System.out.println("Database updated successfully ");
-			
+
 			String pquery = "Select * from Student where student_ID = " + applicant.getStudentID();
 
-			
+			conn = DriverManager.getConnection(url);
+			Statement s = conn.createStatement();
+			ResultSet resultSet = s.executeQuery(pquery);
 
-				conn = DriverManager.getConnection(url);
-				Statement s = conn.createStatement();
-				ResultSet resultSet = s.executeQuery(pquery);
+			ResultSetMetaData rsmd = resultSet.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			// prints data to check update
 
-				ResultSetMetaData rsmd = resultSet.getMetaData();
-				int columnsNumber = rsmd.getColumnCount();
-				//prints data to check update
-				
-				/*while (resultSet.next()) {
-				    for (int i = 1; i <= columnsNumber; i++) {
-				        if (i > 1) System.out.print(",\n");
-				        String columnValue = resultSet.getString(i);
-				        System.out.print(columnValue + ": " + rsmd.getColumnName(i));
-				    }
-				    System.out.println("");
-				}
-              		*/	
- 
+			/*
+			 * while (resultSet.next()) { for (int i = 1; i <= columnsNumber; i++) { if (i >
+			 * 1) System.out.print(",\n"); String columnValue = resultSet.getString(i);
+			 * System.out.print(columnValue + ": " + rsmd.getColumnName(i)); }
+			 * System.out.println(""); }
+			 */
+
 		} catch (SQLException ex) {
 			System.out.println("Get Student exception " + ex.getMessage());
-		}
-		finally {
-			try{
-			  conn.close();
-			  
-			}
-			catch(SQLException ex){
-				System.out.println("Connection exception" + ex.getMessage());	
+		} finally {
+			try {
+				conn.close();
+
+			} catch (SQLException ex) {
+				System.out.println("Connection exception" + ex.getMessage());
 			}
 		}
-		
 
 	}
-	
+
 	/**
 	 * This method checks for a duplicate SSN in database
+	 * 
 	 * @param ssn is SSN entered by user
 	 * @return true is duplicate ssn exist, false otherwise
 	 */
-	public static boolean checkDuplicateSSN(String ssn){
+	public static boolean checkDuplicateSSN(String ssn) {
 		String query = "Select * from Student where SSN=\'" + ssn + "\'";
 		boolean duplicate = false;
-		try{
+		try {
 			conn = DriverManager.getConnection(url);
 			Statement s = conn.createStatement();
 			ResultSet resultSet = s.executeQuery(query);
-			if(resultSet.isBeforeFirst()){
-				//duplicate ssn exist
+			if (resultSet.isBeforeFirst()) {
+				// duplicate ssn exist
 				duplicate = true;
-			}
-			else{
+			} else {
 				duplicate = false;
 			}
+		} catch (SQLException ex) {
+			System.out.println("Get Student exception " + ex.getMessage());
 		}
-		 catch (SQLException ex) {
-				System.out.println("Get Student exception " + ex.getMessage());
-			}
 		return duplicate;
-		
+
 	}
-	
-	public static void updateFinancialRecord(Applicant applicant){
-		String query = "UPDATE FinancialInformation SET "
-				       + " Financially_Depended =  '" + ((applicant.finInfo.getDependency()) ? "1" : "0")
-				       +"', Student_Last_Year_Income = '" + Double.toString(applicant.finInfo.getStudentIncome())
-				       +"', [Parent_Last_ Year_Income] = '" + Double.toString(applicant.finInfo.getParentIncome())
-				       +"', Own_529_Account = '" + (applicant.finInfo.get529Status()? "1" : "0")
-				       +"', Own_Real_Estate_Land = '" + (applicant.finInfo.getRealStatus()? "1" : "0")
-				       +"', Value_Of_Other_Properties = '" + Double.toString(applicant.finInfo.getPropValue())
-				       +"' where student_id = " + applicant.getStudentID();
-		
+
+	public static void updateFinancialRecord(Applicant applicant) {
+		String query = "UPDATE FinancialInformation SET " + " Financially_Depended =  '"
+				+ ((applicant.finInfo.getDependency()) ? "1" : "0") + "', Student_Last_Year_Income = '"
+				+ Double.toString(applicant.finInfo.getStudentIncome()) + "', [Parent_Last_ Year_Income] = '"
+				+ Double.toString(applicant.finInfo.getParentIncome()) + "', Own_529_Account = '"
+				+ (applicant.finInfo.get529Status() ? "1" : "0") + "', Own_Real_Estate_Land = '"
+				+ (applicant.finInfo.getRealStatus() ? "1" : "0") + "', Value_Of_Other_Properties = '"
+				+ Double.toString(applicant.finInfo.getPropValue()) + "' where student_id = "
+				+ applicant.getStudentID();
+
 		try {
 
 			conn = DriverManager.getConnection(url);
-			//Statement stmt = conn.createStatement();
+			// Statement stmt = conn.createStatement();
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.executeUpdate();
 			System.out.println("Database updated successfully ");
-			
+
 			String pquery = "Select * from FinancialInformation where student_ID = " + applicant.getStudentID();
 
-			
+			conn = DriverManager.getConnection(url);
+			Statement s = conn.createStatement();
+			ResultSet resultSet = s.executeQuery(pquery);
 
-				conn = DriverManager.getConnection(url);
-				Statement s = conn.createStatement();
-				ResultSet resultSet = s.executeQuery(pquery);
+			ResultSetMetaData rsmd = resultSet.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			// prints data to check update
 
-				ResultSetMetaData rsmd = resultSet.getMetaData();
-				int columnsNumber = rsmd.getColumnCount();
-				//prints data to check update
-				
-			/*	while (resultSet.next()) {
-				    for (int i = 1; i <= columnsNumber; i++) {
-				        if (i > 1) System.out.print(",\n");
-				        String columnValue = resultSet.getString(i);
-				        System.out.print(columnValue + ": " + rsmd.getColumnName(i));
-				    }
-				    System.out.println("");
-				}*/
-			
+			/*
+			 * while (resultSet.next()) { for (int i = 1; i <= columnsNumber; i++) { if (i >
+			 * 1) System.out.print(",\n"); String columnValue = resultSet.getString(i);
+			 * System.out.print(columnValue + ": " + rsmd.getColumnName(i)); }
+			 * System.out.println(""); }
+			 */
 
 		} catch (SQLException ex) {
 			System.out.println("Get Student exception " + ex.getMessage());
-		}
-		finally {
-			try{
-			  conn.close();
-			  
-			}
-			catch(SQLException ex){
-				System.out.println("Connection exception" + ex.getMessage());	
+		} finally {
+			try {
+				conn.close();
+
+			} catch (SQLException ex) {
+				System.out.println("Connection exception" + ex.getMessage());
 			}
 		}
 
 	}
-	
-	public static void updateEligibilityRecord(Applicant applicant){
-		String query = "UPDATE EligibilityFactors SET "
-				       + " Served_In_Military =  '" + ((applicant.eligInfo.getMiliServed()) ? "1" : "0")
-				       +"', Military_Status = '" + ((applicant.eligInfo.getMiliStatus()) ? "1" : "0")
-				       +"', Active_Years = '" + applicant.eligInfo.getActiveYears()
-				       +"', Disability_Status = '" + (applicant.eligInfo.getdisabilityStatus()? "1" : "0")
-				       +"', Financial_Aid_Eligibility = '" + (applicant.eligInfo.getFinAidElig()? "1" : "0")
-				       +"', Residency_Status = '" + applicant.eligInfo.getResidencyStatus()
-				       +"', Years_of_Residency = '" + applicant.eligInfo.getResidencyYears()
-				       +"', Dependent_Status = '" + ((applicant.eligInfo.getFinAidElig()) ? "1" : "0")
-				       +"' where student_id = " + applicant.getStudentID();
-		
+
+	public static void updateEligibilityRecord(Applicant applicant) {
+		String query = "UPDATE EligibilityFactors SET " + " Served_In_Military =  '"
+				+ ((applicant.eligInfo.getMiliServed()) ? "1" : "0") + "', Military_Status = '"
+				+ ((applicant.eligInfo.getMiliStatus()) ? "1" : "0") + "', Active_Years = '"
+				+ applicant.eligInfo.getActiveYears() + "', Disability_Status = '"
+				+ (applicant.eligInfo.getdisabilityStatus() ? "1" : "0") + "', Financial_Aid_Eligibility = '"
+				+ (applicant.eligInfo.getFinAidElig() ? "1" : "0") + "', Residency_Status = '"
+				+ applicant.eligInfo.getResidencyStatus() + "', Years_of_Residency = '"
+				+ applicant.eligInfo.getResidencyYears() + "', Dependent_Status = '"
+				+ ((applicant.eligInfo.getFinAidElig()) ? "1" : "0") + "' where student_id = "
+				+ applicant.getStudentID();
+
 		try {
 
 			conn = DriverManager.getConnection(url);
-			//Statement stmt = conn.createStatement();
+			// Statement stmt = conn.createStatement();
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.executeUpdate();
 			System.out.println("Database updated successfully ");
-			
+
 			String pquery = "Select * from EligibilityFactors where student_ID = " + applicant.getStudentID();
 
-			
+			conn = DriverManager.getConnection(url);
+			Statement s = conn.createStatement();
+			ResultSet resultSet = s.executeQuery(pquery);
 
-				conn = DriverManager.getConnection(url);
-				Statement s = conn.createStatement();
-				ResultSet resultSet = s.executeQuery(pquery);
+			ResultSetMetaData rsmd = resultSet.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			// prints data to check update
 
-				ResultSetMetaData rsmd = resultSet.getMetaData();
-				int columnsNumber = rsmd.getColumnCount();
-				//prints data to check update
-				
-			/*	while (resultSet.next()) {
-				    for (int i = 1; i <= columnsNumber; i++) {
-				        if (i > 1) System.out.print(",\n");
-				        String columnValue = resultSet.getString(i);
-				        System.out.print(columnValue + ": " + rsmd.getColumnName(i));
-				    }
-				    System.out.println("");
-			   }
-			*/
+			/*
+			 * while (resultSet.next()) { for (int i = 1; i <= columnsNumber; i++) { if (i >
+			 * 1) System.out.print(",\n"); String columnValue = resultSet.getString(i);
+			 * System.out.print(columnValue + ": " + rsmd.getColumnName(i)); }
+			 * System.out.println(""); }
+			 */
 
 		} catch (SQLException ex) {
 			System.out.println("Get Student exception " + ex.getMessage());
-		}
-		finally {
-			try{
-			  conn.close();
-			  
-			}
-			catch(SQLException ex){
-				System.out.println("Connection exception" + ex.getMessage());	
+		} finally {
+			try {
+				conn.close();
+
+			} catch (SQLException ex) {
+				System.out.println("Connection exception" + ex.getMessage());
 			}
 		}
 
 	}
-	
-	public static void updateEnrollmentRecord(Applicant applicant){
-		String query = "UPDATE EnrollmentDecision SET "
-				       + " Enrollment_Date =  '" + convertStringToDate(applicant.enrollDecision.getEnrollDate())
-				       +"' where student_id = " + applicant.getStudentID();
-		
+
+	public static void updateEnrollmentRecord(Applicant applicant) {
+		String query = "UPDATE EnrollmentDecision SET " + " Enrollment_Date =  '"
+				+ convertStringToDate(applicant.enrollDecision.getEnrollDate()) + "' where student_id = "
+				+ applicant.getStudentID();
+
 		try {
 
 			conn = DriverManager.getConnection(url);
-			//Statement stmt = conn.createStatement();
+			// Statement stmt = conn.createStatement();
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.executeUpdate();
 			System.out.println("Database updated successfully ");
-			
+
 			String pquery = "Select * from EnrollmentDecision where student_ID = " + applicant.getStudentID();
 
-			
+			conn = DriverManager.getConnection(url);
+			Statement s = conn.createStatement();
+			ResultSet resultSet = s.executeQuery(pquery);
 
-				conn = DriverManager.getConnection(url);
-				Statement s = conn.createStatement();
-				ResultSet resultSet = s.executeQuery(pquery);
+			ResultSetMetaData rsmd = resultSet.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			// prints data to check update
 
-				ResultSetMetaData rsmd = resultSet.getMetaData();
-				int columnsNumber = rsmd.getColumnCount();
-				//prints data to check update
-				
-				while (resultSet.next()) {
-				    for (int i = 1; i <= columnsNumber; i++) {
-				        if (i > 1) System.out.print(",\n");
-				        String columnValue = resultSet.getString(i);
-				        System.out.print(columnValue + ": " + rsmd.getColumnName(i));
-				    }
-				    System.out.println("");
-			   }
-			
+			while (resultSet.next()) {
+				for (int i = 1; i <= columnsNumber; i++) {
+					if (i > 1)
+						System.out.print(",\n");
+					String columnValue = resultSet.getString(i);
+					System.out.print(columnValue + ": " + rsmd.getColumnName(i));
+				}
+				System.out.println("");
+			}
 
 		} catch (SQLException ex) {
 			System.out.println("Get Student exception " + ex.getMessage());
-		}
-		finally {
-			try{
-			  conn.close();
-			  
-			}
-			catch(SQLException ex){
-				System.out.println("Connection exception" + ex.getMessage());	
+		} finally {
+			try {
+				conn.close();
+
+			} catch (SQLException ex) {
+				System.out.println("Connection exception" + ex.getMessage());
 			}
 		}
 
 	}
-	
-	
 
 }
