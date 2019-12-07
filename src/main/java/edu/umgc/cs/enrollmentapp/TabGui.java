@@ -217,11 +217,11 @@ public class TabGui extends JFrame {
 			buttonPanel.add(cancel);
 			cancel.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					SearchScreen searchPage = new SearchScreen();
-					searchPage.connection();
+				//	SearchScreen searchPage = new SearchScreen();
+					//searchPage.connection();
 					
 					TabGui.this.setVisible(false);
-					new SearchScreen().setVisible(true);
+					//new SearchScreen().setVisible(true);
 				}
 			});
 
@@ -490,11 +490,11 @@ public class TabGui extends JFrame {
 			buttonPanel.add(cancel);
 			cancel.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					SearchScreen searchPage = new SearchScreen();
-					searchPage.connection();
+					//SearchScreen searchPage = new SearchScreen();
+					//searchPage.connection();
 					
 					TabGui.this.setVisible(false);
-					new SearchScreen().setVisible(true);
+					//new SearchScreen().setVisible(true);
 				}
 			});
 
@@ -868,11 +868,11 @@ public class TabGui extends JFrame {
 			buttonPanel.add(cancel);
 			cancel.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					SearchScreen searchPage = new SearchScreen();
-					searchPage.connection();
+				//	SearchScreen searchPage = new SearchScreen();
+					//searchPage.connection();
 					
 					TabGui.this.setVisible(false);
-					new SearchScreen().setVisible(true);
+					//new SearchScreen().setVisible(true);
 				}
 			});
 
@@ -1036,11 +1036,11 @@ public class TabGui extends JFrame {
 			buttonPanel.add(cancel);
 			cancel.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					SearchScreen searchPage = new SearchScreen();
-					searchPage.connection();
+			//		SearchScreen searchPage = new SearchScreen();
+				//	searchPage.connection();
 					
 					TabGui.this.setVisible(false);
-					new SearchScreen().setVisible(true);
+					//new SearchScreen().setVisible(true);
 				}
 			});
 
