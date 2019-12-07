@@ -33,9 +33,43 @@ public class TabGui extends JFrame {
 
 	Applicant theApplicant = null;
 	
-	
+
+	// Preethi
 	private void calculatePriority(Applicant applicant) {
 		System.out.println("calculatePriority called");
+		//enrollmentDecisionTab.groupNumField.setText(" 25 ");
+		
+		if(overviewTab.usaResiRButtonY.isSelected()) { // if usa resident
+			if(eligibilityFactorsTab.activeYearMoreThan5.isSelected()) {
+				if(eligibilityFactorsTab.overAge55Y.isSelected()){
+					if(eligibilityFactorsTab.residStatusIn.isSelected()){
+						enrollmentDecisionTab.groupNumField.setText(" 1 ");
+						enrollmentDecisionTab.groupDescriptionField.setText(" Group 1: USA Resident, military service is more than 5 years, or senior In-State. Tuition is free. ");					
+					}
+				}
+			}else if(eligibilityFactorsTab.activeYearBetween1_5.isSelected()){
+				if(eligibilityFactorsTab.disabilityY.isSelected()) {
+					enrollmentDecisionTab.groupNumField.setText(" 2 ");
+					enrollmentDecisionTab.groupDescriptionField.setText("Group 2: \n USA Resident, \n military service from 1 to 5 years, \n or disability = yes. \n Scholarship award 75%.");
+				}
+			}
+		}
+		else if(eligibilityFactorsTab.areYouDependentN.isSelected()) {
+			if(eligibilityFactorsTab.financialAidY.isSelected()) {
+				enrollmentDecisionTab.groupNumField.setText(" 3 ");
+				enrollmentDecisionTab.groupDescriptionField.setText("Group 3: Non-dependent with financial aid eligibility. Scholarship award 50%.");
+			}
+			
+			else if(((Integer.parseInt(financialInfoTab.parenttLastYearIncomeField.getText())< 40000)) || ((Integer.parseInt(financialInfoTab.studentLastYearIncomeField.getText())< 40000))){
+				enrollmentDecisionTab.groupNumField.setText(" 4 ");
+				enrollmentDecisionTab.groupDescriptionField.setText("Group 4: Dependent but from low income family.  Scholarship award 35%.");
+			
+			}
+		}
+		else { 
+			enrollmentDecisionTab.groupNumField.setText(" 5 ");
+			enrollmentDecisionTab.groupDescriptionField.setText("Group 5: Military service is less than a year, 529 account, not from low income family, or other categories not eligible for discount. Not eligible for scholarship.");
+		}		
 	}
 
 	public TabGui(Applicant applicant) {
@@ -849,11 +883,6 @@ public class TabGui extends JFrame {
 				}
 			}
 			
-			update.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					performUpdate(_applicant);
-				}
-			});
 			
 			add(buttonPanel, "South");
 			buttonPanel.add(update);
@@ -938,6 +967,7 @@ public class TabGui extends JFrame {
 			student.eligInfo.setResidencyYears(y);
 			student.eligInfo.setdisabilityStatus(areYouDependentY.isSelected()? true : false);
 			
+			TabGui.this.calculatePriority(student);
 			ESADBConnection.updateEligibilityRecord(student);
 			
 			
@@ -1085,6 +1115,7 @@ public class TabGui extends JFrame {
 			Date date = stringToDate(entrollDateField.getText());
 			if(date != null){
 			student.enrollDecision.setEnrollDate(date);
+			TabGui.this.calculatePriority(student);
 			ESADBConnection.updateEnrollmentRecord(student);
 			}
 			
