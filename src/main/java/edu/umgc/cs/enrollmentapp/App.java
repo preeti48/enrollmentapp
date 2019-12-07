@@ -80,8 +80,38 @@ private static void createGUI() {
         loginBtn.addActionListener(new ActionListener() {
         	
         	public void actionPerformed(ActionEvent e) {
+        		
+        		//removed deprecated method for password field and added error validation for password userID combination
+        		if(userIdField.getText().trim().isEmpty() && passwordField.getPassword().length == 0){
+        			userIdErrorLbl.setText("User ID is a required field");
+        			pwErrorLbl.setText("Password is a required field");
+        		}
+        		else if(userIdField.getText().trim().isEmpty()){
+        			userIdErrorLbl.setText("User ID is a required field");
+        		}
+        		else if(passwordField.getPassword().length == 0){
+        			pwErrorLbl.setText("Password is a required field");
+        		}
+        		else{
+        			char[] password = passwordField.getPassword();
+        			if(userIdField.getText().equalsIgnoreCase("Admin")){
+        				if(isValidPassword(password)){
+                		SearchScreen searchPage = new SearchScreen();
+                		frame.dispose();
+                		}
+        				else{
+        					JOptionPane.showMessageDialog(frame, "Please Enter Correct Password", "Incorrect Password", JOptionPane.ERROR_MESSAGE);
+        				}
+        			}
+        			else{
+        				JOptionPane.showMessageDialog(frame, "Please Enter Correct UserID", "Incorrect UserID", JOptionPane.ERROR_MESSAGE);
+        			}
+        		}
+        		
+        	}
+        
         		//error handling for username and password field
-        		if(userIdField.getText().trim().isEmpty() && passwordField.getText().trim().isEmpty()){
+        	/*	if(userIdField.getText().trim().isEmpty() && passwordField.getText().trim().isEmpty()){
         			userIdErrorLbl.setText("User ID is a required field");
         			pwErrorLbl.setText("Password is a required field");
         		}
@@ -96,9 +126,9 @@ private static void createGUI() {
                 		SearchScreen searchPage = new SearchScreen();
                 		frame.dispose();
                 		}		
-        		}
+        		}*/
         		
-        	}
+        	
         });
         
         loginBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -145,6 +175,30 @@ private static void createGUI() {
         frame.setVisible(true);
        
    }
+
+private static boolean isValidPassword(char [] input){
+	String pw = "123";
+	if(input.length == pw.length()){
+	 int i =0;
+	 while (i <input.length){	
+		if(input[i] == pw.charAt(i)){
+			i++;
+		}
+		else{
+			return false;
+		}
+	 }
+	 return true;
+	}
+	
+	else {
+		return false;
+	}
+	
+	}
+		
+
+
 }
 
 
