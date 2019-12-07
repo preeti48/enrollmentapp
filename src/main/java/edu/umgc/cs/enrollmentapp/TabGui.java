@@ -495,7 +495,7 @@ public class TabGui extends JFrame {
 		 * @param gen is gender selected by user
 		 */
 		private void radioHandle(String gen) {
-			
+			if(gen!= null){
 			if (gen.equals("male")) {
 				birthSexRButtonM.setSelected(true);
 				return;
@@ -506,7 +506,7 @@ public class TabGui extends JFrame {
 				birthSexRButtonO.setSelected(true);
 				return;
 			}
-			
+			}
 		}	
 
 		/**

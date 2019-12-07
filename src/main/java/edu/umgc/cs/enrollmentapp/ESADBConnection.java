@@ -16,6 +16,9 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.Random;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import edu.umgc.cs.enrollmentapp.enums.ActiveYears;
 import edu.umgc.cs.enrollmentapp.enums.ResidencyStatus;
 import edu.umgc.cs.enrollmentapp.enums.YearOfResidency;
@@ -27,6 +30,7 @@ import edu.umgc.cs.enrollmentapp.models.FinancialInformation;
 public class ESADBConnection {
 	static Connection conn = null;
 	static String url = "jdbc:sqlite:ESA.db";
+	private static JFrame frame;
 
 	public static Connection dbConnector() throws ClassNotFoundException {
 		try {
@@ -390,7 +394,8 @@ public class ESADBConnection {
 		Applicant applicant = new Applicant();
 		// first check if students exists
 
-		String query = "Select * from Student where last_name = \'" + lName + "\' and ssn =\'" + ssn + "\'";
+		//String query = "Select * from Student where last_name = \'" + lName + "\' and ssn =\'" + ssn + "\'";
+		String query = "Select * from Student where  ssn =\'" + ssn + "\'";
 
 		try {
 
@@ -414,6 +419,7 @@ public class ESADBConnection {
 
 		} catch (SQLException ex) {
 			System.out.println("Get Student exception " + ex.getMessage());
+			
 		}
 
 		return applicant;

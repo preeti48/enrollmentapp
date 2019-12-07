@@ -218,9 +218,12 @@ public class SearchScreen {
 
 				Applicant student = ESADBConnection.checkIfstudentExists(ssnField.getText(), lnField.getText(),
 						fnfield.getText(), null);// fName, String dOB)
-				if (student.getStudentID() != null)
+				if (student.getStudentID() != null){
 					System.out.println(
 							"Student exists , studentID = " + student.getStudentID() + ". Please click Search to edit");
+					JOptionPane.showMessageDialog(frame, "Please try again entering correct SSN ", "Student Already Exist",
+							JOptionPane.ERROR_MESSAGE);
+				}
 				else if (student.getStudentID() == null) {
 					// generate new student Id
 					// save student to the database
@@ -229,7 +232,7 @@ public class SearchScreen {
 
 					// open tabGUI with saved student:
 
-					TabGui tabGui = new TabGui(newStudent);
+				TabGui tabGui = new TabGui(newStudent);
 				}
 			}
 		});
