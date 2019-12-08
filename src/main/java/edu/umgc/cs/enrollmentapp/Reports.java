@@ -174,7 +174,7 @@ public class Reports {
 				fw.append(rs.getString(4).toUpperCase());
 				fw.append(',');
 				fw.append(rs.getString(5));
-				fw.append(',');
+				//fw.append(',');
 				fw.append('\n');
 			}
 			fw.flush();
