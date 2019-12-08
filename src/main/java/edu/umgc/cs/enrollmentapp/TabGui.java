@@ -1358,23 +1358,23 @@ public class TabGui extends JFrame {
 			});
 			
 				//enrolldate digit limit but need to **implement date format
-//		entrollDateField.addKeyListener(new KeyAdapter() {
-//			@Override
-//			public void keyTyped(KeyEvent evt) {
-//				 char c= evt.getKeyChar();
-//				//validate input are digits
-//			if (Character.isDigit(c)||Character.isWhitespace(c)|| Character.isISOControl(c))
-//                   {
-//				entrollDateField.setEditable(true);
-//                   }    else 
-//                   {
-//                	        entrollDateField.setEditable(false);
-//	                         evt.consume();//ignore event
-//	            } 
-//                 
-//			}
-//		});
-//			
+		entrollDateField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent evt) {
+				 char c= evt.getKeyChar();
+				//validate input are digits
+			if (Character.isDigit(c)||Character.isWhitespace(c)|| Character.isISOControl(c))
+                   {
+				entrollDateField.setEditable(true);
+                   }    else 
+                   {
+                	        entrollDateField.setEditable(false);
+	                         evt.consume();//ignore event
+	            } 
+                 
+			}
+		});
+			
 			
 
 			// Empty label for alignment purpose
