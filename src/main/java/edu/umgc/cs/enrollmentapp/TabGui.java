@@ -85,16 +85,22 @@ public class TabGui extends JFrame {
 		}
 
 		// Group 4: student is low income (less than 40,000.00).
-		else if (((Double.parseDouble(financialInfoTab.studentLastYearIncomeField.getText()) < 40000))
-				|| ((Double.parseDouble(financialInfoTab.parenttLastYearIncomeField.getText()) < 40000))) {
-			enrollmentDecisionTab.groupNumField.setText(" 4 ");
+//		else if ((financialInfoTab.finanDependRButtonY.isSelected()) && ((Double
+//				.parseDouble(financialInfoTab.parenttLastYearIncomeField.getText()) < 40000)
+//				|| (financialInfoTab.finanDependRButtonN.isSelected())
+//						&& (Double.parseDouble(financialInfoTab.studentLastYearIncomeField.getText()) < 40000))) {
+			
+		
+		else if  ((financialInfoTab.finanDependRButtonN.isSelected()) && ((Double.parseDouble(financialInfoTab.studentLastYearIncomeField.getText()) < 40000))||(financialInfoTab.finanDependRButtonY.isSelected()) && ((Double
+				.parseDouble(financialInfoTab.parenttLastYearIncomeField.getText()) < 40000))) {
+		
+		
+		enrollmentDecisionTab.groupNumField.setText(" 4 ");
 			enrollmentDecisionTab.groupDescriptionField
 					.setText("Group 4: From low income family.  Scholarship award 35%.");
 			applicant.enrollDecision.setGroup(4);
 			applicant.enrollDecision.setGrpDiscription("Group 4: From low income family.  Scholarship award 35%.");
-		}
-
-		else if ((((Double.parseDouble(financialInfoTab.studentLastYearIncomeField.getText()) > 40000))
+		} else if ((((Double.parseDouble(financialInfoTab.studentLastYearIncomeField.getText()) > 40000))
 				|| ((Double.parseDouble(financialInfoTab.parenttLastYearIncomeField.getText()) > 40000)))) {
 
 			enrollmentDecisionTab.groupNumField.setText(" 5 ");
