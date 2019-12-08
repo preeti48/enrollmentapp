@@ -527,6 +527,11 @@ public class TabGui extends JFrame {
 			student.setFname(firstNameField.getText());
 
 			// validating entered ssn for update
+			if(ssnField.getText().charAt(0) == '0'){
+				JOptionPane.showMessageDialog(frame, "Can not have SSN starting with 0", "Incorrect SSN",
+						JOptionPane.ERROR_MESSAGE);
+			}
+			else{
 			if (ssnField.getText().trim().length() == 9 && ssnField.getText().trim().matches("[0-9]+")) {
 				if (student.getSsn() != Integer.parseInt(ssnField.getText().trim())) {
 					// check if ssn exist in db
@@ -542,7 +547,7 @@ public class TabGui extends JFrame {
 				JOptionPane.showMessageDialog(frame, "Please enter correct SSN, with 9 digits only ", "Incorrect SSN",
 						JOptionPane.ERROR_MESSAGE);
 			}
-
+			}
 			Date date = stringToDate(dobField.getText());
 			if (date != null) {
 				student.setDob(date);
