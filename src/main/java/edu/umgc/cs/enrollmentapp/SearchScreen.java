@@ -366,6 +366,7 @@ public class SearchScreen {
 		} else if (date == null) {
 			JOptionPane.showMessageDialog(frame, "Date of Birth field cannot be empty", "Value Format Mismatch",
 					JOptionPane.ERROR_MESSAGE);
+			return;
 		} else if (TimeUnit.DAYS.convert(Math.abs(new Date().getTime() - date.getTime()), TimeUnit.MILLISECONDS) < (365*14)) {
 			JOptionPane.showMessageDialog(frame, "Date of Birth is too close to current date", "Value Format Mismatch",
 					JOptionPane.ERROR_MESSAGE);
