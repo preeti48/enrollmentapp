@@ -297,7 +297,7 @@ public class SearchScreen {
 		
 		// if multiple fields are filled out
 		else if (!studentIDField.getText().isEmpty() && !ssnField.getText().isEmpty() ||
-				 !studentIDField.getText().isEmpty() && lnField.getText().isEmpty() ) {
+				 !studentIDField.getText().isEmpty() && !lnField.getText().isEmpty() ) {
 			JOptionPane.showMessageDialog(frame,
 					" Please search using only Student ID, or only SSN and Last Name ");
 		}
