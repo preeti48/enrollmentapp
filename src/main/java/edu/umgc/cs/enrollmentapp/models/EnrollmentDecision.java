@@ -25,7 +25,7 @@ public class EnrollmentDecision {
 		return this.groupNumber;
 	}
 	
-	public void serGrpDiscription(String s){
+	public void setGrpDiscription(String s){
 		this.grpDiscription = s;
 	}
 	

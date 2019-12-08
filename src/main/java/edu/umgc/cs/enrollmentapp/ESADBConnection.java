@@ -261,7 +261,7 @@ public class ESADBConnection {
 				student.enrollDecision.setEnrollDate(stringToDate(enrollData[2]));
 				if (enrollData[3] != null)
 					student.enrollDecision.setGroup(Integer.parseInt(enrollData[3]));
-				student.enrollDecision.serGrpDiscription(enrollData[4]);
+				student.enrollDecision.setGrpDiscription(enrollData[4]);
 
 			} catch (SQLException ex) {
 				System.out.println("Get Student exception " + ex.getMessage());
@@ -836,8 +836,12 @@ public class ESADBConnection {
 	}
 
 	public static void updateEnrollmentRecord(Applicant applicant) {
-		String query = "UPDATE EnrollmentDecision SET " + " Enrollment_Date =  '"
+	/*	String query = "UPDATE EnrollmentDecision SET " + " Enrollment_Date =  '"
 				+ convertStringToDate(applicant.enrollDecision.getEnrollDate()) + "' where student_id = "
+				+ applicant.getStudentID();*/
+		
+		String query = "UPDATE EnrollmentDecision SET " + " Enrollment_Date =  '"
+				+ convertStringToDate(applicant.enrollDecision.getEnrollDate()) + "', Group_number = " +applicant.enrollDecision.getGroup() + ", group_description= ' " + applicant.enrollDecision.getGrpDiscription() + "' where student_id = "
 				+ applicant.getStudentID();
 
 		try {

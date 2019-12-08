@@ -42,35 +42,64 @@ public class TabGui extends JFrame {
 		//enrollmentDecisionTab.groupNumField.setText(" 25 ");
 		
 		if(overviewTab.usaResiRButtonY.isSelected()) { // if usa resident
-			if(eligibilityFactorsTab.activeYearMoreThan5.isSelected()) {
-				if(eligibilityFactorsTab.overAge55Y.isSelected()){
-					if(eligibilityFactorsTab.residStatusIn.isSelected()){
+			//military service is more than 5 years, or senior In-State (over 55 and instate are selected). 
+			if(eligibilityFactorsTab.activeYearMoreThan5.isSelected() || ( eligibilityFactorsTab.overAge55Y.isSelected() && eligibilityFactorsTab.residStatusIn.isSelected())) {
+				//if(eligibilityFactorsTab.overAge55Y.isSelected()){
+				//	if(eligibilityFactorsTab.residStatusIn.isSelected()){
 						enrollmentDecisionTab.groupNumField.setText(" 1 ");
 						enrollmentDecisionTab.groupDescriptionField.setText(" Group 1: USA Resident, military service is more than 5 years, or senior In-State. Tuition is free. ");					
-					}
-				}
-			}else if(eligibilityFactorsTab.activeYearBetween1_5.isSelected()){
-				if(eligibilityFactorsTab.disabilityY.isSelected()) {
+						applicant.enrollDecision.setGroup(1);
+						applicant.enrollDecision.setGrpDiscription("Group 1: USA Resident, military service is more than 5 years, or senior In-State. Tuition is free. ");
+						//	}
+				//}
+						//Group 2: USA Resident, military service from 1 to 5 years. OR disability = yes. 
+			}else if(eligibilityFactorsTab.activeYearBetween1_5.isSelected()|| eligibilityFactorsTab.disabilityY.isSelected()){
+				//if(eligibilityFactorsTab.disabilityY.isSelected()) {
 					enrollmentDecisionTab.groupNumField.setText(" 2 ");
 					enrollmentDecisionTab.groupDescriptionField.setText("Group 2: \n USA Resident, \n military service from 1 to 5 years, \n or disability = yes. \n Scholarship award 75%.");
-				}
+				//}
+					applicant.enrollDecision.setGroup(2);
+					applicant.enrollDecision.setGrpDiscription("\"Group 2: \\n USA Resident, \\n military service from 1 to 5 years, \\n or disability = yes. \\n Scholarship award 75%.");
 			}
 		}
-		else if(eligibilityFactorsTab.areYouDependentN.isSelected()) {
+		// not Us resident.	Group 3: Non-dependent with financial aid eligibility. 
+		if(eligibilityFactorsTab.areYouDependentN.isSelected()) {
 			if(eligibilityFactorsTab.financialAidY.isSelected()) {
 				enrollmentDecisionTab.groupNumField.setText(" 3 ");
 				enrollmentDecisionTab.groupDescriptionField.setText("Group 3: Non-dependent with financial aid eligibility. Scholarship award 50%.");
+				applicant.enrollDecision.setGroup(3);
+				applicant.enrollDecision.setGrpDiscription("Group 3: Non-dependent with financial aid eligibility. Scholarship award 50%.");
 			}
-			
-			else if(((Integer.parseInt(financialInfoTab.parenttLastYearIncomeField.getText())< 40000)) || ((Integer.parseInt(financialInfoTab.studentLastYearIncomeField.getText())< 40000))){
+			//Group 4: student is low income  (less than 40,000.00).
+			else if(((Integer.parseInt(financialInfoTab.studentLastYearIncomeField.getText())< 40000))){
 				enrollmentDecisionTab.groupNumField.setText(" 4 ");
 				enrollmentDecisionTab.groupDescriptionField.setText("Group 4: Dependent but from low income family.  Scholarship award 35%.");
-			
+				applicant.enrollDecision.setGroup(4);
+				applicant.enrollDecision.setGrpDiscription("Group 4: Dependent but from low income family.  Scholarship award 35%.");
+			}
+		}
+		//Group 4: Dependent but from low income family (less than 40,000.00).
+		else if((eligibilityFactorsTab.areYouDependentY.isSelected())) {//&& ((Integer.parseInt(financialInfoTab.parenttLastYearIncomeField.getText())< 40000)) || ((Integer.parseInt(financialInfoTab.studentLastYearIncomeField.getText())< 40000))){
+			// if low income family: 
+			String temp = financialInfoTab.parenttLastYearIncomeField.getText();
+			if(financialInfoTab.parenttLastYearIncomeField.getText()!= "") {
+				if(Double.parseDouble(financialInfoTab.parenttLastYearIncomeField.getText())< 40000.00){
+				enrollmentDecisionTab.groupNumField.setText(" 4 ");
+				enrollmentDecisionTab.groupDescriptionField.setText("Group 4: Dependent but from low income family.  Scholarship award 35%.");
+				applicant.enrollDecision.setGroup(4);
+				applicant.enrollDecision.setGrpDiscription("Group 4: Dependent but from low income family.  Scholarship award 35%.");
+
+				}
 			}
 		}
 		else { 
 			enrollmentDecisionTab.groupNumField.setText(" 5 ");
 			enrollmentDecisionTab.groupDescriptionField.setText("Group 5: Military service is less than a year, 529 account, not from low income family, or other categories not eligible for discount. Not eligible for scholarship.");
+	//		enrollmentDecisionTab.groupNumField.setText(" 5 ");
+		//	enrollmentDecisionTab.groupDescriptionField.setText("Group 5: Military service is less than a year, 529 account, not from low income family, or other categories not eligible for discount. Not eligible for scholarship.");
+			applicant.enrollDecision.setGroup(5);
+			applicant.enrollDecision.setGrpDiscription("Group 5: Military service is less than a year, 529 account, not from low income family, or other categories not eligible for discount. Not eligible for scholarship.");
+
 		}
 		
 	}
@@ -572,6 +601,7 @@ public class TabGui extends JFrame {
 			TabGui.this.calculatePriority(student);
 			
 			ESADBConnection.updateRecord(student);
+			ESADBConnection.updateEligibilityRecord(student);
 			
 		}
 		/**
@@ -873,6 +903,7 @@ public class TabGui extends JFrame {
 			
 			TabGui.this.calculatePriority(s);
 			ESADBConnection.updateFinancialRecord(s);
+			ESADBConnection.updateEligibilityRecord(s);
 			
 		}
 
@@ -1360,22 +1391,22 @@ public class TabGui extends JFrame {
 			});
 			
 				//enrolldate digit limit but need to **implement date format
-		entrollDateField.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent evt) {
-				 char c= evt.getKeyChar();
-				//validate input are digits
-			if (Character.isDigit(c)|| Character.isISOControl(c))
-                   {
-				entrollDateField.setEditable(true);
-                   }    else 
-                   {
-                	        entrollDateField.setEditable(false);
-	                         evt.consume();//ignore event
-	            } 
-                 
-			}
-		});
+//		entrollDateField.addKeyListener(new KeyAdapter() {
+//			@Override
+//			public void keyTyped(KeyEvent evt) {
+//				 char c= evt.getKeyChar();
+//				//validate input are digits
+//			if (Character.isDigit(c)|| Character.isISOControl(c))
+//                   {
+//				entrollDateField.setEditable(true);
+//                   }    else 
+//                   {
+//                	        entrollDateField.setEditable(false);
+//	                         evt.consume();//ignore event
+//	            } 
+//                 
+//			}
+//		});
 			
 			
 
@@ -1410,6 +1441,7 @@ public class TabGui extends JFrame {
 			student.enrollDecision.setEnrollDate(date);
 			TabGui.this.calculatePriority(student);
 			ESADBConnection.updateEnrollmentRecord(student);
+			ESADBConnection.updateEligibilityRecord(student);
 			}
 			
 		}
