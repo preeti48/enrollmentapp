@@ -278,7 +278,7 @@ public class TabGui extends JFrame {
 			public void keyTyped(KeyEvent evt) {
 				 char c= evt.getKeyChar();
 				 //validate input are letters
-                 if (Character.isLetter(c) ||Character.isWhitespace(c) || Character.isISOControl(c))
+                 if (Character.isLetter(c) || Character.isISOControl(c))
                    {
                 	 lastNameField.setEditable(true);
                    }else
@@ -296,7 +296,7 @@ public class TabGui extends JFrame {
 			public void keyTyped(KeyEvent evt) {
 				 char c= evt.getKeyChar();
 				 //validate input are letters
-                 if (Character.isLetterOrDigit(c) ||Character.isWhitespace(c) || Character.isISOControl(c))
+                 if (Character.isLetterOrDigit(c) || Character.isISOControl(c))
                    {
                 	 streetField.setEditable(true);
                    }else
@@ -314,7 +314,7 @@ public class TabGui extends JFrame {
 			public void keyTyped(KeyEvent evt) {
 				 char c= evt.getKeyChar();
 				 //validate input are letters
-                 if (Character.isLetter(c) ||Character.isWhitespace(c) || Character.isISOControl(c))
+                 if (Character.isLetter(c) || Character.isISOControl(c))
                    {
                 	 firstNameField.setEditable(true);
                    }else
@@ -332,7 +332,7 @@ public class TabGui extends JFrame {
 			public void keyTyped(KeyEvent evt) {
 				 char c= evt.getKeyChar();
 				 //validate input are letters
-                 if (Character.isLetter(c) ||Character.isWhitespace(c) || Character.isISOControl(c))
+                 if (Character.isLetter(c) || Character.isISOControl(c))
                    {
                 	 cityField.setEditable(true);
                    }else
@@ -350,7 +350,7 @@ public class TabGui extends JFrame {
 			public void keyTyped(KeyEvent evt) {
 				 char c= evt.getKeyChar();
 				 //validate input are digits
-				if (Character.isDigit(c)||Character.isWhitespace(c)|| Character.isISOControl(c))
+				if (Character.isDigit(c) || Character.isISOControl(c))
                    {
 					ssnField.setEditable(true);
                    }else 
@@ -369,7 +369,7 @@ public class TabGui extends JFrame {
 			public void keyTyped(KeyEvent evt) {
 				 char c= evt.getKeyChar();
 				 //validate input are letters
-                 if (Character.isLetter(c) ||Character.isWhitespace(c) || Character.isISOControl(c))
+                 if (Character.isLetter(c) || Character.isISOControl(c))
                    {
                 	 stateField.setEditable(true);
                    }else
@@ -387,7 +387,7 @@ public class TabGui extends JFrame {
 			public void keyTyped(KeyEvent evt) {
 				 char c= evt.getKeyChar();
 				 //validate input are letters
-                 if (Character.isLetter(c) ||Character.isWhitespace(c) || Character.isISOControl(c))
+                 if (Character.isLetter(c) || Character.isISOControl(c))
                    {
                 	 e_contactField.setEditable(true);
                    }else
@@ -405,7 +405,7 @@ public class TabGui extends JFrame {
 			public void keyTyped(KeyEvent evt) {
 				 char c= evt.getKeyChar();
 				 //validate input are digits
-				if (Character.isDigit(c)||Character.isWhitespace(c)|| Character.isISOControl(c))
+				if (Character.isDigit(c)|| Character.isISOControl(c))
                    {
 					e_phoneField.setEditable(true);
                    }else 
@@ -424,7 +424,7 @@ public class TabGui extends JFrame {
 			public void keyTyped(KeyEvent evt) {
 				 char c= evt.getKeyChar();
 				//validate input are digits
-				if (Character.isDigit(c)||Character.isWhitespace(c)|| Character.isISOControl(c))
+				if (Character.isDigit(c)|| Character.isISOControl(c))
                    {
 					phNumField.setEditable(true);
                    }else 
@@ -443,7 +443,7 @@ public class TabGui extends JFrame {
 			public void keyTyped(KeyEvent evt) {
 				 char c= evt.getKeyChar();
 				//validate input are digits
-				if (Character.isDigit(c)||Character.isWhitespace(c)|| Character.isISOControl(c))
+				if (Character.isDigit(c)|| Character.isISOControl(c))
                    {
 					dobField.setEditable(true);
                    }else 
@@ -460,7 +460,7 @@ public class TabGui extends JFrame {
 			public void keyTyped(KeyEvent evt) {
 				 char c= evt.getKeyChar();
 				//validate input are digits
-				if (Character.isDigit(c)||Character.isWhitespace(c)|| Character.isISOControl(c))
+				if (Character.isDigit(c)|| Character.isISOControl(c))
                    {
                 	 zipField.setEditable(true);
                    }else 
@@ -750,7 +750,7 @@ public class TabGui extends JFrame {
 				public void keyTyped(KeyEvent evt) {
 					 char c= evt.getKeyChar();
 					 //validate value input is digits
-					if (Character.isDigit(c)||Character.isWhitespace(c)|| Character.isISOControl(c))
+					if (Character.isDigit(c)|| Character.isISOControl(c))
 	                   {
 						studentLastYearIncomeField.setEditable(true);
 	                   }else 
@@ -769,7 +769,7 @@ public class TabGui extends JFrame {
 				public void keyTyped(KeyEvent evt) {
 					 char c= evt.getKeyChar();
 					 //validate value input is digits
-					if (Character.isDigit(c)||Character.isWhitespace(c)|| Character.isISOControl(c))
+					if (Character.isDigit(c)|| Character.isISOControl(c))
 	                   {
 						parenttLastYearIncomeField.setEditable(true);
 	                   }else 
@@ -787,7 +787,7 @@ public class TabGui extends JFrame {
 				public void keyTyped(KeyEvent evt) {
 					 char c= evt.getKeyChar();
 					 //validate value input is digits
-					if (Character.isDigit(c)||Character.isWhitespace(c)|| Character.isISOControl(c))
+					if (Character.isDigit(c)|| Character.isISOControl(c))
 	                   {
 						valOfOtherProptyField.setEditable(true);
 	                   }else 
@@ -1365,7 +1365,7 @@ public class TabGui extends JFrame {
 			public void keyTyped(KeyEvent evt) {
 				 char c= evt.getKeyChar();
 				//validate input are digits
-			if (Character.isDigit(c)||Character.isWhitespace(c)|| Character.isISOControl(c))
+			if (Character.isDigit(c)|| Character.isISOControl(c))
                    {
 				entrollDateField.setEditable(true);
                    }    else 
