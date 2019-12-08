@@ -63,7 +63,8 @@ public class TabGui extends JFrame {
 			}
 		}
 		// not Us resident.	Group 3: Non-dependent with financial aid eligibility. 
-		if(eligibilityFactorsTab.areYouDependentN.isSelected()) {
+		if(eligibilityFactorsTab.areYouDependentN.isSelected()){//|| financialInfoTab.finanDependRButtonN.isSelected()) {
+		//if(financialInfoTab.finanDependRButtonN.isSelected()) {
 			if(eligibilityFactorsTab.financialAidY.isSelected()) {
 				enrollmentDecisionTab.groupNumField.setText(" 3 ");
 				enrollmentDecisionTab.groupDescriptionField.setText("Group 3: Non-dependent with financial aid eligibility. Scholarship award 50%.");
@@ -71,32 +72,38 @@ public class TabGui extends JFrame {
 				applicant.enrollDecision.setGrpDiscription("Group 3: Non-dependent with financial aid eligibility. Scholarship award 50%.");
 			}
 			//Group 4: student is low income  (less than 40,000.00).
-			else if(((Integer.parseInt(financialInfoTab.studentLastYearIncomeField.getText())< 40000))){
+			else if(((Double.parseDouble(financialInfoTab.studentLastYearIncomeField.getText())< 40000)) || ((Double.parseDouble(financialInfoTab.parenttLastYearIncomeField.getText())< 40000))){
 				enrollmentDecisionTab.groupNumField.setText(" 4 ");
-				enrollmentDecisionTab.groupDescriptionField.setText("Group 4: Dependent but from low income family.  Scholarship award 35%.");
+				enrollmentDecisionTab.groupDescriptionField.setText("Group 4: From low income family.  Scholarship award 35%.");
 				applicant.enrollDecision.setGroup(4);
-				applicant.enrollDecision.setGrpDiscription("Group 4: Dependent but from low income family.  Scholarship award 35%.");
+				applicant.enrollDecision.setGrpDiscription("Group 4: From low income family.  Scholarship award 35%.");
 			}
+//			else {
+//				enrollmentDecisionTab.groupNumField.setText(" 5 ");
+//				enrollmentDecisionTab.groupDescriptionField.setText("Group 5: Military service is less than a year, 529 account, not from low income family, or other categories not eligible for discount. Not eligible for scholarship.");
+//				applicant.enrollDecision.setGroup(5);
+//				applicant.enrollDecision.setGrpDiscription("Group 5: Military service is less than a year, 529 account, not from low income family, or other categories not eligible for discount. Not eligible for scholarship.");
+//
+//				
+//			}
 		}
 		//Group 4: Dependent but from low income family (less than 40,000.00).
-		else if((eligibilityFactorsTab.areYouDependentY.isSelected())) {//&& ((Integer.parseInt(financialInfoTab.parenttLastYearIncomeField.getText())< 40000)) || ((Integer.parseInt(financialInfoTab.studentLastYearIncomeField.getText())< 40000))){
+		else if((eligibilityFactorsTab.areYouDependentY.isSelected())&& ((Double.parseDouble(financialInfoTab.parenttLastYearIncomeField.getText())< 40000)) || ((Double.parseDouble(financialInfoTab.studentLastYearIncomeField.getText())< 40000))){
 			// if low income family: 
 			String temp = financialInfoTab.parenttLastYearIncomeField.getText();
-			if(financialInfoTab.parenttLastYearIncomeField.getText()!= "") {
+			//if(financialInfoTab.parenttLastYearIncomeField.getText()!= "0.0") {
 				if(Double.parseDouble(financialInfoTab.parenttLastYearIncomeField.getText())< 40000.00){
 				enrollmentDecisionTab.groupNumField.setText(" 4 ");
-				enrollmentDecisionTab.groupDescriptionField.setText("Group 4: Dependent but from low income family.  Scholarship award 35%.");
+				enrollmentDecisionTab.groupDescriptionField.setText("Group 4: From low income family.  Scholarship award 35%.");
 				applicant.enrollDecision.setGroup(4);
-				applicant.enrollDecision.setGrpDiscription("Group 4: Dependent but from low income family.  Scholarship award 35%.");
+				applicant.enrollDecision.setGrpDiscription("Group 4: From low income family.  Scholarship award 35%.");
 
 				}
-			}
+			//}
 		}
 		else { 
 			enrollmentDecisionTab.groupNumField.setText(" 5 ");
 			enrollmentDecisionTab.groupDescriptionField.setText("Group 5: Military service is less than a year, 529 account, not from low income family, or other categories not eligible for discount. Not eligible for scholarship.");
-	//		enrollmentDecisionTab.groupNumField.setText(" 5 ");
-		//	enrollmentDecisionTab.groupDescriptionField.setText("Group 5: Military service is less than a year, 529 account, not from low income family, or other categories not eligible for discount. Not eligible for scholarship.");
 			applicant.enrollDecision.setGroup(5);
 			applicant.enrollDecision.setGrpDiscription("Group 5: Military service is less than a year, 529 account, not from low income family, or other categories not eligible for discount. Not eligible for scholarship.");
 
