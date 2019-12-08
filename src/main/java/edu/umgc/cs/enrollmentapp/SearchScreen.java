@@ -281,7 +281,7 @@ public class SearchScreen {
 		
 		// if multiple fields are filled out
 		else if (!studentIDField.getText().isEmpty() && !ssnField.getText().isEmpty() ||
-				 !studentIDField.getText().isEmpty() && lnField.getText().isEmpty() ) {
+				 !studentIDField.getText().isEmpty() && !lnField.getText().isEmpty() ) {
 			JOptionPane.showMessageDialog(frame,
 					" Please search using only Student ID, or only SSN and Last Name ");
 		}
@@ -346,7 +346,7 @@ public class SearchScreen {
 	 */
 	private void addStudent() {
 		Date date = dateChooser.getDate();
-		String ssnRegex = "^(?!000|666)[0-8][0-9]{2}(?!00)[0-9]{2}(?!0000)[0-9]{4}$";
+		String ssnRegex = "^[0-9]{9}$";
 		String nameRegex = "^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
 		
 		// Regex checks various fields
