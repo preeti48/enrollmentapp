@@ -319,7 +319,7 @@ public class TabGui extends JFrame {
                 	 lastNameField.setEditable(true);
                    }else
                    {
-                	 lastNameField.setEditable(false);
+                	 //lastNameField.setEditable(false);
                 	//output error message if input is wrong
                 	 JOptionPane.showMessageDialog(lastNameField, "Enter Letters Only");
 	                evt.consume();//ignore event
@@ -332,7 +332,7 @@ public class TabGui extends JFrame {
 			public void keyTyped(KeyEvent evt) {
 				 char c= evt.getKeyChar();
 				 //validate input are letters
-                 if (Character.isLetterOrDigit(c) || Character.isISOControl(c))
+                 if (Character.isLetterOrDigit(c) || Character.isISOControl(c) || Character.isWhitespace(c))
                    {
                 	 streetField.setEditable(true);
                    }else
@@ -355,7 +355,7 @@ public class TabGui extends JFrame {
                 	 firstNameField.setEditable(true);
                    }else
                    {
-                	 firstNameField.setEditable(false);
+                	 //firstNameField.setEditable(false);
                 	//output error message if input is wrong
                 	 JOptionPane.showMessageDialog(firstNameField, "Enter Letters Only");
 	                evt.consume();//ignore event
@@ -391,7 +391,7 @@ public class TabGui extends JFrame {
 					ssnField.setEditable(true);
                    }else 
                    {
-                	ssnField.setEditable(false);
+                	//ssnField.setEditable(false);
                 	//output error message if input is wrong
                 	JOptionPane.showMessageDialog(ssnField, "Enter Digits Only");
 	                evt.consume();//ignore event
@@ -410,7 +410,7 @@ public class TabGui extends JFrame {
                 	 stateField.setEditable(true);
                    }else
                    {
-                	 stateField.setEditable(false);
+                	 //stateField.setEditable(false);
                 	//output error message if input is wrong
                 	 JOptionPane.showMessageDialog(stateField, "Enter Letters Only");
 	                evt.consume();//ignore event
@@ -428,7 +428,7 @@ public class TabGui extends JFrame {
                 	 e_contactField.setEditable(true);
                    }else
                    {
-                	 e_contactField.setEditable(false);
+                //	 e_contactField.setEditable(false);
                 	//output error message if input is wrong
                 	 JOptionPane.showMessageDialog(e_contactField, "Enter Letters Only");
 	                evt.consume();//ignore event
@@ -446,7 +446,7 @@ public class TabGui extends JFrame {
 					e_phoneField.setEditable(true);
                    }else 
                    {
-                	e_phoneField.setEditable(false);
+                	//e_phoneField.setEditable(false);
                 	//output error message if input is wrong
                 	JOptionPane.showMessageDialog(e_phoneField, "Enter Digits Only");
 	                evt.consume();//ignore event
@@ -465,7 +465,7 @@ public class TabGui extends JFrame {
 					phNumField.setEditable(true);
                    }else 
                    {
-                	phNumField.setEditable(false);
+                	//phNumField.setEditable(false);
                 	//output error message if input is wrong
                 	JOptionPane.showMessageDialog(phNumField, "Enter Digits Only");
 	                evt.consume();//ignore event
@@ -484,7 +484,7 @@ public class TabGui extends JFrame {
 					dobField.setEditable(true);
                    }else 
                    {
-                	dobField.setEditable(false);
+                	//dobField.setEditable(false);
 	                evt.consume();//ignore event
 	            } 
                  
@@ -501,7 +501,7 @@ public class TabGui extends JFrame {
                 	 zipField.setEditable(true);
                    }else 
                    {
-                	 zipField.setEditable(false);
+                	// zipField.setEditable(false);
                 	 //output error message if input is wrong
                 	 JOptionPane.showMessageDialog(zipField, "Enter Digits Only");
 	                evt.consume();//ignore event
@@ -787,12 +787,12 @@ public class TabGui extends JFrame {
 				public void keyTyped(KeyEvent evt) {
 					 char c= evt.getKeyChar();
 					 //validate value input is digits
-					if (Character.isDigit(c)|| Character.isISOControl(c))
+					if (Character.isDigit(c)|| Character.isISOControl(c)|| (c == ('.')))
 	                   {
 						studentLastYearIncomeField.setEditable(true);
 	                   }else 
 	                   {
-	                	studentLastYearIncomeField.setEditable(false);
+	                	//studentLastYearIncomeField.setEditable(false);
 	                	//output error message if input is wrong
 	                	JOptionPane.showMessageDialog(studentLastYearIncomeField, "Enter Digit Only");
 		                evt.consume();//ignore event
@@ -806,12 +806,12 @@ public class TabGui extends JFrame {
 				public void keyTyped(KeyEvent evt) {
 					 char c= evt.getKeyChar();
 					 //validate value input is digits
-					if (Character.isDigit(c)|| Character.isISOControl(c))
+					if (Character.isDigit(c)|| Character.isISOControl(c)|| (c == ('.')))
 	                   {
 						parenttLastYearIncomeField.setEditable(true);
 	                   }else 
 	                   {
-	                	parenttLastYearIncomeField.setEditable(false);
+	                	//parenttLastYearIncomeField.setEditable(false);
 	                	//output error message if input is wrong
 	                	JOptionPane.showMessageDialog(parenttLastYearIncomeField, "Enter Digit Only");
 		                evt.consume();//ignore event
@@ -824,12 +824,12 @@ public class TabGui extends JFrame {
 				public void keyTyped(KeyEvent evt) {
 					 char c= evt.getKeyChar();
 					 //validate value input is digits
-					if (Character.isDigit(c)|| Character.isISOControl(c))
+					if (Character.isDigit(c)|| Character.isISOControl(c) || (c == ('.')))
 	                   {
 						valOfOtherProptyField.setEditable(true);
 	                   }else 
 	                   {
-	                	valOfOtherProptyField.setEditable(false);
+	                	//valOfOtherProptyField.setEditable(false);
 	                	//output error message if input is wrong
 	                	JOptionPane.showMessageDialog(valOfOtherProptyField, "Enter Digit Only");
 		                evt.consume();//ignore event
