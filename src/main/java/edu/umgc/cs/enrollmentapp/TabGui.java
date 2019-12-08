@@ -1296,6 +1296,8 @@ public class TabGui extends JFrame {
 			applicant = appli;
 			setLayout(new BorderLayout());
 			groupDescriptionField.setEditable(false);
+			groupDescriptionField.setLineWrap(true);
+			groupDescriptionField.setWrapStyleWord(true);
 
 			emptyPanel1.add(empty1, "Center");
 //			emptyPanel1.add(empty2, "Center");
