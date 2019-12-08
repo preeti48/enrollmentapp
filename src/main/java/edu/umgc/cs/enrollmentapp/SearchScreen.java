@@ -294,6 +294,13 @@ public class SearchScreen {
 			JOptionPane.showMessageDialog(frame,
 					" Please enter Student ID or SSN and Last Name to Search for Student Record ");
 		}
+		
+		// if multiple fields are filled out
+		else if (!studentIDField.getText().isEmpty() && !ssnField.getText().isEmpty() ||
+				 !studentIDField.getText().isEmpty() && lnField.getText().isEmpty() ) {
+			JOptionPane.showMessageDialog(frame,
+					" Please search using only Student ID, or only SSN and Last Name ");
+		}
 
 		// if search by studentID
 		else if (!studentIDField.getText().isEmpty()) {
