@@ -462,23 +462,6 @@ public class TabGui extends JFrame {
                  
 			}
 		});
-		//dob digit limit **implement "/" I do not know how to do symbol validation
-		dobField.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent evt) {
-				 char c= evt.getKeyChar();
-				//validate input are digits
-				if (Character.isDigit(c)|| Character.isISOControl(c))
-                   {
-					dobField.setEditable(true);
-                   }else 
-                   {
-                	//dobField.setEditable(false);
-	                evt.consume();//ignore event
-	            } 
-                 
-			}
-		});
 		//zipcode digit limit
 		zipField.addKeyListener(new KeyAdapter() {
 			@Override
@@ -498,6 +481,22 @@ public class TabGui extends JFrame {
                  
 			}	
 		});}
+		private Date stringToDate(String s) {
+			Date date = null;
+	       // System.out.println("Printing date" + s);
+			try {
+				if (s != null)
+					date = (Date) new SimpleDateFormat("MM/dd/yyyy").parse(s);
+				return date;
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+				JOptionPane.showMessageDialog(frame, "Please enter date in MM/dd/yyyy formate", "Incorrect Date Formate Entered",
+						JOptionPane.ERROR_MESSAGE);
+			}
+			return date;
+
+		}
 
 		/**
 		 * This method converts date to String
