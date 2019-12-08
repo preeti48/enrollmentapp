@@ -34,72 +34,105 @@ public class TabGui extends JFrame {
 	int age;
 
 	Applicant theApplicant = null;
-	
 
-	// Preethi
 	private void calculatePriority(Applicant applicant) {
-	    System.out.println("calculatePriority called");
-	    //enrollmentDecisionTab.groupNumField.setText(" 25 ");
-	    
-	    if(overviewTab.usaResiRButtonY.isSelected()) { // if usa resident
-	        //military service is more than 5 years, or senior In-State (over 55 and instate are selected). 
-	        if(eligibilityFactorsTab.activeYearMoreThan5.isSelected() || ( eligibilityFactorsTab.overAge55Y.isSelected() && eligibilityFactorsTab.residStatusIn.isSelected())) {
-	            //if(eligibilityFactorsTab.overAge55Y.isSelected()){
-	            //	if(eligibilityFactorsTab.residStatusIn.isSelected()){
-	                    enrollmentDecisionTab.groupNumField.setText(" 1 ");
-	                    enrollmentDecisionTab.groupDescriptionField.setText(" Group 1: USA Resident, military service is more than 5 years, or senior In-State. Tuition is free. ");					
-	                    applicant.enrollDecision.setGroup(1);
-	                    applicant.enrollDecision.setGrpDiscription("Group 1: USA Resident, military service is more than 5 years, or senior In-State. Tuition is free. ");
-	                    //	}
-	            //}
-	                    //Group 2: USA Resident, military service from 1 to 5 years. OR disability = yes. 
-	        }else if(eligibilityFactorsTab.activeYearBetween1_5.isSelected()|| eligibilityFactorsTab.disabilityY.isSelected()){
-	            //if(eligibilityFactorsTab.disabilityY.isSelected()) {
-	                enrollmentDecisionTab.groupNumField.setText(" 2 ");
-	                enrollmentDecisionTab.groupDescriptionField.setText("Group 2: \n USA Resident, \n military service from 1 to 5 years, \n or disability = yes. \n Scholarship award 75%.");
-	            //}
-	                applicant.enrollDecision.setGroup(2);
-	                applicant.enrollDecision.setGrpDiscription("\"Group 2: \\n USA Resident, \\n military service from 1 to 5 years, \\n or disability = yes. \\n Scholarship award 75%.");
-	        }
-	     return;
-	    }
-	    // not Us resident.	Group 3: Non-dependent with financial aid eligibility. 
-	    else if(eligibilityFactorsTab.areYouDependentN.isSelected() || eligibilityFactorsTab.financialAidY.isSelected()){//|| financialInfoTab.finanDependRButtonN.isSelected()) {
-	            enrollmentDecisionTab.groupNumField.setText(" 3 ");
-	            enrollmentDecisionTab.groupDescriptionField.setText("Group 3: Non-dependent with financial aid eligibility. Scholarship award 50%.");
-	            applicant.enrollDecision.setGroup(3);
-	            applicant.enrollDecision.setGrpDiscription("Group 3: Non-dependent with financial aid eligibility. Scholarship award 50%.");
-	    }
-	    
-	    //Group 4: student is low income  (less than 40,000.00).
-	    else if(((Double.parseDouble(financialInfoTab.studentLastYearIncomeField.getText())< 40000)) || ((Double.parseDouble(financialInfoTab.parenttLastYearIncomeField.getText())< 40000))){
-	        enrollmentDecisionTab.groupNumField.setText(" 4 ");
-	        enrollmentDecisionTab.groupDescriptionField.setText("Group 4: From low income family.  Scholarship award 35%.");
-	        applicant.enrollDecision.setGroup(4);
-	        applicant.enrollDecision.setGrpDiscription("Group 4: From low income family.  Scholarship award 35%.");
-	    }
-	    
-	    else if((((Double.parseDouble(financialInfoTab.studentLastYearIncomeField.getText())> 40000)) || ((Double.parseDouble(financialInfoTab.parenttLastYearIncomeField.getText())> 40000)))){
-	        
-	        enrollmentDecisionTab.groupNumField.setText(" 5 ");
-	        enrollmentDecisionTab.groupDescriptionField.setText("Group 5: Military service is less than a year, 529 account, not from low income family, or other categories not eligible for discount. Not eligible for scholarship.");
-	        applicant.enrollDecision.setGroup(5);
-	        applicant.enrollDecision.setGrpDiscription("Group 5: Military service is less than a year, 529 account, not from low income family, or other categories not eligible for discount. Not eligible for scholarship.");
-	        return;
-	    }
-	    
-	    
-	    if(financialInfoTab.hav529AcctRButtonY.isSelected() || financialInfoTab.havRealEstRButtonY.isSelected()) {
-	        
-	        enrollmentDecisionTab.groupNumField.setText(" 5 ");
-	        enrollmentDecisionTab.groupDescriptionField.setText("Group 5: Military service is less than a year, 529 account, not from low income family, or other categories not eligible for discount. Not eligible for scholarship.");
-	        applicant.enrollDecision.setGroup(5);
-	        applicant.enrollDecision.setGrpDiscription("Group 5: Military service is less than a year, 529 account, not from low income family, or other categories not eligible for discount. Not eligible for scholarship.");
-	    }
-	    
-	    
-	}
+		System.out.println("calculatePriority called");
+		// enrollmentDecisionTab.groupNumField.setText(" 25 ");
 
+		if (overviewTab.usaResiRButtonY.isSelected()) { // if usa resident
+			// military service is more than 5 years, or senior In-State (over 55 and
+			// instate are selected).
+			if (eligibilityFactorsTab.activeYearMoreThan5.isSelected() || (eligibilityFactorsTab.overAge55Y.isSelected()
+					&& eligibilityFactorsTab.residStatusIn.isSelected())) {
+				// if(eligibilityFactorsTab.overAge55Y.isSelected()){
+				// if(eligibilityFactorsTab.residStatusIn.isSelected()){
+				enrollmentDecisionTab.groupNumField.setText(" 1 ");
+				enrollmentDecisionTab.groupDescriptionField.setText(
+						" Group 1: USA Resident, military service is more than 5 years, or senior In-State. Tuition is free. ");
+				applicant.enrollDecision.setGroup(1);
+				applicant.enrollDecision.setGrpDiscription(
+						"Group 1: USA Resident, military service is more than 5 years, or senior In-State. Tuition is free. ");
+				// }
+				// }
+				// Group 2: USA Resident, military service from 1 to 5 years. OR disability =
+				// yes.
+			} else if (eligibilityFactorsTab.activeYearBetween1_5.isSelected()
+					|| eligibilityFactorsTab.disabilityY.isSelected()) {
+				// if(eligibilityFactorsTab.disabilityY.isSelected()) {
+				enrollmentDecisionTab.groupNumField.setText(" 2 ");
+				enrollmentDecisionTab.groupDescriptionField.setText(
+						"Group 2:  USA Resident, military service from 1 to 5 years, or disability = yes.  Scholarship award 75%.");
+				// }
+				applicant.enrollDecision.setGroup(2);
+				applicant.enrollDecision.setGrpDiscription(
+						"Group 2: USA Resident, military service from 1 to 5 years, or disability = yes. Scholarship award 75%.");
+			}
+			return;
+		}
+		// not Us resident. Group 3: Non-dependent with financial aid eligibility.
+		else if (eligibilityFactorsTab.areYouDependentN.isSelected()
+				&& eligibilityFactorsTab.financialAidY.isSelected()) {// 
+																		// financialInfoTab.finanDependRButtonN.isSelected())
+																		// {
+			enrollmentDecisionTab.groupNumField.setText(" 3 ");
+			enrollmentDecisionTab.groupDescriptionField
+					.setText("Group 3: Non-dependent with financial aid eligibility. Scholarship award 50%.");
+			applicant.enrollDecision.setGroup(3);
+			applicant.enrollDecision
+					.setGrpDiscription("Group 3: Non-dependent with financial aid eligibility. Scholarship award 50%.");
+		}
+
+		// Group 4: student is low income (less than 40,000.00).
+		else if ( (financialInfoTab.finanDependRButtonY.isSelected()) && ((Double.parseDouble(financialInfoTab.parenttLastYearIncomeField.getText()) < 40000 )|| (financialInfoTab.finanDependRButtonN.isSelected()) && (Double.parseDouble(financialInfoTab.studentLastYearIncomeField.getText())< 40000))) {
+			enrollmentDecisionTab.groupNumField.setText(" 4 ");
+			enrollmentDecisionTab.groupDescriptionField
+					.setText("Group 4: From low income family.  Scholarship award 35%.");
+			applicant.enrollDecision.setGroup(4);
+			applicant.enrollDecision.setGrpDiscription("Group 4: From low income family.  Scholarship award 35%.");
+		}
+		else if ((((Double.parseDouble(financialInfoTab.studentLastYearIncomeField.getText()) > 40000))
+				|| ((Double.parseDouble(financialInfoTab.parenttLastYearIncomeField.getText()) > 40000)))) {
+
+			enrollmentDecisionTab.groupNumField.setText(" 5 ");
+			enrollmentDecisionTab.groupDescriptionField.setText(
+					"Group 5: Military service is less than a year, 529 account, not from low income family, or other categories not eligible for discount. Not eligible for scholarship.");
+			applicant.enrollDecision.setGroup(5);
+			applicant.enrollDecision.setGrpDiscription(
+					"Group 5: Military service is less than a year, 529 account, not from low income family, or other categories not eligible for discount. Not eligible for scholarship.");
+		//	return;
+		}
+//		else if (((Double.parseDouble(financialInfoTab.studentLastYearIncomeField.getText()) < 40000))
+//				) {
+//			enrollmentDecisionTab.groupNumField.setText(" 4 ");
+//			enrollmentDecisionTab.groupDescriptionField
+//					.setText("Group 4: From low income family.  Scholarship award 35%.");
+//			applicant.enrollDecision.setGroup(4);
+//			applicant.enrollDecision.setGrpDiscription("Group 4: From low income family.  Scholarship award 35%.");
+//		}
+//		
+//		else if ((((Double.parseDouble(financialInfoTab.studentLastYearIncomeField.getText()) > 40000))
+//				|| ((Double.parseDouble(financialInfoTab.parenttLastYearIncomeField.getText()) > 40000)))) {
+//
+//			enrollmentDecisionTab.groupNumField.setText(" 5 ");
+//			enrollmentDecisionTab.groupDescriptionField.setText(
+//					"Group 5: Military service is less than a year, 529 account, not from low income family, or other categories not eligible for discount. Not eligible for scholarship.");
+//			applicant.enrollDecision.setGroup(5);
+//			applicant.enrollDecision.setGrpDiscription(
+//					"Group 5: Military service is less than a year, 529 account, not from low income family, or other categories not eligible for discount. Not eligible for scholarship.");
+//			return;
+//		}
+
+		if (financialInfoTab.hav529AcctRButtonY.isSelected() || financialInfoTab.havRealEstRButtonY.isSelected()) {
+
+			enrollmentDecisionTab.groupNumField.setText(" 5 ");
+			enrollmentDecisionTab.groupDescriptionField.setText(
+					"Group 5: Military service is less than a year, 529 account, not from low income family, or other categories not eligible for discount. Not eligible for scholarship.");
+			applicant.enrollDecision.setGroup(5);
+			applicant.enrollDecision.setGrpDiscription(
+					"Group 5: Military service is less than a year, 529 account, not from low income family, or other categories not eligible for discount. Not eligible for scholarship.");
+		}
+
+	}
 	public TabGui(Applicant applicant) {
 
 		super("Enrollment Scholarship Application");
@@ -112,20 +145,18 @@ public class TabGui extends JFrame {
 		eligibilityFactorsTab = new EligibilityFactorsTab(applicant);
 		if (applicant != null)// Olga
 			enrollmentDecisionTab = new EnrollmentDecisionTab(applicant);
-		
+
 		jtpTabPane.addTab("Student Overview", overviewTab);
 		jtpTabPane.addTab("Financial Information", financialInfoTab);
 		jtpTabPane.addTab("Eligibility Factors", eligibilityFactorsTab);
 		jtpTabPane.addTab("Enrollment Decision", enrollmentDecisionTab);
 		getContentPane().add(jtpTabPane);
-		
-
 
 		setSize(800, 600);
 		setVisible(true);
 	}
 
-	private class OverviewTab extends JPanel implements ESAInterface{
+	private class OverviewTab extends JPanel implements ESAInterface {
 		private JPanel buttonPanel = new JPanel(new FlowLayout());
 		private JPanel centerPanel = new JPanel(new GridLayout(8, 4, 35, 35));
 		private JPanel sexRadioPanel = new JPanel(new FlowLayout());
@@ -173,14 +204,14 @@ public class TabGui extends JFrame {
 		private JTextField e_phoneField = new JTextField();
 		private JLabel phNumLAbel = new JLabel("Phone #: ");
 		private JTextField phNumField = new JTextField();
-		//private JLabel mobNumLabel = new JLabel("Mobile #: ");
-		//private JTextField mobNumField = new JTextField();
+		// private JLabel mobNumLabel = new JLabel("Mobile #: ");
+		// private JTextField mobNumField = new JTextField();
 
 		private JButton update = new JButton("Update");
 		private JButton reset = new JButton("Reset");
 		private JButton cancel = new JButton("Cancel");
-        private Applicant applicant; 
-        
+		private Applicant applicant;
+
 		private OverviewTab(Applicant appli) {
 			applicant = appli;
 			buttongroup1.add(birthSexRButtonM);
@@ -222,9 +253,7 @@ public class TabGui extends JFrame {
 			stateField.setText(applicant.getState());
 			centerPanel.add(dobLabel);
 			centerPanel.add(dobField);
-			
-		
-			
+
 			dobField.setText(dateToString(applicant.getDob()));
 			centerPanel.add(zipLabel);
 			centerPanel.add(zipField);
@@ -252,8 +281,8 @@ public class TabGui extends JFrame {
 			centerPanel.add(phNumLAbel);
 			centerPanel.add(phNumField);
 			phNumField.setText(applicant.getPhone());
-			//centerPanel.add(mobNumLabel);
-			//centerPanel.add(mobNumField);
+			// centerPanel.add(mobNumLabel);
+			// centerPanel.add(mobNumField);
 
 			add(buttonPanel, "South");
 			buttonPanel.add(update);
@@ -278,18 +307,18 @@ public class TabGui extends JFrame {
 					e_contactField.setText("");
 					e_phoneField.setText("");
 					phNumField.setText("");
-					//mobNumField.setText("");
-				
+					// mobNumField.setText("");
+
 				}
 			});
 			buttonPanel.add(cancel);
 			cancel.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-				//	SearchScreen searchPage = new SearchScreen();
-					//searchPage.connection();
-					
+					// SearchScreen searchPage = new SearchScreen();
+					// searchPage.connection();
+
 					TabGui.this.setVisible(false);
-					//new SearchScreen().setVisible(true);
+					// new SearchScreen().setVisible(true);
 				}
 			});
 
@@ -297,207 +326,186 @@ public class TabGui extends JFrame {
 			rightPanel.add(emptyLabel1);
 			add(leftPanel, "East");
 			leftPanel.add(emptyLabel2);
-		//lastname text limit
-		lastNameField.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent evt) {
-				 char c= evt.getKeyChar();
-				 //validate input are letters
-                 if (Character.isLetter(c) || Character.isISOControl(c))
-                   {
-                	 lastNameField.setEditable(true);
-                   }else
-                   {
-                	 //lastNameField.setEditable(false);
-                	//output error message if input is wrong
-                	 JOptionPane.showMessageDialog(lastNameField, "Enter Letters Only");
-	                evt.consume();//ignore event
-	            } 
-			}
-		});
-		//streetfield text/digit
-		streetField.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent evt) {
-				 char c= evt.getKeyChar();
-				 //validate input are letters
-                 if (Character.isLetterOrDigit(c) || Character.isISOControl(c) || Character.isWhitespace(c))
-                   {
-                	 streetField.setEditable(true);
-                   }else
-                   {
-                	 streetField.setEditable(false);
-                	//output error message if input is wrong
-                	 JOptionPane.showMessageDialog(streetField, "Enter Letters/Digits Only");
-	                evt.consume();//ignore event
-	            } 
-			}
-		});
-		//firstname text limit
-		firstNameField.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent evt) {
-				 char c= evt.getKeyChar();
-				 //validate input are letters
-                 if (Character.isLetter(c) || Character.isISOControl(c))
-                   {
-                	 firstNameField.setEditable(true);
-                   }else
-                   {
-                	 //firstNameField.setEditable(false);
-                	//output error message if input is wrong
-                	 JOptionPane.showMessageDialog(firstNameField, "Enter Letters Only");
-	                evt.consume();//ignore event
-	            } 
-			}
-		});
-		//city text limit
-		cityField.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent evt) {
-				 char c= evt.getKeyChar();
-				 //validate input are letters
-                 if (Character.isLetter(c) || Character.isISOControl(c))
-                   {
-                	 cityField.setEditable(true);
-                   }else
-                   {
-                	 cityField.setEditable(false);
-                	//output error message if input is wrong
-                	 JOptionPane.showMessageDialog(cityField, "Enter Letters Only");
-	                evt.consume();//ignore event
-	            } 
-			}
-		});
-		//ssn digit limit
-		ssnField.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent evt) {
-				 char c= evt.getKeyChar();
-				 //validate input are digits
-				if (Character.isDigit(c) || Character.isISOControl(c))
-                   {
-					ssnField.setEditable(true);
-                   }else 
-                   {
-                	//ssnField.setEditable(false);
-                	//output error message if input is wrong
-                	JOptionPane.showMessageDialog(ssnField, "Enter Digits Only");
-	                evt.consume();//ignore event
-	            } 
-                 
-			}
-		});
-		//state text limit
-		stateField.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent evt) {
-				 char c= evt.getKeyChar();
-				 //validate input are letters
-                 if (Character.isLetter(c) || Character.isISOControl(c))
-                   {
-                	 stateField.setEditable(true);
-                   }else
-                   {
-                	 //stateField.setEditable(false);
-                	//output error message if input is wrong
-                	 JOptionPane.showMessageDialog(stateField, "Enter Letters Only");
-	                evt.consume();//ignore event
-	            } 
-			}
-		});
-		//contact name text limit
-		e_contactField.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent evt) {
-				 char c= evt.getKeyChar();
-				 //validate input are letters
-                 if (Character.isLetter(c) || Character.isISOControl(c))
-                   {
-                	 e_contactField.setEditable(true);
-                   }else
-                   {
-                //	 e_contactField.setEditable(false);
-                	//output error message if input is wrong
-                	 JOptionPane.showMessageDialog(e_contactField, "Enter Letters Only");
-	                evt.consume();//ignore event
-	            } 
-			}
-		});
-		//phone digit limit
-		e_phoneField.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent evt) {
-				 char c= evt.getKeyChar();
-				 //validate input are digits
-				if (Character.isDigit(c)|| Character.isISOControl(c))
-                   {
-					e_phoneField.setEditable(true);
-                   }else 
-                   {
-                	//e_phoneField.setEditable(false);
-                	//output error message if input is wrong
-                	JOptionPane.showMessageDialog(e_phoneField, "Enter Digits Only");
-	                evt.consume();//ignore event
-	            } 
-                 
-			}
-		});
-		//Phone digit limit
-		phNumField.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent evt) {
-				 char c= evt.getKeyChar();
-				//validate input are digits
-				if (Character.isDigit(c)|| Character.isISOControl(c))
-                   {
-					phNumField.setEditable(true);
-                   }else 
-                   {
-                	//phNumField.setEditable(false);
-                	//output error message if input is wrong
-                	JOptionPane.showMessageDialog(phNumField, "Enter Digits Only");
-	                evt.consume();//ignore event
-	            } 
-                 
-			}
-		});
-		//dob digit limit **implement "/" I do not know how to do symbol validation
-		dobField.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent evt) {
-				 char c= evt.getKeyChar();
-				//validate input are digits
-				if (Character.isDigit(c)|| Character.isISOControl(c))
-                   {
-					dobField.setEditable(true);
-                   }else 
-                   {
-                	//dobField.setEditable(false);
-	                evt.consume();//ignore event
-	            } 
-                 
-			}
-		});
-		//zipcode digit limit
-		zipField.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent evt) {
-				 char c= evt.getKeyChar();
-				//validate input are digits
-				if (Character.isDigit(c)|| Character.isISOControl(c))
-                   {
-                	 zipField.setEditable(true);
-                   }else 
-                   {
-                	// zipField.setEditable(false);
-                	 //output error message if input is wrong
-                	 JOptionPane.showMessageDialog(zipField, "Enter Digits Only");
-	                evt.consume();//ignore event
-	            } 
-                 
-			}	
-		});}
+			// lastname text limit
+			lastNameField.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent evt) {
+					char c = evt.getKeyChar();
+					// validate input are letters
+					if (Character.isLetter(c) || Character.isISOControl(c)) {
+						lastNameField.setEditable(true);
+					} else {
+						// lastNameField.setEditable(false);
+						// output error message if input is wrong
+						JOptionPane.showMessageDialog(lastNameField, "Enter Letters Only");
+						evt.consume();// ignore event
+					}
+				}
+			});
+			// streetfield text/digit
+			streetField.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent evt) {
+					char c = evt.getKeyChar();
+					// validate input are letters
+					if (Character.isLetterOrDigit(c) || Character.isISOControl(c) || Character.isWhitespace(c)) {
+						streetField.setEditable(true);
+					} else {
+						streetField.setEditable(false);
+						// output error message if input is wrong
+						JOptionPane.showMessageDialog(streetField, "Enter Letters/Digits Only");
+						evt.consume();// ignore event
+					}
+				}
+			});
+			// firstname text limit
+			firstNameField.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent evt) {
+					char c = evt.getKeyChar();
+					// validate input are letters
+					if (Character.isLetter(c) || Character.isISOControl(c)) {
+						firstNameField.setEditable(true);
+					} else {
+						// firstNameField.setEditable(false);
+						// output error message if input is wrong
+						JOptionPane.showMessageDialog(firstNameField, "Enter Letters Only");
+						evt.consume();// ignore event
+					}
+				}
+			});
+			// city text limit
+			cityField.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent evt) {
+					char c = evt.getKeyChar();
+					// validate input are letters
+					if (Character.isLetter(c) || Character.isISOControl(c)) {
+						cityField.setEditable(true);
+					} else {
+						cityField.setEditable(false);
+						// output error message if input is wrong
+						JOptionPane.showMessageDialog(cityField, "Enter Letters Only");
+						evt.consume();// ignore event
+					}
+				}
+			});
+			// ssn digit limit
+			ssnField.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent evt) {
+					char c = evt.getKeyChar();
+					// validate input are digits
+					if (Character.isDigit(c) || Character.isISOControl(c)) {
+						ssnField.setEditable(true);
+					} else {
+						// ssnField.setEditable(false);
+						// output error message if input is wrong
+						JOptionPane.showMessageDialog(ssnField, "Enter Digits Only");
+						evt.consume();// ignore event
+					}
+
+				}
+			});
+			// state text limit
+			stateField.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent evt) {
+					char c = evt.getKeyChar();
+					// validate input are letters
+					if (Character.isLetter(c) || Character.isISOControl(c)) {
+						stateField.setEditable(true);
+					} else {
+						// stateField.setEditable(false);
+						// output error message if input is wrong
+						JOptionPane.showMessageDialog(stateField, "Enter Letters Only");
+						evt.consume();// ignore event
+					}
+				}
+			});
+			// contact name text limit
+			e_contactField.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent evt) {
+					char c = evt.getKeyChar();
+					// validate input are letters
+					if (Character.isLetter(c) || Character.isISOControl(c)) {
+						e_contactField.setEditable(true);
+					} else {
+						// e_contactField.setEditable(false);
+						// output error message if input is wrong
+						JOptionPane.showMessageDialog(e_contactField, "Enter Letters Only");
+						evt.consume();// ignore event
+					}
+				}
+			});
+			// phone digit limit
+			e_phoneField.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent evt) {
+					char c = evt.getKeyChar();
+					// validate input are digits
+					if (Character.isDigit(c) || Character.isISOControl(c)) {
+						e_phoneField.setEditable(true);
+					} else {
+						// e_phoneField.setEditable(false);
+						// output error message if input is wrong
+						JOptionPane.showMessageDialog(e_phoneField, "Enter Digits Only");
+						evt.consume();// ignore event
+					}
+
+				}
+			});
+			// Phone digit limit
+			phNumField.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent evt) {
+					char c = evt.getKeyChar();
+					// validate input are digits
+					if (Character.isDigit(c) || Character.isISOControl(c)) {
+						phNumField.setEditable(true);
+					} else {
+						// phNumField.setEditable(false);
+						// output error message if input is wrong
+						JOptionPane.showMessageDialog(phNumField, "Enter Digits Only");
+						evt.consume();// ignore event
+					}
+
+				}
+			});
+			// dob digit limit **implement "/" I do not know how to do symbol validation
+			dobField.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent evt) {
+					char c = evt.getKeyChar();
+					// validate input are digits
+					if (Character.isDigit(c) || Character.isISOControl(c)) {
+						dobField.setEditable(true);
+					} else {
+						// dobField.setEditable(false);
+						evt.consume();// ignore event
+					}
+
+				}
+			});
+			// zipcode digit limit
+			zipField.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent evt) {
+					char c = evt.getKeyChar();
+					// validate input are digits
+					if (Character.isDigit(c) || Character.isISOControl(c)) {
+						zipField.setEditable(true);
+					} else {
+						// zipField.setEditable(false);
+						// output error message if input is wrong
+						JOptionPane.showMessageDialog(zipField, "Enter Digits Only");
+						evt.consume();// ignore event
+					}
+
+				}
+			});
+		}
 
 		/**
 		 * This method converts date to String
@@ -508,12 +516,10 @@ public class TabGui extends JFrame {
 		private String dateToString(Date d) {
 			DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 			String strDate = null;
-			if(d != null)
-			 strDate = dateFormat.format(d);
+			if (d != null)
+				strDate = dateFormat.format(d);
 			return strDate;
 		}
-		
-		
 
 		/**
 		 * This method handles radio button
@@ -521,19 +527,19 @@ public class TabGui extends JFrame {
 		 * @param gen is gender selected by user
 		 */
 		private void radioHandle(String gen) {
-			if(gen!= null){
-			if (gen.equals("male")) {
-				birthSexRButtonM.setSelected(true);
-				return;
-			} else if (gen.equals("female")) {
-				birthSexRButtonF.setSelected(true);
-				return;
-			} else if (gen.equals("Other")) {
-				birthSexRButtonO.setSelected(true);
-				return;
+			if (gen != null) {
+				if (gen.equals("male")) {
+					birthSexRButtonM.setSelected(true);
+					return;
+				} else if (gen.equals("female")) {
+					birthSexRButtonF.setSelected(true);
+					return;
+				} else if (gen.equals("Other")) {
+					birthSexRButtonO.setSelected(true);
+					return;
+				}
 			}
-			}
-		}	
+		}
 
 		/**
 		 * This method handles residential status
@@ -550,42 +556,37 @@ public class TabGui extends JFrame {
 			}
 
 		}
-		
-		
 
 		public void performUpdate(Applicant student) {
-			
-			
+
 			student.setLname(lastNameField.getText());
 			student.setFname(firstNameField.getText());
-			
-			//validating entered ssn for update
+
+			// validating entered ssn for update
 			if (ssnField.getText().trim().length() == 9 && ssnField.getText().trim().matches("[0-9]+")) {
-			if(student.getSsn() != Integer.parseInt(ssnField.getText().trim())){
-				//check if ssn exist in db
-				boolean duplicateSSN = ESADBConnection.checkDuplicateSSN(ssnField.getText().trim());
-				if(duplicateSSN){
-					JOptionPane.showMessageDialog(frame, "Entered SSN already exist, Please enter correct SSN ", "Duplicate SSN",
-							JOptionPane.ERROR_MESSAGE);
+				if (student.getSsn() != Integer.parseInt(ssnField.getText().trim())) {
+					// check if ssn exist in db
+					boolean duplicateSSN = ESADBConnection.checkDuplicateSSN(ssnField.getText().trim());
+					if (duplicateSSN) {
+						JOptionPane.showMessageDialog(frame, "Entered SSN already exist, Please enter correct SSN ",
+								"Duplicate SSN", JOptionPane.ERROR_MESSAGE);
+					} else {
+						student.setSsn(Integer.parseInt(ssnField.getText().trim()));
+					}
 				}
-				else{
-					student.setSsn(Integer.parseInt(ssnField.getText().trim()));
-				}
-			}
-			}
-			else{
+			} else {
 				JOptionPane.showMessageDialog(frame, "Please enter correct SSN, with 9 digits only ", "Incorrect SSN",
 						JOptionPane.ERROR_MESSAGE);
 			}
-			
+
 			Date date = stringToDate(dobField.getText());
-			if(date != null){
-			student.setDob(date);
+			if (date != null) {
+				student.setDob(date);
 			}
-			//setting a gender
+			// setting a gender
 			String gen = getSelectedGender();
 			student.setGender(gen);
-			student.setUsaResident((usaResiRButtonY.isSelected())? true : false);
+			student.setUsaResident((usaResiRButtonY.isSelected()) ? true : false);
 			student.setEmergencyContact(e_contactField.getText());
 			student.setPhone(phNumField.getText());
 			student.setStreet(streetField.getText());
@@ -593,45 +594,46 @@ public class TabGui extends JFrame {
 			student.setState(stateField.getText());
 			student.setZip(Integer.parseInt(zipField.getText()));
 			student.setE_phone(e_phoneField.getText());
-			
+
 			TabGui.this.calculatePriority(student);
-			
+
 			ESADBConnection.updateRecord(student);
 			ESADBConnection.updateEligibilityRecord(student);
-			
+
 		}
+
 		/**
 		 * This method returns a selected gender
+		 * 
 		 * @return selected gender
 		 */
 		private String getSelectedGender() {
 			String gender;
-			if (birthSexRButtonM.isSelected()){
+			if (birthSexRButtonM.isSelected()) {
 				gender = "male";
-			} else if  (birthSexRButtonF.isSelected()){
+			} else if (birthSexRButtonF.isSelected()) {
 				gender = "female";
 			} else if (birthSexRButtonO.isSelected()) {
-				gender ="Other";
-			}
-			else {
-				gender ="NULL";
+				gender = "Other";
+			} else {
+				gender = "NULL";
 			}
 			return gender;
-			
+
 		}
 
 		public void performCancel() {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		public void performReset() {
 			// TODO Auto-generated method stub
-			
+
 		}
 	}
 
-	private class FinancialInfoTab extends JPanel implements ESAInterface{
+	private class FinancialInfoTab extends JPanel implements ESAInterface {
 
 		private JPanel buttonPanel = new JPanel(new FlowLayout());
 		private JPanel leftPanel = new JPanel(new FlowLayout());
@@ -680,7 +682,7 @@ public class TabGui extends JFrame {
 		private JButton update = new JButton("Update");
 		private JButton reset = new JButton("Reset");
 		private JButton cancel = new JButton("Cancel");
-		private Applicant applicant; 
+		private Applicant applicant;
 
 		private FinancialInfoTab(Applicant appli) {
 			applicant = appli;
@@ -762,68 +764,62 @@ public class TabGui extends JFrame {
 			buttonPanel.add(cancel);
 			cancel.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					//SearchScreen searchPage = new SearchScreen();
-					//searchPage.connection();
-					
+					// SearchScreen searchPage = new SearchScreen();
+					// searchPage.connection();
+
 					TabGui.this.setVisible(false);
-					//new SearchScreen().setVisible(true);
+					// new SearchScreen().setVisible(true);
 				}
 			});
-			
-			//student income digit only limit
+
+			// student income digit only limit
 			studentLastYearIncomeField.addKeyListener(new KeyAdapter() {
 				@Override
 				public void keyTyped(KeyEvent evt) {
-					 char c= evt.getKeyChar();
-					 //validate value input is digits
-					if (Character.isDigit(c)|| Character.isISOControl(c)|| (c == ('.')))
-	                   {
+					char c = evt.getKeyChar();
+					// validate value input is digits
+					if (Character.isDigit(c) || Character.isISOControl(c) || (c == ('.'))) {
 						studentLastYearIncomeField.setEditable(true);
-	                   }else 
-	                   {
-	                	//studentLastYearIncomeField.setEditable(false);
-	                	//output error message if input is wrong
-	                	JOptionPane.showMessageDialog(studentLastYearIncomeField, "Enter Digit Only");
-		                evt.consume();//ignore event
-		            } 
-	                 
+					} else {
+						// studentLastYearIncomeField.setEditable(false);
+						// output error message if input is wrong
+						JOptionPane.showMessageDialog(studentLastYearIncomeField, "Enter Digit Only");
+						evt.consume();// ignore event
+					}
+
 				}
 			});
-			//parent income digit limit
+			// parent income digit limit
 			parenttLastYearIncomeField.addKeyListener(new KeyAdapter() {
 				@Override
 				public void keyTyped(KeyEvent evt) {
-					 char c= evt.getKeyChar();
-					 //validate value input is digits
-					if (Character.isDigit(c)|| Character.isISOControl(c)|| (c == ('.')))
-	                   {
+					char c = evt.getKeyChar();
+					// validate value input is digits
+					if (Character.isDigit(c) || Character.isISOControl(c) || (c == ('.'))) {
 						parenttLastYearIncomeField.setEditable(true);
-	                   }else 
-	                   {
-	                	//parenttLastYearIncomeField.setEditable(false);
-	                	//output error message if input is wrong
-	                	JOptionPane.showMessageDialog(parenttLastYearIncomeField, "Enter Digit Only");
-		                evt.consume();//ignore event
-		            } 
-	                 
+					} else {
+						// parenttLastYearIncomeField.setEditable(false);
+						// output error message if input is wrong
+						JOptionPane.showMessageDialog(parenttLastYearIncomeField, "Enter Digit Only");
+						evt.consume();// ignore event
+					}
+
 				}
 			});
 			valOfOtherProptyField.addKeyListener(new KeyAdapter() {
 				@Override
 				public void keyTyped(KeyEvent evt) {
-					 char c= evt.getKeyChar();
-					 //validate value input is digits
-					if (Character.isDigit(c)|| Character.isISOControl(c) || (c == ('.')))
-	                   {
+					char c = evt.getKeyChar();
+					// validate value input is digits
+					if (Character.isDigit(c) || Character.isISOControl(c) || (c == ('.'))) {
 						valOfOtherProptyField.setEditable(true);
-	                   }else 
-	                   {
-	                	//valOfOtherProptyField.setEditable(false);
-	                	//output error message if input is wrong
-	                	JOptionPane.showMessageDialog(valOfOtherProptyField, "Enter Digit Only");
-		                evt.consume();//ignore event
-		            } 
-	                 
+					} else {
+						// valOfOtherProptyField.setEditable(false);
+						// output error message if input is wrong
+						JOptionPane.showMessageDialog(valOfOtherProptyField, "Enter Digit Only");
+						evt.consume();// ignore event
+					}
+
 				}
 			});
 
@@ -852,69 +848,62 @@ public class TabGui extends JFrame {
 		}
 
 		public void performUpdate(Applicant s) {
-			
-			if(s.finInfo!=null)
-				s.finInfo.setDependency((finanDependRButtonY.isSelected())? true : false);
-			else if (s.finInfo == null)
-			{
+
+			if (s.finInfo != null)
+				s.finInfo.setDependency((finanDependRButtonY.isSelected()) ? true : false);
+			else if (s.finInfo == null) {
 				System.out.println("peformUpdate s.finInfo=" + s.finInfo);
 				s.finInfo = new FinancialInformation();
-				s.finInfo.setDependency((finanDependRButtonY.isSelected())? true : false);
+				s.finInfo.setDependency((finanDependRButtonY.isSelected()) ? true : false);
 			}
-			
-			//studentincome
-			
-			if(!studentLastYearIncomeField.getText().isEmpty()){
-				String str =studentLastYearIncomeField.getText();
-				//check if entered string is number only
+
+			// studentincome
+
+			if (!studentLastYearIncomeField.getText().isEmpty()) {
+				String str = studentLastYearIncomeField.getText();
+				// check if entered string is number only
 				s.finInfo.setStudentIncome(Double.parseDouble(str));
-			}
-			else{
+			} else {
 				AllFiledReqPopup();
 			}
-			
-			//parentincome
-			if(!parenttLastYearIncomeField.getText().isEmpty()){
-				String str =parenttLastYearIncomeField.getText();
-				//check if entered string is number only
+
+			// parentincome
+			if (!parenttLastYearIncomeField.getText().isEmpty()) {
+				String str = parenttLastYearIncomeField.getText();
+				// check if entered string is number only
 				s.finInfo.setParentIncome(Double.parseDouble(str));
-			}
-			else{
+			} else {
 				AllFiledReqPopup();
 			}
-			
-			s.finInfo.set529Status((hav529AcctRButtonY.isSelected())? true : false);
-			s.finInfo.setRealStatus((havRealEstRButtonY.isSelected())? true : false);
-			
-			
-			//propvalue
-			if(!valOfOtherProptyField.getText().isEmpty()){
-				String str =valOfOtherProptyField.getText();
-				//check if entered string is number only
+
+			s.finInfo.set529Status((hav529AcctRButtonY.isSelected()) ? true : false);
+			s.finInfo.setRealStatus((havRealEstRButtonY.isSelected()) ? true : false);
+
+			// propvalue
+			if (!valOfOtherProptyField.getText().isEmpty()) {
+				String str = valOfOtherProptyField.getText();
+				// check if entered string is number only
 				s.finInfo.setPropValue(Double.parseDouble(str));
-			}
-			else{
+			} else {
 				AllFiledReqPopup();
 			}
-			
+
 			TabGui.this.calculatePriority(s);
 			ESADBConnection.updateFinancialRecord(s);
 			ESADBConnection.updateEligibilityRecord(s);
-			
+
 		}
 
-		
 		public void performCancel() {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		public void performReset() {
 			// TODO Auto-generated method stub
-			
+
 		}
-		
-		
+
 	}
 
 	private class EligibilityFactorsTab extends JPanel implements ESAInterface {
@@ -1015,9 +1004,9 @@ public class TabGui extends JFrame {
 			buttonGroup8.add(overAge55N);
 			buttonGroup9.add(areYouDependentY);
 			buttonGroup9.add(areYouDependentN);
-			
+
 			overAge55Y.setEnabled(false);
-            overAge55N.setEnabled(false);
+			overAge55N.setEnabled(false);
 
 			setLayout(new BorderLayout());
 			add(centerPanel, "Center");
@@ -1030,29 +1019,27 @@ public class TabGui extends JFrame {
 			servedMilitaryPanel.add(havServedMilitaryN);
 			centerPanel.add(servedMilitaryPanel);
 			havServedMilitaryY.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e)
-		        {
+				public void actionPerformed(ActionEvent e) {
 					militaryStatusActive.setEnabled(true);
 					militaryStatusInactive.setEnabled(true);
 					activeYearlessThan1.setEnabled(true);
 					activeYearBetween1_5.setEnabled(true);
 					activeYearMoreThan5.setEnabled(true);
-		          
-		        }
-		        });
-		havServedMilitaryN.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e)
-	        {
-				militaryStatusActive.setEnabled(false);
-				militaryStatusInactive.setEnabled(false);
-				activeYearlessThan1.setEnabled(false);
-				activeYearBetween1_5.setEnabled(false);
-				activeYearMoreThan5.setEnabled(false);
-				buttonGroup2.clearSelection();
-				buttonGroup3.clearSelection();
-	          
-	        }
-	        });
+
+				}
+			});
+			havServedMilitaryN.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					militaryStatusActive.setEnabled(false);
+					militaryStatusInactive.setEnabled(false);
+					activeYearlessThan1.setEnabled(false);
+					activeYearBetween1_5.setEnabled(false);
+					activeYearMoreThan5.setEnabled(false);
+					buttonGroup2.clearSelection();
+					buttonGroup3.clearSelection();
+
+				}
+			});
 			if (applicant.eligInfo != null) {
 				if (applicant.eligInfo.getMiliServed()) {
 					havServedMilitaryY.setSelected(true);
@@ -1089,7 +1076,7 @@ public class TabGui extends JFrame {
 						activeYearlessThan1.setSelected(true);
 					} else if (applicant.eligInfo.getActiveYears() == ActiveYears.BetweenOneAndFveYears) {
 						activeYearBetween1_5.setSelected(true);
-					} else if(applicant.eligInfo.getActiveYears() == ActiveYears.Over5Years){
+					} else if (applicant.eligInfo.getActiveYears() == ActiveYears.Over5Years) {
 						activeYearMoreThan5.setSelected(true);
 					}
 				}
@@ -1157,13 +1144,13 @@ public class TabGui extends JFrame {
 			centerPanel.add(overAge55Panel);
 			if (applicant.eligInfo != null) {
 				if (applicant.eligInfo.isAgeOver55) {
-					
+
 					overAge55Y.setSelected(true);
 				} else {
 					overAge55N.setSelected(true);
 				}
 			}
-			
+
 			centerPanel.add(areYouDependentLabel);
 			areYouDependedPanel.add(areYouDependentY);
 			areYouDependedPanel.add(areYouDependentN);
@@ -1175,8 +1162,7 @@ public class TabGui extends JFrame {
 					areYouDependentY.setSelected(true);
 				}
 			}
-			
-			
+
 			add(buttonPanel, "South");
 			buttonPanel.add(update);
 			update.addActionListener(new ActionListener() {
@@ -1197,20 +1183,17 @@ public class TabGui extends JFrame {
 					buttonGroup8.clearSelection();
 					buttonGroup9.clearSelection();
 				}
-				
-				
+
 			});
-			
-			
-			
+
 			buttonPanel.add(cancel);
 			cancel.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-				//	SearchScreen searchPage = new SearchScreen();
-					//searchPage.connection();
-					
+					// SearchScreen searchPage = new SearchScreen();
+					// searchPage.connection();
+
 					TabGui.this.setVisible(false);
-					//new SearchScreen().setVisible(true);
+					// new SearchScreen().setVisible(true);
 				}
 			});
 
@@ -1222,66 +1205,61 @@ public class TabGui extends JFrame {
 		}
 
 		public void performUpdate(Applicant student) {
-			if(havServedMilitaryY.isSelected()){
-				
+			if (havServedMilitaryY.isSelected()) {
+
 				student.eligInfo.setMiliServed(true);
-				ActiveYears year = activeYearlessThan1.isSelected()? ActiveYears.LessThanOneYears : activeYearBetween1_5.isSelected()? ActiveYears.BetweenOneAndFveYears :
-					activeYearMoreThan5.isSelected()? ActiveYears.Over5Years : ActiveYears.NoActiveYears;
-				if((!militaryStatusActive.isSelected() && !militaryStatusInactive.isSelected()) || year == ActiveYears.NoActiveYears ){
+				ActiveYears year = activeYearlessThan1.isSelected() ? ActiveYears.LessThanOneYears
+						: activeYearBetween1_5.isSelected() ? ActiveYears.BetweenOneAndFveYears
+								: activeYearMoreThan5.isSelected() ? ActiveYears.Over5Years : ActiveYears.NoActiveYears;
+				if ((!militaryStatusActive.isSelected() && !militaryStatusInactive.isSelected())
+						|| year == ActiveYears.NoActiveYears) {
 					AllFiledReqPopup();
-					}
-				else {
-					student.eligInfo.setMiliStatus((militaryStatusActive.isSelected()? true : false));
+				} else {
+					student.eligInfo.setMiliStatus((militaryStatusActive.isSelected() ? true : false));
 					student.eligInfo.setActiveYears(year);
-					}
-				
-				
-			}
-			else{
-				if(student.eligInfo == null)
-				{
+				}
+
+			} else {
+				if (student.eligInfo == null) {
 					student.eligInfo = new EligibilityFactors();
 				}
 				student.eligInfo.setMiliServed(false);
 				student.eligInfo.setMiliStatus(false);
 				student.eligInfo.setActiveYears(ActiveYears.NoActiveYears);
-				
-				
+
 				militaryStatusActive.setSelected(false);
 				militaryStatusInactive.setSelected(false);
 				activeYearlessThan1.setSelected(false);
 				activeYearBetween1_5.setSelected(false);
 				activeYearMoreThan5.setSelected(false);
 			}
-			
-			student.eligInfo.setdisabilityStatus(disabilityY.isSelected()? true : false);
-			student.eligInfo.setFinAidElig(financialAidY.isSelected()? true : false);
-			ResidencyStatus status = residStatusIn.isSelected()? ResidencyStatus.InState : residStatusOut.isSelected() ? ResidencyStatus.OutOfState :
-				                     residStatuAbroad.isSelected()? ResidencyStatus.Abroad : ResidencyStatus.NoStatus;
+
+			student.eligInfo.setdisabilityStatus(disabilityY.isSelected() ? true : false);
+			student.eligInfo.setFinAidElig(financialAidY.isSelected() ? true : false);
+			ResidencyStatus status = residStatusIn.isSelected() ? ResidencyStatus.InState
+					: residStatusOut.isSelected() ? ResidencyStatus.OutOfState
+							: residStatuAbroad.isSelected() ? ResidencyStatus.Abroad : ResidencyStatus.NoStatus;
 			student.eligInfo.setResidencystatus(status);
-			YearOfResidency y = yearsOfResilessThan1.isSelected()? YearOfResidency.LessThanOneYears :
-			                    yearsOfResibetween1_5.isSelected() ? YearOfResidency.BetweenOneAndFveYears :
-			                    yearsOfResimoreThan5.isSelected() ? YearOfResidency.Over5Years : YearOfResidency.NoYearsOfResidency;
+			YearOfResidency y = yearsOfResilessThan1.isSelected() ? YearOfResidency.LessThanOneYears
+					: yearsOfResibetween1_5.isSelected() ? YearOfResidency.BetweenOneAndFveYears
+							: yearsOfResimoreThan5.isSelected() ? YearOfResidency.Over5Years
+									: YearOfResidency.NoYearsOfResidency;
 			student.eligInfo.setResidencyYears(y);
-			student.eligInfo.setdisabilityStatus(areYouDependentY.isSelected()? true : false);
-			
+			student.eligInfo.setdisabilityStatus(areYouDependentY.isSelected() ? true : false);
+
 			TabGui.this.calculatePriority(student);
 			ESADBConnection.updateEligibilityRecord(student);
-			
-			
-		
-			
+
 		}
 
 		public void performCancel() {
 			// TODO Auto-generated method stub
-			
-			
+
 		}
 
 		public void performReset() {
 			// TODO Auto-generated method stub
-			
+
 		}
 	}
 
@@ -1300,9 +1278,9 @@ public class TabGui extends JFrame {
 		private JLabel groupNumLabel = new JLabel("Group Number:");
 		private JTextField groupNumField = new JTextField();
 		private JLabel groupDescriptionLabel = new JLabel("Group description:");
-        //private JTextField groupDescriptionField = new JTextField();
-        private JTextArea groupDescriptionField = new JTextArea(10, 60);
-        JScrollPane scrollPane = new JScrollPane(groupDescriptionField); 
+		// private JTextField groupDescriptionField = new JTextField();
+		private JTextArea groupDescriptionField = new JTextArea(10, 60);
+		JScrollPane scrollPane = new JScrollPane(groupDescriptionField);
 
 		private JButton update = new JButton("Update");
 		private JButton reset = new JButton("Reset");
@@ -1351,10 +1329,10 @@ public class TabGui extends JFrame {
 			centerPanel.add(groupNumLabel);
 			centerPanel.add(groupNumField);
 			centerPanel.add(groupDescriptionLabel);
-            centerPanel.add(groupDescriptionField);
-			if(applicant.enrollDecision !=null)
+			centerPanel.add(groupDescriptionField);
+			if (applicant.enrollDecision != null)
 				groupNumField.setText(Integer.toString(applicant.enrollDecision.getGroup()));
-			if(applicant.enrollDecision!= null)
+			if (applicant.enrollDecision != null)
 				groupDescriptionField.setText(applicant.enrollDecision.getGrpDiscription());
 			centerPanel.add(empty1);
 			centerPanel.add(empty2);
@@ -1378,15 +1356,15 @@ public class TabGui extends JFrame {
 			buttonPanel.add(cancel);
 			cancel.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-			//		SearchScreen searchPage = new SearchScreen();
-				//	searchPage.connection();
-					
+					// SearchScreen searchPage = new SearchScreen();
+					// searchPage.connection();
+
 					TabGui.this.setVisible(false);
-					//new SearchScreen().setVisible(true);
+					// new SearchScreen().setVisible(true);
 				}
 			});
-			
-				//enrolldate digit limit but need to **implement date format
+
+			// enrolldate digit limit but need to **implement date format
 //		entrollDateField.addKeyListener(new KeyAdapter() {
 //			@Override
 //			public void keyTyped(KeyEvent evt) {
@@ -1403,8 +1381,6 @@ public class TabGui extends JFrame {
 //                 
 //			}
 //		});
-			
-			
 
 			// Empty label for alignment purpose
 			add(leftPanel, "East");
@@ -1433,46 +1409,44 @@ public class TabGui extends JFrame {
 
 		public void performUpdate(Applicant student) {
 			Date date = stringToDate(entrollDateField.getText());
-			if(date != null){
-			student.enrollDecision.setEnrollDate(date);
-			TabGui.this.calculatePriority(student);
-			ESADBConnection.updateEnrollmentRecord(student);
-			ESADBConnection.updateEligibilityRecord(student);
+			if (date != null) {
+				student.enrollDecision.setEnrollDate(date);
+				TabGui.this.calculatePriority(student);
+				ESADBConnection.updateEnrollmentRecord(student);
+				ESADBConnection.updateEligibilityRecord(student);
 			}
-			
+
 		}
 
 		public void performCancel() {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		public void performReset() {
 			// TODO Auto-generated method stub
-			
+
 		}
-		
-		
 
 	}
-	
-	public void AllFiledReqPopup(){
+
+	public void AllFiledReqPopup() {
 		JOptionPane.showMessageDialog(frame, "Please enter all the fields", "All Fields are Required",
 				JOptionPane.ERROR_MESSAGE);
 	}
-	
+
 	private Date stringToDate(String s) {
 		Date date = null;
-       // System.out.println("Printing date" + s);
+		// System.out.println("Printing date" + s);
 		try {
 			if (s != null)
 				date = (Date) new SimpleDateFormat("MM/dd/yyyy").parse(s);
 			return date;
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			JOptionPane.showMessageDialog(frame, "Please enter date in MM/dd/yyyy formate", "Incorrect Date Formate Entered",
-					JOptionPane.ERROR_MESSAGE);
+			// e.printStackTrace();
+			JOptionPane.showMessageDialog(frame, "Please enter date in MM/dd/yyyy formate",
+					"Incorrect Date Formate Entered", JOptionPane.ERROR_MESSAGE);
 		}
 		return date;
 
