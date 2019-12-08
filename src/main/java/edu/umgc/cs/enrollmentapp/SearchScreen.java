@@ -7,6 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -213,27 +214,7 @@ public class SearchScreen {
 		// ActionListener for Add button
 		addBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				Date date = dateChooser.getDate();
-
-				Applicant student = ESADBConnection.checkIfstudentExists(ssnField.getText(), lnField.getText(),
-						fnfield.getText(), null);// fName, String dOB)
-				if (student.getStudentID() != null){
-					System.out.println(
-							"Student exists , studentID = " + student.getStudentID() + ". Please click Search to edit");
-					JOptionPane.showMessageDialog(frame, "Please try again entering correct SSN ", "Student Already Exist",
-							JOptionPane.ERROR_MESSAGE);
-				}
-				else if (student.getStudentID() == null) {
-					// generate new student Id
-					// save student to the database
-					Applicant newStudent = ESADBConnection.addStudent(ssnField.getText(), lnField.getText(),
-							fnfield.getText(), date);// fName, String dOB)
-
-					// open tabGUI with saved student:
-
-				TabGui tabGui = new TabGui(newStudent);
-				}
+				addStudent();
 			}
 		});
 
@@ -355,6 +336,61 @@ public class SearchScreen {
 			}
 		}
 
+	}
+	
+	/*
+	 * This method is used to add a student to 
+	 */
+	private void addStudent() {
+		Date date = dateChooser.getDate();
+		String ssnRegex = "^[0-9]{9}$";
+		String nameRegex = "^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
+		
+		// Regex checks various fields
+		if (!studentIDField.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(frame, "Student ID is created automatically, field should be empty", "Value Format Mismatch",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		} else if (!ssnField.getText().matches(ssnRegex)) {
+			JOptionPane.showMessageDialog(frame, "SSN is not formatted correctly", "Value Format Mismatch",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		} else if (!lnField.getText().matches(nameRegex)) {
+			JOptionPane.showMessageDialog(frame, "Last name is not formatted correctly", "Value Format Mismatch",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		} else if (!fnfield.getText().matches(nameRegex)) {
+			JOptionPane.showMessageDialog(frame, "First name is not formatted correctly", "Value Format Mismatch",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		} else if (date == null) {
+			JOptionPane.showMessageDialog(frame, "Date of Birth field cannot be empty", "Value Format Mismatch",
+					JOptionPane.ERROR_MESSAGE);
+		} else if (TimeUnit.DAYS.convert(Math.abs(new Date().getTime() - date.getTime()), TimeUnit.MILLISECONDS) < (365*14)) {
+			JOptionPane.showMessageDialog(frame, "Date of Birth is too close to current date", "Value Format Mismatch",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		
+		Applicant student = ESADBConnection.checkIfstudentExists(ssnField.getText(), lnField.getText(),
+				fnfield.getText(), null);// fName, String dOB)
+		
+		if (student.getStudentID() != null){
+			System.out.println(
+					"Student exists , studentID = " + student.getStudentID() + ". Please click Search to edit");
+			JOptionPane.showMessageDialog(frame, "Please try again entering correct SSN ", "Student Already Exist",
+					JOptionPane.ERROR_MESSAGE);
+		}
+		else if (student.getStudentID() == null) {
+			// generate new student Id
+			// save student to the database
+			Applicant newStudent = ESADBConnection.addStudent(ssnField.getText(), lnField.getText(),
+					fnfield.getText(), date);// fName, String dOB)
+
+			// open tabGUI with saved student:
+
+			TabGui tabGui = new TabGui(newStudent);
+		}
 	}
 
 	private void searchByID() {
