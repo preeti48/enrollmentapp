@@ -412,7 +412,7 @@ public class TabGui extends JFrame {
 			public void keyTyped(KeyEvent evt) {
 				 char c= evt.getKeyChar();
 				 //validate input are letters
-                 if (Character.isLetter(c) || Character.isISOControl(c))
+                 if (Character.isLetter(c) || Character.isISOControl(c) || Character.isWhitespace(c))
                    {
                 	 e_contactField.setEditable(true);
                    }else
@@ -460,6 +460,7 @@ public class TabGui extends JFrame {
 	                evt.consume();//ignore event
 	            } 
                  
+				
 			}
 		});
 		//zipcode digit limit
@@ -559,6 +560,11 @@ public class TabGui extends JFrame {
 			student.setFname(firstNameField.getText());
 			
 			//validating entered ssn for update
+			if(ssnField.getText().charAt(0) == '0'){
+				JOptionPane.showMessageDialog(frame, "Can not have SSN starting with 0", "Incorrect SSN",
+						JOptionPane.ERROR_MESSAGE);
+			}
+			else{
 			if (ssnField.getText().trim().length() == 9 && ssnField.getText().trim().matches("[0-9]+")) {
 			if(student.getSsn() != Integer.parseInt(ssnField.getText().trim())){
 				//check if ssn exist in db
@@ -576,6 +582,7 @@ public class TabGui extends JFrame {
 				JOptionPane.showMessageDialog(frame, "Please enter correct SSN, with 9 digits only ", "Incorrect SSN",
 						JOptionPane.ERROR_MESSAGE);
 			}
+			}
 			
 			Date date = stringToDate(dobField.getText());
 			if(date != null){
@@ -586,12 +593,28 @@ public class TabGui extends JFrame {
 			student.setGender(gen);
 			student.setUsaResident((usaResiRButtonY.isSelected())? true : false);
 			student.setEmergencyContact(e_contactField.getText());
+			if(!phNumField.getText().isEmpty()){
+			if(phNumField.getText().length() > 10 || phNumField.getText().length() < 10){
+				JOptionPane.showMessageDialog(frame, "Please enter correct Phone Number with 10 digits", "Incorrect Phone Number",
+						JOptionPane.ERROR_MESSAGE);
+			}
+			else{
 			student.setPhone(phNumField.getText());
+			}
+			}
 			student.setStreet(streetField.getText());
 			student.setCity(cityField.getText());
 			student.setState(stateField.getText());
 			student.setZip(Integer.parseInt(zipField.getText()));
+			if(!e_phoneField.getText().isEmpty()){
+			if(e_phoneField.getText().length() > 10 || e_phoneField.getText().length() < 10){
+				JOptionPane.showMessageDialog(frame, "Please enter correct Emergency Phone Number with 10 digits", "Incorrect Emergency Phone Number",
+						JOptionPane.ERROR_MESSAGE);
+			}
+			else{
 			student.setE_phone(e_phoneField.getText());
+			}
+			}
 			
 			TabGui.this.calculatePriority(student);
 			
