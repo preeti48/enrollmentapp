@@ -940,7 +940,12 @@ public class TabGui extends JFrame {
 			if (!studentLastYearIncomeField.getText().isEmpty()) {
 				String str = studentLastYearIncomeField.getText();
 				// check if entered string is number only
-				s.finInfo.setStudentIncome(Double.parseDouble(str));
+				if (Double.parseDouble(str) < 0) {
+					JOptionPane.showMessageDialog(frame, "Income values cannot be negative",
+							"Incorrect Format", JOptionPane.ERROR_MESSAGE);
+					return;
+				} else
+					s.finInfo.setStudentIncome(Double.parseDouble(str));
 			} else {
 				AllFiledReqPopup();
 			}
@@ -949,7 +954,12 @@ public class TabGui extends JFrame {
 			if (!parenttLastYearIncomeField.getText().isEmpty()) {
 				String str = parenttLastYearIncomeField.getText();
 				// check if entered string is number only
-				s.finInfo.setParentIncome(Double.parseDouble(str));
+				if (Double.parseDouble(str) < 0) {
+					JOptionPane.showMessageDialog(frame, "Income values cannot be negative",
+							"Incorrect Format", JOptionPane.ERROR_MESSAGE);
+					return;
+				} else
+					s.finInfo.setParentIncome(Double.parseDouble(str));
 			} else {
 				AllFiledReqPopup();
 			}
@@ -961,7 +971,12 @@ public class TabGui extends JFrame {
 			if (!valOfOtherProptyField.getText().isEmpty()) {
 				String str = valOfOtherProptyField.getText();
 				// check if entered string is number only
-				s.finInfo.setPropValue(Double.parseDouble(str));
+				if (Double.parseDouble(str) < 0) {
+					JOptionPane.showMessageDialog(frame, "Income values cannot be negative",
+							"Incorrect Format", JOptionPane.ERROR_MESSAGE);
+					return;
+				} else
+					s.finInfo.setPropValue(Double.parseDouble(str));
 			} else {
 				AllFiledReqPopup();
 			}
