@@ -562,21 +562,6 @@ public class TabGui extends JFrame {
 
 				}
 			});
-			// dob digit limit **implement "/" I do not know how to do symbol validation
-			dobField.addKeyListener(new KeyAdapter() {
-				@Override
-				public void keyTyped(KeyEvent evt) {
-					char c = evt.getKeyChar();
-					// validate input are digits
-					if (Character.isDigit(c) || Character.isISOControl(c)) {
-						dobField.setEditable(true);
-					} else {
-						// dobField.setEditable(false);
-						evt.consume();// ignore event
-					}
-
-				}
-			});
 			// zipcode digit limit
 			zipField.addKeyListener(new KeyAdapter() {
 				@Override
