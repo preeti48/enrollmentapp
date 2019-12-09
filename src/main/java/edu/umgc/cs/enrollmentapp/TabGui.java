@@ -1164,7 +1164,9 @@ public class TabGui extends JFrame {
 			activeYearPanel.add(activeYearMoreThan5);
 			centerPanel.add(activeYearPanel);
 			if (applicant.eligInfo != null) {
+		
 				if (applicant.eligInfo.getMiliServed()) {
+					
 					if (applicant.eligInfo.getActiveYears() == ActiveYears.LessThanOneYears) {
 						activeYearlessThan1.setSelected(true);
 					} else if (applicant.eligInfo.getActiveYears() == ActiveYears.BetweenOneAndFveYears) {
@@ -1220,11 +1222,13 @@ public class TabGui extends JFrame {
 			yearsOfResidencyPanel.add(yearsOfResimoreThan5);
 			centerPanel.add(yearsOfResidencyPanel);
 			if (applicant.eligInfo != null) {
+				
 				if (applicant.eligInfo.getResidencyYears() == YearOfResidency.LessThanOneYears) {
 					yearsOfResilessThan1.setSelected(true);
 				}
 				if (applicant.eligInfo.getResidencyYears() == YearOfResidency.BetweenOneAndFveYears) {
-					activeYearBetween1_5.setSelected(true);
+					
+					yearsOfResibetween1_5.setSelected(true);
 				}
 				if (applicant.eligInfo.getResidencyYears() == YearOfResidency.Over5Years) {
 					yearsOfResimoreThan5.setSelected(true);
@@ -1302,13 +1306,14 @@ public class TabGui extends JFrame {
 
 				student.eligInfo.setMiliServed(true);
 				ActiveYears year = activeYearlessThan1.isSelected() ? ActiveYears.LessThanOneYears
-						: activeYearBetween1_5.isSelected() ? ActiveYears.BetweenOneAndFveYears
-								: activeYearMoreThan5.isSelected() ? ActiveYears.Over5Years : ActiveYears.NoActiveYears;
-				if ((!militaryStatusActive.isSelected() && !militaryStatusInactive.isSelected())
-						|| year == ActiveYears.NoActiveYears) {
-					AllFiledReqPopup();
-				} else {
+						         : activeYearBetween1_5.isSelected() ? ActiveYears.BetweenOneAndFveYears
+								 : activeYearMoreThan5.isSelected() ? ActiveYears.Over5Years : ActiveYears.NoActiveYears;
+				if ((!militaryStatusActive.isSelected() && !militaryStatusInactive.isSelected()) && year == ActiveYears.NoActiveYears) {
+					     AllFiledReqPopup();
+				} 
+				else {
 					student.eligInfo.setMiliStatus((militaryStatusActive.isSelected() ? true : false));
+					
 					student.eligInfo.setActiveYears(year);
 				}
 
