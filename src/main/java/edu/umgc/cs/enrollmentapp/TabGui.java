@@ -658,6 +658,8 @@ public class TabGui extends JFrame {
 			Date date = stringToDate(dobField.getText());
 			if (date != null) {
 				student.setDob(date);
+			} else {
+				System.out.println("DOB not updated");
 			}
 			// setting a gender
 			String gen = getSelectedGender();
@@ -1514,6 +1516,12 @@ public class TabGui extends JFrame {
 	private Date stringToDate(String s) {
 		Date date = null;
 		// System.out.println("Printing date" + s);
+		if (!s.matches("^(0[1-9]|1[0-2])\\/(0[1-9]|1\\d|2\\d|3[01])\\/(19|20)\\d{2}$")) {
+			JOptionPane.showMessageDialog(frame, "Please enter date in MM/dd/yyyy format",
+					"Incorrect Date Formate Entered", JOptionPane.ERROR_MESSAGE);
+			return null;
+		}
+		
 		try {
 			if (s != null)
 				date = (Date) new SimpleDateFormat("MM/dd/yyyy").parse(s);
@@ -1524,6 +1532,9 @@ public class TabGui extends JFrame {
 			JOptionPane.showMessageDialog(frame, "Please enter date in MM/dd/yyyy formate",
 					"Incorrect Date Formate Entered", JOptionPane.ERROR_MESSAGE);
 		}
+		
+			
+		
 		return date;
 
 	}
