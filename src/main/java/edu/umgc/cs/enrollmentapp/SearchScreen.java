@@ -371,6 +371,10 @@ public class SearchScreen {
 			JOptionPane.showMessageDialog(frame, "Date of Birth is too close to current date", "Value Format Mismatch",
 					JOptionPane.ERROR_MESSAGE);
 			return;
+		} else if (TimeUnit.DAYS.convert(Math.abs(new Date().getTime() - date.getTime()), TimeUnit.MILLISECONDS) > (365*130)) {
+			JOptionPane.showMessageDialog(frame, "Date of Birth is too far from current date", "Value Format Mismatch",
+					JOptionPane.ERROR_MESSAGE);
+			return;
 		}
 		
 		Applicant student = ESADBConnection.checkIfstudentExists(ssnField.getText(), lnField.getText(),
