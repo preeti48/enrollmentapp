@@ -44,7 +44,7 @@ public class TabGui extends JFrame {
 		// OLGA START
 		// if us resident 
 		
-		
+		boolean isGroupAssigned = false;
 		
 			if (overviewTab.usaResiRButtonY.isSelected()) { // if usa resident
 				// military service is more than 5 years, or senior In-State (over 55 and
@@ -59,8 +59,7 @@ public class TabGui extends JFrame {
 					applicant.enrollDecision.setGroup(1);
 					applicant.enrollDecision.setGrpDiscription(
 							"Group 1: USA Resident, military service is more than 5 years, or senior In-State. Tuition is free. ");
-					// }
-					// }
+					isGroupAssigned = true;
 					// Group 2: USA Resident, military service from 1 to 5 years. OR disability =
 					// yes.
 				} else if (eligibilityFactorsTab.activeYearBetween1_5.isSelected()
@@ -73,6 +72,7 @@ public class TabGui extends JFrame {
 					applicant.enrollDecision.setGroup(2);
 					applicant.enrollDecision.setGrpDiscription(
 							"\"Group 2: \\n USA Resident, \\n military service from 1 to 5 years, \\n or disability = yes. \\n Scholarship award 75%.");
+					isGroupAssigned = true;
 				}
 				else // group 5
 					
@@ -84,12 +84,13 @@ public class TabGui extends JFrame {
 					applicant.enrollDecision.setGrpDiscription(
 							"Group 5: Military service is less than a year, 529 account, not from low income family, or other categories not eligible for discount. Not eligible for scholarship.");
 				
+					
 				}
 			}
 		
 		// low income group 4
 			// dependent no and financial iad yes
-			 if (eligibilityFactorsTab.areYouDependentN.isSelected()
+			 if (!isGroupAssigned && eligibilityFactorsTab.areYouDependentN.isSelected()
 					&& eligibilityFactorsTab.financialAidY.isSelected()) {// ||
 																			// financialInfoTab.finanDependRButtonN.isSelected())
 																			// {
@@ -99,10 +100,11 @@ public class TabGui extends JFrame {
 				applicant.enrollDecision.setGroup(3);
 				applicant.enrollDecision
 						.setGrpDiscription("Group 3: Non-dependent with financial aid eligibility. Scholarship award 50%.");
+				isGroupAssigned  = true;
 			}
 			
-			else if  ((financialInfoTab.finanDependRButtonN.isSelected()) && ((Double.parseDouble(financialInfoTab.studentLastYearIncomeField.getText()) < 40000))||(financialInfoTab.finanDependRButtonY.isSelected()) && ((Double
-				.parseDouble(financialInfoTab.parenttLastYearIncomeField.getText()) < 40000))) {
+			else if  (!isGroupAssigned && ((financialInfoTab.finanDependRButtonN.isSelected()) && ((Double.parseDouble(financialInfoTab.studentLastYearIncomeField.getText()) < 40000))||(financialInfoTab.finanDependRButtonY.isSelected()) && ((Double
+				.parseDouble(financialInfoTab.parenttLastYearIncomeField.getText()) < 40000))) ){
 		
 		
 			enrollmentDecisionTab.groupNumField.setText(" 4 ");
@@ -110,9 +112,10 @@ public class TabGui extends JFrame {
 					.setText("Group 4: From low income family.  Scholarship award 35%.");
 			applicant.enrollDecision.setGroup(4);
 			applicant.enrollDecision.setGrpDiscription("Group 4: From low income family.  Scholarship award 35%.");
+			isGroupAssigned  = true;
 		} 
 		
-		else // group 5
+		else if (!isGroupAssigned)// group 5
 			
 		{
 			enrollmentDecisionTab.groupNumField.setText(" 5 ");
