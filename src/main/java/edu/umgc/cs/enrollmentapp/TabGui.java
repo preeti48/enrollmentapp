@@ -32,8 +32,6 @@ public class TabGui extends JFrame {
 
 	private void calculatePriority(Applicant applicant) {
 		System.out.println("calculatePriority called");
-		// enrollmentDecisionTab.groupNumField.setText(" 25 ");
-		
 		// OLGA START
 		// if us resident 
 		
@@ -44,8 +42,6 @@ public class TabGui extends JFrame {
 				// instate are selected).
 				if (eligibilityFactorsTab.activeYearMoreThan5.isSelected() || (eligibilityFactorsTab.overAge55Y.isSelected()
 						&& eligibilityFactorsTab.residStatusIn.isSelected())) {
-					// if(eligibilityFactorsTab.overAge55Y.isSelected()){
-					// if(eligibilityFactorsTab.residStatusIn.isSelected()){
 					enrollmentDecisionTab.groupNumField.setText(" 1 ");
 					enrollmentDecisionTab.groupDescriptionField.setText(
 							" Group 1: USA Resident, military service is more than 5 years, or senior In-State. Tuition is free. ");
@@ -76,8 +72,6 @@ public class TabGui extends JFrame {
 					applicant.enrollDecision.setGroup(5);
 					applicant.enrollDecision.setGrpDiscription(
 							"Group 5: Military service is less than a year, 529 account, not from low income family, or other categories not eligible for discount. Not eligible for scholarship.");
-				
-					
 				}
 			}
 		
@@ -275,15 +269,28 @@ public class TabGui extends JFrame {
 			buttonPanel.add(reset);
 			reset.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					performReset(applicant);
-
+					buttongroup1.clearSelection();
+					buttongroup2.clearSelection();
+					lastNameField.setText("");
+					firstNameField.setText("");
+					ssnField.setText("");
+					dobField.setText("");
+					streetField.setText("");
+					stateField.setText("");
+					cityField.setText("");
+					zipField.setText("");
+					e_contactField.setText("");
+					e_phoneField.setText("");
+					phNumField.setText("");
 				}
 			});
 			buttonPanel.add(cancel);
-			 {
-					performCancel(applicant);
-			
-			};
+			cancel.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					TabGui.this.setVisible(false);
+					// new SearchScreen().setVisible(true);
+				}
+			});
 
 			add(rightPanel, "West");
 			rightPanel.add(emptyLabel1);
@@ -565,38 +572,15 @@ public class TabGui extends JFrame {
 			return gender;
 
 		}
-
-		public void performCancel(Applicant s) {
-			// TODO Auto-generated method stub
-			buttonPanel.add(cancel);
-			cancel.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					// SearchScreen searchPage = new SearchScreen();
-					// searchPage.connection();
-
-					TabGui.this.setVisible(false);
-					// new SearchScreen().setVisible(true);
-				}
-			});
-		}
 		
-		public void performReset(Applicant s) {
+		public void performCancel(Applicant student) {
 			// TODO Auto-generated method stub
-			buttongroup1.clearSelection();
-			buttongroup2.clearSelection();
-			lastNameField.setText("");
-			firstNameField.setText("");
-			ssnField.setText("");
-			dobField.setText("");
-			streetField.setText("");
-			stateField.setText("");
-			cityField.setText("");
-			zipField.setText("");
-			e_contactField.setText("");
-			e_phoneField.setText("");
-			phNumField.setText("");
-			// mobNumField.setText("");
-			
+
+		}
+
+		public void performReset(Applicant student) {
+			// TODO Auto-generated method stub
+
 		}
 	}
 
@@ -719,14 +703,22 @@ public class TabGui extends JFrame {
 			buttonPanel.add(reset);
 			reset.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					performReset(applicant);
+					buttongroup1.clearSelection();
+					buttongroup2.clearSelection();
+					buttongroup3.clearSelection();
+					studentLastYearIncomeField.setText("");
+					parenttLastYearIncomeField.setText("");
+					valOfOtherProptyField.setText("");
+
 				}
 			});
 			buttonPanel.add(cancel);
-			 {
-					performCancel(applicant);
-			
-			};
+			cancel.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					TabGui.this.setVisible(false);
+				}
+			});
+
 			// student income digit only limit
 			studentLastYearIncomeField.addKeyListener(new KeyAdapter() {
 				@Override
@@ -859,28 +851,16 @@ public class TabGui extends JFrame {
 			ESADBConnection.updateEligibilityRecord(s);
 
 		}
-		public void performCancel(Applicant s) {
-			// TODO Auto-generated method stub
-			cancel.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					// SearchScreen searchPage = new SearchScreen();
-					// searchPage.connection();
 
-					TabGui.this.setVisible(false);
-					// new SearchScreen().setVisible(true);
-				}
-			});
+
+		public void performCancel(Applicant student) {
+			// TODO Auto-generated method stub
+
 		}
 
-		public void performReset(Applicant s) {
+		public void performReset(Applicant student) {
 			// TODO Auto-generated method stub
-			buttongroup1.clearSelection();
-			buttongroup2.clearSelection();
-			buttongroup3.clearSelection();
-			studentLastYearIncomeField.setText("");
-			parenttLastYearIncomeField.setText("");
-			valOfOtherProptyField.setText("");
-			
+
 		}
 
 	}
@@ -1156,15 +1136,24 @@ public class TabGui extends JFrame {
 			buttonPanel.add(reset);
 			reset.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					performReset(applicant);
+					buttonGroup1.clearSelection();
+					buttonGroup2.clearSelection();
+					buttonGroup3.clearSelection();
+					buttonGroup4.clearSelection();
+					buttonGroup5.clearSelection();
+					buttonGroup6.clearSelection();
+					buttonGroup7.clearSelection();
+					buttonGroup8.clearSelection();
+					buttonGroup9.clearSelection();
 				}
 			});
 
 			buttonPanel.add(cancel);
-			 {
-					performCancel(applicant);
-			
-			};
+			cancel.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					TabGui.this.setVisible(false);
+				}
+			});
 
 			// Empty label for alignment purpose
 			add(leftPanel, "East");
@@ -1172,6 +1161,7 @@ public class TabGui extends JFrame {
 			add(rightPanel, "West");
 			rightPanel.add(empty2);
 		}
+
 		public void performUpdate(Applicant student) {
 			if (havServedMilitaryY.isSelected()) {
 
@@ -1220,30 +1210,15 @@ public class TabGui extends JFrame {
 			ESADBConnection.updateEligibilityRecord(student);
 
 		}
-		public void performCancel(Applicant s) {
-			// TODO Auto-generated method stub
-			cancel.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					// SearchScreen searchPage = new SearchScreen();
-					// searchPage.connection();
 
-					TabGui.this.setVisible(false);
-					// new SearchScreen().setVisible(true);
-				}
-			});
-			
-		}
-		public void performReset(Applicant s) {
+		public void performCancel(Applicant student) {
 			// TODO Auto-generated method stub
-			buttonGroup1.clearSelection();
-			buttonGroup2.clearSelection();
-			buttonGroup3.clearSelection();
-			buttonGroup4.clearSelection();
-			buttonGroup5.clearSelection();
-			buttonGroup6.clearSelection();
-			buttonGroup7.clearSelection();
-			buttonGroup8.clearSelection();
-			buttonGroup9.clearSelection();
+
+		}
+
+		public void performReset(Applicant student) {
+			// TODO Auto-generated method stub
+
 		}
 	}
 
@@ -1377,12 +1352,12 @@ public class TabGui extends JFrame {
 
 		}
 
-		public void performCancel() {
+		public void performCancel(Applicant student) {
 			// TODO Auto-generated method stub
 
 		}
 
-		public void performReset() {
+		public void performReset(Applicant student) {
 			// TODO Auto-generated method stub
 
 		}
@@ -1407,6 +1382,8 @@ public class TabGui extends JFrame {
 				date = (Date) new SimpleDateFormat("MM/dd/yyyy").parse(s);
 			return date;
 		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			// e.printStackTrace();
 			JOptionPane.showMessageDialog(frame, "Please enter date in MM/dd/yyyy formate",
 					"Incorrect Date Formate Entered", JOptionPane.ERROR_MESSAGE);
 		}
@@ -1416,4 +1393,6 @@ public class TabGui extends JFrame {
 		return date;
 
 	}
+
+
 }
