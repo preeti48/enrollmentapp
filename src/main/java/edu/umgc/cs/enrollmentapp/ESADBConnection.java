@@ -15,10 +15,7 @@ import java.time.Period;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.Random;
-
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-
 import edu.umgc.cs.enrollmentapp.enums.ActiveYears;
 import edu.umgc.cs.enrollmentapp.enums.ResidencyStatus;
 import edu.umgc.cs.enrollmentapp.enums.YearOfResidency;
@@ -72,9 +69,7 @@ public class ESADBConnection {
 					for (int i = 1; i <= columnsNumber; i++) {
 
 						data[i - 1] = rs.getString(i);
-
 					}
-
 				}
 
 				applicant = setStudent(applicant, data);
@@ -101,11 +96,9 @@ public class ESADBConnection {
 	public static Applicant searchBySSNandLname(String ssn, String ln) {
 		Applicant applicant = new Applicant();
 		// first check if students exists
-
 		String query = "Select * from Student where last_name = \'" + ln + "\' and ssn =\'" + ssn + "\'";
 
 		try {
-
 			conn = DriverManager.getConnection(url);
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
@@ -117,18 +110,13 @@ public class ESADBConnection {
 
 				while (rs.next()) {
 					for (int i = 1; i <= columnsNumber; i++) {
-
 						data[i - 1] = rs.getString(i);
-
 					}
-
 				}
-
 				applicant = setStudent(applicant, data);
 				setFinancialInfo(applicant);
 				setEligibilityInfo(applicant);
 				getEnrollmentDecision(applicant);
-
 				applicant.isFound = true;
 				return applicant;
 			}
@@ -149,7 +137,6 @@ public class ESADBConnection {
 		student.finInfo = new FinancialInformation();
 		String finquery = "Select * from FinancialInformation where Student_ID = " + student.getStudentID();
 		try {
-
 			conn = DriverManager.getConnection(url);
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(finquery);
@@ -159,14 +146,9 @@ public class ESADBConnection {
 
 			while (rs.next()) {
 				for (int i = 1; i <= columnsNumber; i++) {
-
 					finData[i - 1] = rs.getString(i);
 				}
 			}
-
-			/*
-			 * for (String s: finData) System.out.println(s);
-			 */
 			// System.out.println(radioHandle(finData[2]));
 			student.finInfo.setDependency(radioHandle(finData[2]));
 			if (finData[3] != null)
@@ -209,10 +191,6 @@ public class ESADBConnection {
 					eligData[i - 1] = rs.getString(i);
 				}
 			}
-
-			/*
-			 * for (String s: eligData) System.out.println(s);
-			 */
 			// System.out.println(radioHandle(finData[2]));
 			student.eligInfo.setMiliServed(radioHandle(eligData[2]));
 			student.eligInfo.setMiliStatus(radioHandle(eligData[3]));
@@ -224,19 +202,13 @@ public class ESADBConnection {
 				student.eligInfo.setResidencyYears(getResiYears(eligData[8]));
 			else // eligData[8] == null
 				student.eligInfo.setResidencyYears(null);
-
-			// student.eligInfo.isAgeOver55 = radioHandle(eligData[8]);'
-
-			// preethi
 			LocalDate today = LocalDate.now(); // Today's date
 			LocalDate birthday = student.getDob().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
 			Period period = Period.between(birthday, today);// Finding age
-
 			student.eligInfo.isAgeOver55 = period.getYears() > 55;
-
 			student.eligInfo.areYouDepended = radioHandle(eligData[9]);
-
+			
 		} catch (SQLException ex) {
 			System.out.println("Get Student exception " + ex.getMessage());
 		}
@@ -247,7 +219,6 @@ public class ESADBConnection {
 			student.enrollDecision = new EnrollmentDecision();
 			String desquery = "Select * from EnrollMentDecision where Student_ID = " + student.getStudentID();
 			try {
-
 				conn = DriverManager.getConnection(url);
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(desquery);
@@ -257,14 +228,9 @@ public class ESADBConnection {
 
 				while (rs.next()) {
 					for (int i = 1; i <= columnsNumber; i++) {
-
 						enrollData[i - 1] = rs.getString(i);
 					}
 				}
-
-				/*
-				 * for (String s: enrollData) System.out.println(s);
-				 */
 				student.enrollDecision.setEnrollDate(stringToDate(enrollData[2]));
 				if (enrollData[3] != null)
 					student.enrollDecision.setGroup(Integer.parseInt(enrollData[3]));
@@ -299,7 +265,6 @@ public class ESADBConnection {
 		YearOfResidency returnResult = YearOfResidency.NoYearsOfResidency;
 		if (s != null) {
 			if (s.equals("LessThanOneYears")) {
-
 				returnResult = YearOfResidency.LessThanOneYears;
 			} else if (s.equals("BetweenOneAndFveYears")) {
 				returnResult = YearOfResidency.BetweenOneAndFveYears;
@@ -311,7 +276,6 @@ public class ESADBConnection {
 			}
 		}
 		return returnResult;
-
 	}
 
 	private static ActiveYears getYears(String s) {
@@ -319,7 +283,6 @@ public class ESADBConnection {
 		ActiveYears returnResult = ActiveYears.NoActiveYears;
 		if (s != null) {
 			if (s.equals("LessThanOneYears")) {
-
 				returnResult = ActiveYears.LessThanOneYears;
 			} else if (s.equals("BetweenOneAndFveYears")) {
 				returnResult = ActiveYears.BetweenOneAndFveYears;
@@ -335,9 +298,6 @@ public class ESADBConnection {
 	}
 
 	private static Applicant setStudent(Applicant student, String[] record) {
-		/*
-		 * for (String s: record) System.out.println(s);
-		 */
 		student.setStudentID(record[0]);
 		if (record[1] != null)
 			student.setSsn(Integer.parseInt(record[1]));
@@ -355,7 +315,6 @@ public class ESADBConnection {
 			student.setZip(Integer.parseInt(record[11]));
 		student.setUsaResident(radioHandle(record[12]));
 		student.setPhone(record[13]);
-
 		return student;
 
 	}
@@ -363,18 +322,13 @@ public class ESADBConnection {
 	private static boolean radioHandle(String gen) {
 		boolean returnBool = false;
 		if (gen != null) {
-
 			if (gen.equals("Yes") || gen.equals("1")) {
-
 				returnBool = true;
 			} else {
-
 				returnBool = false;
 			}
-
 		}
 		return returnBool;// if gen is null, returnBool will be false;
-
 	}// end of radioHandle
 
 	private static Date stringToDate(String s) {
@@ -389,7 +343,6 @@ public class ESADBConnection {
 			e.printStackTrace();
 		}
 		return date;
-
 	}
 
 	private static String generateUniqueStudentID() {
@@ -402,54 +355,41 @@ public class ESADBConnection {
 	}
 
 	public static Applicant checkIfstudentExists(String ssn, String lName, String fName, String dOB) {
-
 		Applicant applicant = new Applicant();
 		// first check if students exists
-
 		//String query = "Select * from Student where last_name = \'" + lName + "\' and ssn =\'" + ssn + "\'";
 		String query = "Select * from Student where  ssn =\'" + ssn + "\'";
 
 		try {
-
 			conn = DriverManager.getConnection(url);
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			if (rs != null) {
-
 				applicant.setStudentID(rs.getString("student_id"));
-
 			} else if (rs == null) {// student does not exist, create new student later
-
 				applicant.setStudentID(null);
 				int ssnInt = Integer.parseInt(ssn);
 				applicant.setSsn(ssnInt);
 				applicant.setLname(lName);
 				applicant.setFname(fName);
-				// Olga applicant.setDob(dOB));
 				applicant.setGender("Other");
 			}
 
 		} catch (SQLException ex) {
 			System.out.println("Get Student exception " + ex.getMessage());
-			
 		}
-
 		return applicant;
 	}
 
 	public static Applicant addStudent(String ssn, String lName, String fName, java.util.Date date) {
-
 		Applicant applicant = new Applicant(date);
 		String generatedStudentID = null;
 		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 		String dateString = dateFormat.format(date);
-
 		String insertStatement = null;
 
 		try {
-
 			conn = DriverManager.getConnection(url);
-
 			generatedStudentID = generateStudentID(conn);
 			insertStatement = "INSERT INTO Student (Student_ID,SSN,Last_Name,First_Name, DOB,Birth_Sex) VALUES (\'"
 					+ generatedStudentID + "\', \'" + ssn + "\',\'" + lName + "\', \'" + fName + "\'," + " \'"
@@ -457,7 +397,6 @@ public class ESADBConnection {
 
 			Statement stmt = conn.createStatement();
 			int resultCode = stmt.executeUpdate(insertStatement);
-			// conn.commit();
 
 			if (resultCode == 1) {
 				populateEligibilityFactorsAddStudent(generatedStudentID, conn);
@@ -466,7 +405,6 @@ public class ESADBConnection {
 			}
 
 			if (resultCode == 1) {
-				// applicant.setStudentID(null);
 				int ssnInt = Integer.parseInt(ssn);
 				applicant.setStudentID(generatedStudentID);
 				applicant.setSsn(ssnInt);
@@ -474,7 +412,6 @@ public class ESADBConnection {
 				applicant.setFname(fName);
 				applicant.setDob(date);
 				applicant.setGender("Other");
-
 			}
 
 		} catch (SQLException ex) {
@@ -482,19 +419,16 @@ public class ESADBConnection {
 		} finally {
 			try {
 				conn.close();
-
 			} catch (SQLException ex) {
 				System.out.println("Connection exception" + ex.getMessage());
 			}
 		}
-
 		return applicant;
 	}
 
 	public static String convertStringToDate(Date indate) {
 		String dateString = null;
 		SimpleDateFormat formatedDate = new SimpleDateFormat("MM/dd/yyyy");
-
 		try {
 			dateString = formatedDate.format(indate);
 		} catch (Exception ex) {
@@ -515,25 +449,21 @@ public class ESADBConnection {
 		while (regenerate) {
 			n = 1000000 + rand.nextInt(9000000);
 			number = String.valueOf(n);
-
+			
 			// check if it existis , otherwise regenerate
 			// if student id does not exist, leave the loop
 			String query = "Select * from Student where student_id=\'" + n + "\'";
 
 			try {
-
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(query);
 				if (rs != null && rs.next()) {
-
 					regenerate = true;
-
 				} else // rs == null
 					regenerate = false;
 			} catch (SQLException ex) {
 				System.out.println("generate student id  exception " + ex.getMessage());
 			}
-
 		}
 		return number;
 	}
@@ -543,16 +473,14 @@ public class ESADBConnection {
 		String query = "Select max(Eligibility_Information_ID) from EligibilityFactors ";
 		int tempIDint = 1;
 		int count = -1;// if no records are inserted
+		
 		try {
-
-			// conn = DriverManager.getConnection(url);
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 
 			// if there is a record in the EligibilityTable, get the maximum value for the
 			// ID and add 1, otherwise 1 since there are no record
 			if (rs != null) {
-
 				String tempID = rs.getString(1);
 
 				if (tempID != null) {
@@ -572,11 +500,8 @@ public class ESADBConnection {
 				+ enrollmentIDstr + "\', \'" + studentID + "\');";
 
 		try {
-
-			// conn = DriverManager.getConnection(url);
 			Statement stmt = conn.createStatement();
 			count = stmt.executeUpdate(insertStatement);
-			// conn.commit();
 
 		} catch (SQLException ex) {
 			System.out.println("Insert new student to eligibility factors table  " + ex.getMessage());
@@ -585,7 +510,6 @@ public class ESADBConnection {
 	}
 
 	private static int populateEnrollmentDecision(String studentID, Connection conn) {
-
 		String query = "Select max(Enrollment_ID) from EnrollmentDecision ";
 		int tempIDint = 1;
 		int count = -1;// if no records are inserted
@@ -595,7 +519,6 @@ public class ESADBConnection {
 			ResultSet rs = stmt.executeQuery(query);
 
 			if (rs != null) {
-
 				String tempID = rs.getString(1);
 
 				if (tempID != null) {
@@ -630,13 +553,12 @@ public class ESADBConnection {
 		String query = "Select max(Financial_Information_ID) from FinancialInformation  ";
 		int tempIDint = 1;
 		int count = -1;// if no records are inserted
+		
 		try {
-
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 
 			if (rs != null) {
-
 				String tempID = rs.getString(1);
 
 				if (tempID != null) {
@@ -650,13 +572,9 @@ public class ESADBConnection {
 		}
 
 		// insert record to the database for studentID
-
 		String enrollmentIDstr = Integer.toString(tempIDint);
 		String insertStatement = "INSERT INTO FinancialInformation  (Financial_Information_ID, Student_ID) VALUES (\'"
 				+ enrollmentIDstr + "\', \'" + studentID + "\');";
-
-//		String insertStatement = "INSERT INTO FinancialInformation ( Financial_Information_ID, Student_ID, Financially_Depended, Student_Last_Year_Income,[Parent_Last_ Year_Income], Own_529_Account, Own_Real_Estate_Land, Value_Of_Other_Properties)\r\n"
-//				+ "VALUES ( \'" +  enrollmentIDstr + "\', \'" + studentID + "\\', 0, 0.0, 0.0, 0, 0, 0.0);";
 
 		try {
 
@@ -688,7 +606,6 @@ public class ESADBConnection {
 		try {
 
 			conn = DriverManager.getConnection(url);
-			// Statement stmt = conn.createStatement();
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.executeUpdate();
 			System.out.println("Database updated successfully ");
@@ -702,14 +619,7 @@ public class ESADBConnection {
 			ResultSetMetaData rsmd = resultSet.getMetaData();
 			int columnsNumber = rsmd.getColumnCount();
 			// prints data to check update
-
-			/*
-			 * while (resultSet.next()) { for (int i = 1; i <= columnsNumber; i++) { if (i >
-			 * 1) System.out.print(",\n"); String columnValue = resultSet.getString(i);
-			 * System.out.print(columnValue + ": " + rsmd.getColumnName(i)); }
-			 * System.out.println(""); }
-			 */
-
+			
 		} catch (SQLException ex) {
 			System.out.println("Get Student exception " + ex.getMessage());
 		} finally {
@@ -720,7 +630,6 @@ public class ESADBConnection {
 				System.out.println("Connection exception" + ex.getMessage());
 			}
 		}
-
 	}
 
 	/**
@@ -746,7 +655,6 @@ public class ESADBConnection {
 			System.out.println("Get Student exception " + ex.getMessage());
 		}
 		return duplicate;
-
 	}
 
 	public static void updateFinancialRecord(Applicant applicant) {
@@ -762,7 +670,6 @@ public class ESADBConnection {
 		try {
 
 			conn = DriverManager.getConnection(url);
-			// Statement stmt = conn.createStatement();
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.executeUpdate();
 			System.out.println("Database updated successfully ");
@@ -777,13 +684,6 @@ public class ESADBConnection {
 			int columnsNumber = rsmd.getColumnCount();
 			// prints data to check update
 
-			/*
-			 * while (resultSet.next()) { for (int i = 1; i <= columnsNumber; i++) { if (i >
-			 * 1) System.out.print(",\n"); String columnValue = resultSet.getString(i);
-			 * System.out.print(columnValue + ": " + rsmd.getColumnName(i)); }
-			 * System.out.println(""); }
-			 */
-
 		} catch (SQLException ex) {
 			System.out.println("Get Student exception " + ex.getMessage());
 		} finally {
@@ -794,7 +694,6 @@ public class ESADBConnection {
 				System.out.println("Connection exception" + ex.getMessage());
 			}
 		}
-
 	}
 
 	public static void updateEligibilityRecord(Applicant applicant) {
@@ -812,7 +711,6 @@ public class ESADBConnection {
 		try {
 
 			conn = DriverManager.getConnection(url);
-			// Statement stmt = conn.createStatement();
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.executeUpdate();
 			System.out.println("Database updated successfully ");
@@ -826,14 +724,7 @@ public class ESADBConnection {
 			ResultSetMetaData rsmd = resultSet.getMetaData();
 			int columnsNumber = rsmd.getColumnCount();
 			// prints data to check update
-
 			
-			/*  while (resultSet.next()) { for (int i = 1; i <= columnsNumber; i++) { if (i >
-			  1) System.out.print(",\n"); String columnValue = resultSet.getString(i);
-			  System.out.print(columnValue + ": " + rsmd.getColumnName(i)); }
-			  System.out.println(""); }*/
-			 
-
 		} catch (SQLException ex) {
 			System.out.println("Get Student exception " + ex.getMessage());
 		} finally {
@@ -848,10 +739,6 @@ public class ESADBConnection {
 	}
 
 	public static void updateEnrollmentRecord(Applicant applicant) {
-	/*	String query = "UPDATE EnrollmentDecision SET " + " Enrollment_Date =  '"
-				+ convertStringToDate(applicant.enrollDecision.getEnrollDate()) + "' where student_id = "
-				+ applicant.getStudentID();*/
-		
 		String query = "UPDATE EnrollmentDecision SET " + " Enrollment_Date =  '"
 				+ convertStringToDate(applicant.enrollDecision.getEnrollDate()) + "', Group_number = " +applicant.enrollDecision.getGroup() + ", group_description= ' " + applicant.enrollDecision.getGrpDiscription() + "' where student_id = "
 				+ applicant.getStudentID();
@@ -859,7 +746,6 @@ public class ESADBConnection {
 		try {
 
 			conn = DriverManager.getConnection(url);
-			// Statement stmt = conn.createStatement();
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.executeUpdate();
 			System.out.println("Database updated successfully ");

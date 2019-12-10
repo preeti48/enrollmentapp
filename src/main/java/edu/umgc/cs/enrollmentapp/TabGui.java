@@ -8,10 +8,6 @@ import java.awt.event.KeyEvent;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.ZoneId;
 import java.util.Date;
 
 import javax.swing.*;
@@ -32,37 +28,21 @@ public class TabGui extends JFrame {
 	private EligibilityFactorsTab eligibilityFactorsTab;
 	private EnrollmentDecisionTab enrollmentDecisionTab;
 	int age;
-
 	Applicant theApplicant = null;
 
-	// Preethi
-	// Preethi
 	private void calculatePriority(Applicant applicant) {
 		System.out.println("calculatePriority called");
-		// enrollmentDecisionTab.groupNumField.setText(" 25 ");
-		
-		// OLGA START
-		// if us resident 
-		
-		
-		
 			if (overviewTab.usaResiRButtonY.isSelected()) { // if usa resident
 				// military service is more than 5 years, or senior In-State (over 55 and
 				// instate are selected).
 				if (eligibilityFactorsTab.activeYearMoreThan5.isSelected() || (eligibilityFactorsTab.overAge55Y.isSelected()
 						&& eligibilityFactorsTab.residStatusIn.isSelected())) {
-					// if(eligibilityFactorsTab.overAge55Y.isSelected()){
-					// if(eligibilityFactorsTab.residStatusIn.isSelected()){
 					enrollmentDecisionTab.groupNumField.setText(" 1 ");
 					enrollmentDecisionTab.groupDescriptionField.setText(
 							" Group 1: USA Resident, military service is more than 5 years, or senior In-State. Tuition is free. ");
 					applicant.enrollDecision.setGroup(1);
 					applicant.enrollDecision.setGrpDiscription(
 							"Group 1: USA Resident, military service is more than 5 years, or senior In-State. Tuition is free. ");
-					// }
-					// }
-					// Group 2: USA Resident, military service from 1 to 5 years. OR disability =
-					// yes.
 				} else if (eligibilityFactorsTab.activeYearBetween1_5.isSelected()
 						|| eligibilityFactorsTab.disabilityY.isSelected()) {
 					// if(eligibilityFactorsTab.disabilityY.isSelected()) {
@@ -74,25 +54,19 @@ public class TabGui extends JFrame {
 					applicant.enrollDecision.setGrpDiscription(
 							"\"Group 2: \\n USA Resident, \\n military service from 1 to 5 years, \\n or disability = yes. \\n Scholarship award 75%.");
 				}
-				else // group 5
-					
+				else // group 5	
 				{
 					enrollmentDecisionTab.groupNumField.setText(" 5 ");
 					enrollmentDecisionTab.groupDescriptionField.setText(
 							"Group 5: Military service is less than a year, 529 account, not from low income family, or other categories not eligible for discount. Not eligible for scholarship.");
 					applicant.enrollDecision.setGroup(5);
 					applicant.enrollDecision.setGrpDiscription(
-							"Group 5: Military service is less than a year, 529 account, not from low income family, or other categories not eligible for discount. Not eligible for scholarship.");
-				
+							"Group 5: Military service is less than a year, 529 account, not from low income family, or other categories not eligible for discount. Not eligible for scholarship.");	
 				}
 			}
 		
-		// low income group 4
-			// dependent no and financial iad yes
 			 if (eligibilityFactorsTab.areYouDependentN.isSelected()
-					&& eligibilityFactorsTab.financialAidY.isSelected()) {// ||
-																			// financialInfoTab.finanDependRButtonN.isSelected())
-																			// {
+					&& eligibilityFactorsTab.financialAidY.isSelected()) {
 				enrollmentDecisionTab.groupNumField.setText(" 3 ");
 				enrollmentDecisionTab.groupDescriptionField
 						.setText("Group 3: Non-dependent with financial aid eligibility. Scholarship award 50%.");
@@ -111,7 +85,6 @@ public class TabGui extends JFrame {
 			applicant.enrollDecision.setGroup(4);
 			applicant.enrollDecision.setGrpDiscription("Group 4: From low income family.  Scholarship award 35%.");
 		} 
-		
 		else // group 5
 			
 		{
@@ -121,102 +94,7 @@ public class TabGui extends JFrame {
 			applicant.enrollDecision.setGroup(5);
 			applicant.enrollDecision.setGrpDiscription(
 					"Group 5: Military service is less than a year, 529 account, not from low income family, or other categories not eligible for discount. Not eligible for scholarship.");
-		
 		}
-			
-			///// OLGA END
-			
-//
-//		if (overviewTab.usaResiRButtonY.isSelected()) { // if usa resident
-//			// military service is more than 5 years, or senior In-State (over 55 and
-//			// instate are selected).
-//			if (eligibilityFactorsTab.activeYearMoreThan5.isSelected() || (eligibilityFactorsTab.overAge55Y.isSelected()
-//					&& eligibilityFactorsTab.residStatusIn.isSelected())) {
-//				// if(eligibilityFactorsTab.overAge55Y.isSelected()){
-//				// if(eligibilityFactorsTab.residStatusIn.isSelected()){
-//				enrollmentDecisionTab.groupNumField.setText(" 1 ");
-//				enrollmentDecisionTab.groupDescriptionField.setText(
-//						" Group 1: USA Resident, military service is more than 5 years, or senior In-State. Tuition is free. ");
-//				applicant.enrollDecision.setGroup(1);
-//				applicant.enrollDecision.setGrpDiscription(
-//						"Group 1: USA Resident, military service is more than 5 years, or senior In-State. Tuition is free. ");
-//				// }
-//				// }
-//				// Group 2: USA Resident, military service from 1 to 5 years. OR disability =
-//				// yes.
-//			} else if (eligibilityFactorsTab.activeYearBetween1_5.isSelected()
-//					|| eligibilityFactorsTab.disabilityY.isSelected()) {
-//				// if(eligibilityFactorsTab.disabilityY.isSelected()) {
-//				enrollmentDecisionTab.groupNumField.setText(" 2 ");
-//				enrollmentDecisionTab.groupDescriptionField.setText(
-//						"Group 2: \n USA Resident, \n military service from 1 to 5 years, \n or disability = yes. \n Scholarship award 75%.");
-//				// }
-//				applicant.enrollDecision.setGroup(2);
-//				applicant.enrollDecision.setGrpDiscription(
-//						"\"Group 2: \\n USA Resident, \\n military service from 1 to 5 years, \\n or disability = yes. \\n Scholarship award 75%.");
-//			}
-//			else 
-//			{
-//				enrollmentDecisionTab.groupNumField.setText(" 5 ");
-//				enrollmentDecisionTab.groupDescriptionField.setText(
-//						"Group 5: Group 5.");
-//				// }
-//				applicant.enrollDecision.setGroup(5);
-//				applicant.enrollDecision.setGrpDiscription("Group 5: Group 5.");
-//
-//			}
-//		//	return;
-//		}
-//		// not Us resident. Group 3: Non-dependent with financial aid eligibility.
-//		else if (eligibilityFactorsTab.areYouDependentN.isSelected()
-//				&& eligibilityFactorsTab.financialAidY.isSelected()) {// ||
-//																		// financialInfoTab.finanDependRButtonN.isSelected())
-//																		// {
-//			enrollmentDecisionTab.groupNumField.setText(" 3 ");
-//			enrollmentDecisionTab.groupDescriptionField
-//					.setText("Group 3: Non-dependent with financial aid eligibility. Scholarship award 50%.");
-//			applicant.enrollDecision.setGroup(3);
-//			applicant.enrollDecision
-//					.setGrpDiscription("Group 3: Non-dependent with financial aid eligibility. Scholarship award 50%.");
-//		}
-//
-//		// Group 4: student is low income (less than 40,000.00).
-////		else if ((financialInfoTab.finanDependRButtonY.isSelected()) && ((Double
-////				.parseDouble(financialInfoTab.parenttLastYearIncomeField.getText()) < 40000)
-////				|| (financialInfoTab.finanDependRButtonN.isSelected())
-////						&& (Double.parseDouble(financialInfoTab.studentLastYearIncomeField.getText()) < 40000))) {
-//			
-//		
-//		else if  ((financialInfoTab.finanDependRButtonN.isSelected()) && ((Double.parseDouble(financialInfoTab.studentLastYearIncomeField.getText()) < 40000))||(financialInfoTab.finanDependRButtonY.isSelected()) && ((Double
-//				.parseDouble(financialInfoTab.parenttLastYearIncomeField.getText()) < 40000))) {
-//		
-//		
-//		enrollmentDecisionTab.groupNumField.setText(" 4 ");
-//			enrollmentDecisionTab.groupDescriptionField
-//					.setText("Group 4: From low income family.  Scholarship award 35%.");
-//			applicant.enrollDecision.setGroup(4);
-//			applicant.enrollDecision.setGrpDiscription("Group 4: From low income family.  Scholarship award 35%.");
-//		} else if ((((Double.parseDouble(financialInfoTab.studentLastYearIncomeField.getText()) > 40000))
-//				|| ((Double.parseDouble(financialInfoTab.parenttLastYearIncomeField.getText()) > 40000)))) {
-//
-//			enrollmentDecisionTab.groupNumField.setText(" 5 ");
-//			enrollmentDecisionTab.groupDescriptionField.setText(
-//					"Group 5: Military service is less than a year, 529 account, not from low income family, or other categories not eligible for discount. Not eligible for scholarship.");
-//			applicant.enrollDecision.setGroup(5);
-//			applicant.enrollDecision.setGrpDiscription(
-//					"Group 5: Military service is less than a year, 529 account, not from low income family, or other categories not eligible for discount. Not eligible for scholarship.");
-//			return;
-//		}
-//
-//		if (financialInfoTab.hav529AcctRButtonY.isSelected() || financialInfoTab.havRealEstRButtonY.isSelected()) {
-//
-//			enrollmentDecisionTab.groupNumField.setText(" 5 ");
-//			enrollmentDecisionTab.groupDescriptionField.setText(
-//					"Group 5: Military service is less than a year, 529 account, not from low income family, or other categories not eligible for discount. Not eligible for scholarship.");
-//			applicant.enrollDecision.setGroup(5);
-//			applicant.enrollDecision.setGrpDiscription(
-//					"Group 5: Military service is less than a year, 529 account, not from low income family, or other categories not eligible for discount. Not eligible for scholarship.");
-//		}
 	}
 
 	public TabGui(Applicant applicant) {
@@ -224,12 +102,11 @@ public class TabGui extends JFrame {
 		super("Enrollment Scholarship Application");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		// theApplicant = applicant;
 		jtpTabPane = new JTabbedPane();
 		overviewTab = new OverviewTab(applicant);
 		financialInfoTab = new FinancialInfoTab(applicant);
 		eligibilityFactorsTab = new EligibilityFactorsTab(applicant);
-		if (applicant != null)// Olga
+		if (applicant != null)
 			enrollmentDecisionTab = new EnrollmentDecisionTab(applicant);
 
 		jtpTabPane.addTab("Student Overview", overviewTab);
@@ -252,8 +129,6 @@ public class TabGui extends JFrame {
 
 		ButtonGroup buttongroup1 = new ButtonGroup();
 		ButtonGroup buttongroup2 = new ButtonGroup();
-
-		// private JPanel addressPanel = new JPanel(new FlowLayout());
 		private JLabel studentIdLabel = new JLabel("Student ID:");
 		private JTextField studentIDField = new JTextField(7);
 		private JLabel resiAdrslabel = new JLabel("Residential Address");
@@ -290,8 +165,6 @@ public class TabGui extends JFrame {
 		private JTextField e_phoneField = new JTextField();
 		private JLabel phNumLAbel = new JLabel("Phone #: ");
 		private JTextField phNumField = new JTextField();
-		// private JLabel mobNumLabel = new JLabel("Mobile #: ");
-		// private JTextField mobNumField = new JTextField();
 
 		private JButton update = new JButton("Update");
 		private JButton reset = new JButton("Reset");
@@ -367,8 +240,6 @@ public class TabGui extends JFrame {
 			centerPanel.add(phNumLAbel);
 			centerPanel.add(phNumField);
 			phNumField.setText(applicant.getPhone());
-			// centerPanel.add(mobNumLabel);
-			// centerPanel.add(mobNumField);
 
 			add(buttonPanel, "South");
 			buttonPanel.add(update);
@@ -393,16 +264,11 @@ public class TabGui extends JFrame {
 					e_contactField.setText("");
 					e_phoneField.setText("");
 					phNumField.setText("");
-					// mobNumField.setText("");
-
 				}
 			});
 			buttonPanel.add(cancel);
 			cancel.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					// SearchScreen searchPage = new SearchScreen();
-					// searchPage.connection();
-
 					TabGui.this.setVisible(false);
 					// new SearchScreen().setVisible(true);
 				}
@@ -412,17 +278,13 @@ public class TabGui extends JFrame {
 			rightPanel.add(emptyLabel1);
 			add(leftPanel, "East");
 			leftPanel.add(emptyLabel2);
-			// lastname text limit
 			lastNameField.addKeyListener(new KeyAdapter() {
 				@Override
 				public void keyTyped(KeyEvent evt) {
 					char c = evt.getKeyChar();
-					// validate input are letters
 					if (Character.isLetter(c) || Character.isISOControl(c)) {
 						lastNameField.setEditable(true);
 					} else {
-						// lastNameField.setEditable(false);
-						// output error message if input is wrong
 						JOptionPane.showMessageDialog(lastNameField, "Enter Letters Only");
 						evt.consume();// ignore event
 					}
@@ -453,7 +315,6 @@ public class TabGui extends JFrame {
 					if (Character.isLetter(c) || Character.isISOControl(c)) {
 						firstNameField.setEditable(true);
 					} else {
-						// firstNameField.setEditable(false);
 						// output error message if input is wrong
 						JOptionPane.showMessageDialog(firstNameField, "Enter Letters Only");
 						evt.consume();// ignore event
@@ -485,7 +346,6 @@ public class TabGui extends JFrame {
 					if (Character.isDigit(c) || Character.isISOControl(c)) {
 						ssnField.setEditable(true);
 					} else {
-						// ssnField.setEditable(false);
 						// output error message if input is wrong
 						JOptionPane.showMessageDialog(ssnField, "Enter Digits Only");
 						evt.consume();// ignore event
@@ -502,7 +362,6 @@ public class TabGui extends JFrame {
 					if (Character.isLetter(c) || Character.isISOControl(c)) {
 						stateField.setEditable(true);
 					} else {
-						// stateField.setEditable(false);
 						// output error message if input is wrong
 						JOptionPane.showMessageDialog(stateField, "Enter Letters Only");
 						evt.consume();// ignore event
@@ -518,7 +377,6 @@ public class TabGui extends JFrame {
 					if (Character.isLetter(c) || Character.isISOControl(c)) {
 						e_contactField.setEditable(true);
 					} else {
-						// e_contactField.setEditable(false);
 						// output error message if input is wrong
 						JOptionPane.showMessageDialog(e_contactField, "Enter Letters Only");
 						evt.consume();// ignore event
@@ -534,7 +392,6 @@ public class TabGui extends JFrame {
 					if (Character.isDigit(c) || Character.isISOControl(c)) {
 						e_phoneField.setEditable(true);
 					} else {
-						// e_phoneField.setEditable(false);
 						// output error message if input is wrong
 						JOptionPane.showMessageDialog(e_phoneField, "Enter Digits Only");
 						evt.consume();// ignore event
@@ -551,7 +408,6 @@ public class TabGui extends JFrame {
 					if (Character.isDigit(c) || Character.isISOControl(c)) {
 						phNumField.setEditable(true);
 					} else {
-						// phNumField.setEditable(false);
 						// output error message if input is wrong
 						JOptionPane.showMessageDialog(phNumField, "Enter Digits Only");
 						evt.consume();// ignore event
@@ -568,7 +424,6 @@ public class TabGui extends JFrame {
 					if (Character.isDigit(c) || Character.isISOControl(c)) {
 						zipField.setEditable(true);
 					} else {
-						// zipField.setEditable(false);
 						// output error message if input is wrong
 						JOptionPane.showMessageDialog(zipField, "Enter Digits Only");
 						evt.consume();// ignore event
@@ -842,11 +697,7 @@ public class TabGui extends JFrame {
 			buttonPanel.add(cancel);
 			cancel.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					// SearchScreen searchPage = new SearchScreen();
-					// searchPage.connection();
-
 					TabGui.this.setVisible(false);
-					// new SearchScreen().setVisible(true);
 				}
 			});
 
@@ -859,7 +710,6 @@ public class TabGui extends JFrame {
 					if (Character.isDigit(c) || Character.isISOControl(c) || (c == ('.'))) {
 						studentLastYearIncomeField.setEditable(true);
 					} else {
-						// studentLastYearIncomeField.setEditable(false);
 						// output error message if input is wrong
 						JOptionPane.showMessageDialog(studentLastYearIncomeField, "Enter Digit Only");
 						evt.consume();// ignore event
@@ -876,7 +726,6 @@ public class TabGui extends JFrame {
 					if (Character.isDigit(c) || Character.isISOControl(c) || (c == ('.'))) {
 						parenttLastYearIncomeField.setEditable(true);
 					} else {
-						// parenttLastYearIncomeField.setEditable(false);
 						// output error message if input is wrong
 						JOptionPane.showMessageDialog(parenttLastYearIncomeField, "Enter Digit Only");
 						evt.consume();// ignore event
@@ -892,7 +741,6 @@ public class TabGui extends JFrame {
 					if (Character.isDigit(c) || Character.isISOControl(c) || (c == ('.'))) {
 						valOfOtherProptyField.setEditable(true);
 					} else {
-						// valOfOtherProptyField.setEditable(false);
 						// output error message if input is wrong
 						JOptionPane.showMessageDialog(valOfOtherProptyField, "Enter Digit Only");
 						evt.consume();// ignore event
@@ -936,7 +784,6 @@ public class TabGui extends JFrame {
 			}
 
 			// studentincome
-
 			if (!studentLastYearIncomeField.getText().isEmpty()) {
 				String str = studentLastYearIncomeField.getText();
 				// check if entered string is number only
@@ -1280,17 +1127,12 @@ public class TabGui extends JFrame {
 					buttonGroup8.clearSelection();
 					buttonGroup9.clearSelection();
 				}
-
 			});
 
 			buttonPanel.add(cancel);
 			cancel.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					// SearchScreen searchPage = new SearchScreen();
-					// searchPage.connection();
-
 					TabGui.this.setVisible(false);
-					// new SearchScreen().setVisible(true);
 				}
 			});
 
@@ -1403,13 +1245,6 @@ public class TabGui extends JFrame {
 			groupDescriptionField.setWrapStyleWord(true);
 
 			emptyPanel1.add(empty1, "Center");
-//			emptyPanel1.add(empty2, "Center");
-//			emptyPanel1.add(empty3, "Center");
-//			emptyPanel1.add(empty4, "Center");
-//			emptyPanel1.add(empty5, "Center");
-//			emptyPanel1.add(empty6, "Center");
-//			emptyPanel1.add(empty7, "Center");
-//			emptyPanel1.add(empty8, "Center");
 			topPanel.add(emptyPanel1);
 			add(topPanel, "North");
 
@@ -1461,25 +1296,7 @@ public class TabGui extends JFrame {
 					// new SearchScreen().setVisible(true);
 				}
 			});
-
-			// enrolldate digit limit but need to **implement date format
-//		entrollDateField.addKeyListener(new KeyAdapter() {
-//			@Override
-//			public void keyTyped(KeyEvent evt) {
-//				 char c= evt.getKeyChar();
-//				//validate input are digits
-//			if (Character.isDigit(c)|| Character.isISOControl(c))
-//                   {
-//				entrollDateField.setEditable(true);
-//                   }    else 
-//                   {
-//                	        entrollDateField.setEditable(false);
-//	                         evt.consume();//ignore event
-//	            } 
-//                 
-//			}
-//		});
-
+			
 			// Empty label for alignment purpose
 			add(leftPanel, "East");
 			leftPanel.add(empty1);
@@ -1535,7 +1352,6 @@ public class TabGui extends JFrame {
 
 	private Date stringToDate(String s) {
 		Date date = null;
-		// System.out.println("Printing date" + s);
 		if (!s.matches("^(0[1-9]|1[0-2])\\/(0[1-9]|1\\d|2\\d|3[01])\\/(19|20)\\d{2}$")) {
 			JOptionPane.showMessageDialog(frame, "Please enter date in MM/dd/yyyy format",
 					"Incorrect Date Formate Entered", JOptionPane.ERROR_MESSAGE);
@@ -1547,8 +1363,6 @@ public class TabGui extends JFrame {
 				date = (Date) new SimpleDateFormat("MM/dd/yyyy").parse(s);
 			return date;
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
 			JOptionPane.showMessageDialog(frame, "Please enter date in MM/dd/yyyy formate",
 					"Incorrect Date Formate Entered", JOptionPane.ERROR_MESSAGE);
 		}
@@ -1558,57 +1372,4 @@ public class TabGui extends JFrame {
 		return date;
 
 	}
-
-	/*
-	 * private static JFrame frame = new JFrame(); private JTabbedPane jtpTabPane =
-	 * new JTabbedPane(); private JPanel overviewTab = new JPanel(); private JPanel
-	 * financialInfoTab = new JPanel(); private JPanel eligibilityFactorsTab = new
-	 * JPanel(); private JPanel enrollmentDecisionTab = new JPanel(); private
-	 * JTextField jtxStudentIDOverviewTab = new JTextField(); private JTextField
-	 * jtxStudentIDFinancialInfoTab = new JTextField(); private JTextField
-	 * jtxStudentIDEligibilityFactorsTab = new JTextField(); private JTextField
-	 * jtxStudentIDEnrollmentDecisionTab = new JTextField(); private Applicant
-	 * theApplicant = null;
-	 * 
-	 * // me private JTextField studentLastYearIncome = new JTextField();
-	 * 
-	 * public TabGui(Applicant applicant) {
-	 * 
-	 * 
-	 * theApplicant = applicant; createGUI(); }
-	 * 
-	 * private void createGUI() { frame = new
-	 * JFrame("Enrollment Scholarship Application");
-	 * frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	 * frame.setLocationRelativeTo(null);
-	 * 
-	 * // Display the frame // frame.pack();
-	 * 
-	 * jtpTabPane.add(overviewTab, "Student Overview");
-	 * jtpTabPane.add(financialInfoTab, "Financial Information");
-	 * jtpTabPane.add(eligibilityFactorsTab, "Eligibility Factors");
-	 * jtpTabPane.add(enrollmentDecisionTab, "Enrollment Decision");
-	 * 
-	 * jtpTabPane.setToolTipTextAt(0, "Overview Tab");
-	 * jtpTabPane.setToolTipTextAt(1, "Financial Information Tab");
-	 * jtpTabPane.setToolTipTextAt(2, "Eligibility Factors Tab");
-	 * jtpTabPane.setToolTipTextAt(3, "Enrollment Decision Tab");
-	 * jtxStudentIDOverviewTab.setText(theApplicant.getStudentID());
-	 * jtxStudentIDFinancialInfoTab.setText(theApplicant.getStudentID());
-	 * jtxStudentIDEligibilityFactorsTab.setText(theApplicant.getStudentID());
-	 * jtxStudentIDEnrollmentDecisionTab.setText(theApplicant.getStudentID());
-	 * overviewTab.add(jtxStudentIDOverviewTab);
-	 * financialInfoTab.add(jtxStudentIDFinancialInfoTab);
-	 * eligibilityFactorsTab.add(jtxStudentIDEligibilityFactorsTab);
-	 * enrollmentDecisionTab.add(jtxStudentIDEnrollmentDecisionTab);
-	 * 
-	 * 
-	 * financialInfoTab.add(studentLastYearIncome, "Student Last Year Income:");
-	 * 
-	 * 
-	 * frame.setSize(1000, 500); frame.setVisible(true);
-	 * 
-	 * frame.add(jtpTabPane); }
-	 */
-
 }

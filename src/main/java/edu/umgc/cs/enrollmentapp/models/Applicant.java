@@ -36,8 +36,7 @@ public Applicant()
 	
 }
 
-public Applicant(java.util.Date date)
-{
+public Applicant(java.util.Date date){
 	
 	 finInfo = new FinancialInformation();
 	 eligInfo = new EligibilityFactors();
@@ -45,14 +44,11 @@ public Applicant(java.util.Date date)
 	 this.setDob(date);
 	 LocalDate today = LocalDate.now(); // Today's date
 		LocalDate birthday = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
 		Period period = Period.between(birthday, today);// Finding age
-
 		this.eligInfo.isAgeOver55 = period.getYears() > 55;
-	
-	
 }
-public String getStudentID() {
+
+	public String getStudentID() {
 		return studentID;
 	}
 
@@ -172,7 +168,3 @@ public String getStudentID() {
 		this.phone = phone;
 	}
 }
-//Phone    # Text Box Numeric 10
-//Update   Button Selection
-//Reset    Button Selection
-//Cancel
