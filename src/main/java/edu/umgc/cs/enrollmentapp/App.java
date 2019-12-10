@@ -1,5 +1,5 @@
 package edu.umgc.cs.enrollmentapp;
-import edu.umgc.cs.enrollmentapp.models.*;
+
 
 import javax.swing.*;
 import java.awt.Font;
@@ -8,9 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+
 
 
 public class App {
@@ -31,12 +29,8 @@ public static void main( String[] args )
      javax.swing.SwingUtilities.invokeLater(new Runnable() {
           public void run() {
         createGUI();
-        	// connect();
-        	  //TabGui tab = new TabGui(new Applicant());
           }	
-      });
-        
-    
+      }); 
     }
 
 
@@ -108,27 +102,7 @@ private static void createGUI() {
         			}
         		}
         		
-        	}
-        
-        		//error handling for username and password field
-        	/*	if(userIdField.getText().trim().isEmpty() && passwordField.getText().trim().isEmpty()){
-        			userIdErrorLbl.setText("User ID is a required field");
-        			pwErrorLbl.setText("Password is a required field");
-        		}
-        		else if(userIdField.getText().trim().isEmpty()){
-        			userIdErrorLbl.setText("User ID is a required field");
-        		}
-        		else if(passwordField.getText().trim().isEmpty()){
-        			pwErrorLbl.setText("Password is a required field");
-        		}
-        		else{
-        			if(userIdField.getText().equalsIgnoreCase("Admin") && passwordField.getText().equals("123")){
-                		SearchScreen searchPage = new SearchScreen();
-                		frame.dispose();
-                		}		
-        		}*/
-        		
-        	
+        	}  	
         });
         
         loginBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -172,8 +146,7 @@ private static void createGUI() {
         frame.getContentPane().add(pwErrorLbl);
 
         frame.setBounds(500, 200, 400, 380);
-        frame.setVisible(true);
-       
+        frame.setVisible(true);  
    }
 
 private static boolean isValidPassword(char [] input){
@@ -196,9 +169,6 @@ private static boolean isValidPassword(char [] input){
 	}
 	
 	}
-		
-
-
 }
 
 

@@ -56,8 +56,4 @@ public class FinancialInformation {
 	public double getPropValue(){
 		return ValueOfOtherProperties;
 	}
-	
 }
-// Update Button Selection
-// Reset Button Selection
-// Cancel Button

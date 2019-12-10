@@ -8,7 +8,6 @@ import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,9 +15,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
-
 import com.toedter.calendar.JDateChooser;
-
 import edu.umgc.cs.enrollmentapp.models.Applicant;
 
 public class SearchScreen {
@@ -226,7 +223,6 @@ public class SearchScreen {
 				lnField.setText("");
 				fnfield.setText("");
 				dateChooser.setCalendar(null);
-
 			}
 		});
 		resetBtn.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -248,7 +244,6 @@ public class SearchScreen {
 		if (id.matches("[0-9]+") && id.length() == 7) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -262,7 +257,6 @@ public class SearchScreen {
 		if (ssn.length() == 9 && ssn.matches("[0-9]+")) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -270,7 +264,7 @@ public class SearchScreen {
 	 * This method is to perform search operation
 	 */
 	private void performSearch() {
-
+		
 		if (studentIDField.getText().isEmpty() && ssnField.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(frame,
 					" Please enter Student ID or SSN and Last Name to Search for Student Record ");
