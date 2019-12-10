@@ -280,9 +280,9 @@ public class ESADBConnection {
 	private static ResidencyStatus getStatus(String s) {
 
 		if (s != null) {
-			if (s.equals("In-State")) {
+			if (s.equals("InState")) {
 				return ResidencyStatus.InState;
-			} else if (s.equals("Out of State")) {
+			} else if (s.equals("OutOfState")) {
 				return ResidencyStatus.OutOfState;
 			} else if (s.equals("Abroad")) {
 				return ResidencyStatus.Abroad;
@@ -298,13 +298,16 @@ public class ESADBConnection {
 
 		YearOfResidency returnResult = YearOfResidency.NoYearsOfResidency;
 		if (s != null) {
-			if (s.equals("Less than 1")) {
+			if (s.equals("LessThanOneYears")) {
 
 				returnResult = YearOfResidency.LessThanOneYears;
-			} else if (s.equals("Between 1 to 5")) {
+			} else if (s.equals("BetweenOneAndFveYears")) {
 				returnResult = YearOfResidency.BetweenOneAndFveYears;
-			} else {
+			} else if(s.equals("Over5Years")){
 				returnResult = YearOfResidency.Over5Years;
+			}
+			else{
+				returnResult = YearOfResidency.NoYearsOfResidency;
 			}
 		}
 		return returnResult;
@@ -315,13 +318,15 @@ public class ESADBConnection {
 
 		ActiveYears returnResult = ActiveYears.NoActiveYears;
 		if (s != null) {
-			if (s.equals("Less than 1")) {
+			if (s.equals("LessThanOneYears")) {
 
 				returnResult = ActiveYears.LessThanOneYears;
-			} else if (s.equals("Between 1 to 5")) {
+			} else if (s.equals("BetweenOneAndFveYears")) {
 				returnResult = ActiveYears.BetweenOneAndFveYears;
-			} else {
+			} else if(s.equals("Over5Years")){
 				returnResult = ActiveYears.Over5Years;
+			}else{
+				returnResult = ActiveYears.NoActiveYears;
 			}
 		}
 		return returnResult; // checks if s is not null; if null, database field years of service is null and
@@ -822,12 +827,12 @@ public class ESADBConnection {
 			int columnsNumber = rsmd.getColumnCount();
 			// prints data to check update
 
-			/*
-			 * while (resultSet.next()) { for (int i = 1; i <= columnsNumber; i++) { if (i >
-			 * 1) System.out.print(",\n"); String columnValue = resultSet.getString(i);
-			 * System.out.print(columnValue + ": " + rsmd.getColumnName(i)); }
-			 * System.out.println(""); }
-			 */
+			
+			/*  while (resultSet.next()) { for (int i = 1; i <= columnsNumber; i++) { if (i >
+			  1) System.out.print(",\n"); String columnValue = resultSet.getString(i);
+			  System.out.print(columnValue + ": " + rsmd.getColumnName(i)); }
+			  System.out.println(""); }*/
+			 
 
 		} catch (SQLException ex) {
 			System.out.println("Get Student exception " + ex.getMessage());
