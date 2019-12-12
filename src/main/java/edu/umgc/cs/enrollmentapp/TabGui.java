@@ -133,7 +133,8 @@ public class TabGui extends JFrame {
 		jtpTabPane.addTab("Enrollment Decision", enrollmentDecisionTab);
 		getContentPane().add(jtpTabPane);
 
-		setSize(800, 600);
+		setBounds(250, 80, 800, 600);
+		//setSize(800, 600);
 		setVisible(true);
 	}
 
@@ -269,25 +270,13 @@ public class TabGui extends JFrame {
 			buttonPanel.add(reset);
 			reset.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					buttongroup1.clearSelection();
-					buttongroup2.clearSelection();
-					lastNameField.setText("");
-					firstNameField.setText("");
-					ssnField.setText("");
-					dobField.setText("");
-					streetField.setText("");
-					stateField.setText("");
-					cityField.setText("");
-					zipField.setText("");
-					e_contactField.setText("");
-					e_phoneField.setText("");
-					phNumField.setText("");
+					performReset();
 				}
 			});
 			buttonPanel.add(cancel);
 			cancel.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					TabGui.this.setVisible(false);
+					performCancel();
 					// new SearchScreen().setVisible(true);
 				}
 			});
@@ -573,14 +562,24 @@ public class TabGui extends JFrame {
 
 		}
 		
-		public void performCancel(Applicant student) {
-			// TODO Auto-generated method stub
-
+		public void performCancel() {
+			TabGui.this.setVisible(false);
 		}
 
-		public void performReset(Applicant student) {
-			// TODO Auto-generated method stub
-
+		public void performReset() {
+			buttongroup1.clearSelection();
+			buttongroup2.clearSelection();
+			lastNameField.setText("");
+			firstNameField.setText("");
+			ssnField.setText("");
+			dobField.setText("");
+			streetField.setText("");
+			stateField.setText("");
+			cityField.setText("");
+			zipField.setText("");
+			e_contactField.setText("");
+			e_phoneField.setText("");
+			phNumField.setText("");
 		}
 	}
 
@@ -703,19 +702,15 @@ public class TabGui extends JFrame {
 			buttonPanel.add(reset);
 			reset.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					buttongroup1.clearSelection();
-					buttongroup2.clearSelection();
-					buttongroup3.clearSelection();
-					studentLastYearIncomeField.setText("");
-					parenttLastYearIncomeField.setText("");
-					valOfOtherProptyField.setText("");
-
+					performReset();
+					
 				}
 			});
 			buttonPanel.add(cancel);
 			cancel.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					TabGui.this.setVisible(false);
+					performCancel();
+					
 				}
 			});
 
@@ -853,13 +848,18 @@ public class TabGui extends JFrame {
 		}
 
 
-		public void performCancel(Applicant student) {
-			// TODO Auto-generated method stub
-
+		public void performCancel() {
+			TabGui.this.setVisible(false);
 		}
 
-		public void performReset(Applicant student) {
-			// TODO Auto-generated method stub
+		public void performReset() {
+			buttongroup1.clearSelection();
+			buttongroup2.clearSelection();
+			buttongroup3.clearSelection();
+			studentLastYearIncomeField.setText("");
+			parenttLastYearIncomeField.setText("");
+			valOfOtherProptyField.setText("");
+
 
 		}
 
@@ -1136,22 +1136,14 @@ public class TabGui extends JFrame {
 			buttonPanel.add(reset);
 			reset.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					buttonGroup1.clearSelection();
-					buttonGroup2.clearSelection();
-					buttonGroup3.clearSelection();
-					buttonGroup4.clearSelection();
-					buttonGroup5.clearSelection();
-					buttonGroup6.clearSelection();
-					buttonGroup7.clearSelection();
-					buttonGroup8.clearSelection();
-					buttonGroup9.clearSelection();
+					performReset();	
 				}
 			});
 
 			buttonPanel.add(cancel);
 			cancel.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					TabGui.this.setVisible(false);
+					performCancel();
 				}
 			});
 
@@ -1211,13 +1203,20 @@ public class TabGui extends JFrame {
 
 		}
 
-		public void performCancel(Applicant student) {
-			// TODO Auto-generated method stub
-
+		public void performCancel() {
+			TabGui.this.setVisible(false);
 		}
 
-		public void performReset(Applicant student) {
-			// TODO Auto-generated method stub
+		public void performReset() {
+			buttonGroup1.clearSelection();
+			buttonGroup2.clearSelection();
+			buttonGroup3.clearSelection();
+			buttonGroup4.clearSelection();
+			buttonGroup5.clearSelection();
+			buttonGroup6.clearSelection();
+			buttonGroup7.clearSelection();
+			buttonGroup8.clearSelection();
+			buttonGroup9.clearSelection();
 
 		}
 	}
@@ -1299,20 +1298,13 @@ public class TabGui extends JFrame {
 			buttonPanel.add(reset);
 			reset.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					entrollDateField.setText("");
-					groupNumField.setText("");
-					groupDescriptionField.setText("");
-
+					performReset();
 				}
 			});
 			buttonPanel.add(cancel);
 			cancel.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					// SearchScreen searchPage = new SearchScreen();
-					// searchPage.connection();
-
-					TabGui.this.setVisible(false);
-					// new SearchScreen().setVisible(true);
+					performCancel();
 				}
 			});
 			
@@ -1352,14 +1344,14 @@ public class TabGui extends JFrame {
 
 		}
 
-		public void performCancel(Applicant student) {
-			// TODO Auto-generated method stub
-
+		public void performCancel() {
+			TabGui.this.setVisible(false);
 		}
 
-		public void performReset(Applicant student) {
-			// TODO Auto-generated method stub
-
+		public void performReset() {
+			entrollDateField.setText("");
+			groupNumField.setText("");
+			groupDescriptionField.setText("");
 		}
 
 	}
