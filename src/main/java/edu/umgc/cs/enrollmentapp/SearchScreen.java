@@ -392,22 +392,6 @@ public class SearchScreen {
 		}
 	}
 
-	private void searchByID() {
 
-	}
-
-	private void searchBySSNandLN() {
-
-	}
-
-	public void connection() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void setVisible(boolean b) {
-		// TODO Auto-generated method stub
-
-	}
 
 }

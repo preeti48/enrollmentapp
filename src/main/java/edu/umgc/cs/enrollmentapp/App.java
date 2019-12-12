@@ -1,6 +1,4 @@
 package edu.umgc.cs.enrollmentapp;
-
-
 import javax.swing.*;
 import java.awt.Font;
 import java.awt.event.ActionListener;
@@ -8,8 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
-
 
 public class App {
 	private static JFrame frame;
@@ -23,9 +19,7 @@ public class App {
  * @param args
  */
 public static void main( String[] args )
-    {
-       
-        
+    {  
      javax.swing.SwingUtilities.invokeLater(new Runnable() {
           public void run() {
         createGUI();
@@ -149,6 +143,11 @@ private static void createGUI() {
         frame.setVisible(true);  
    }
 
+/**
+ * This method is to check if the user has entered a correct password
+ * @param input is a character array from password field
+ * @return true if password is correct false otherwise
+ */
 private static boolean isValidPassword(char [] input){
 	String pw = "123";
 	if(input.length == pw.length()){

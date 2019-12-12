@@ -490,6 +490,9 @@ public class TabGui extends JFrame {
 
 		}
 
+		/**
+		 * This is the method implement by ESAInterface
+		 */
 		public void performUpdate(Applicant student) {
 
 			student.setLname(lastNameField.getText());
@@ -562,10 +565,16 @@ public class TabGui extends JFrame {
 
 		}
 		
+		/**
+		 * This is the method implement by ESAInterface
+		 */
 		public void performCancel() {
 			TabGui.this.setVisible(false);
 		}
 
+		/**
+		 * This is the method implement by ESAInterface
+		 */
 		public void performReset() {
 			buttongroup1.clearSelection();
 			buttongroup2.clearSelection();
@@ -775,6 +784,10 @@ public class TabGui extends JFrame {
 			leftPanel.add(empty8);
 		}
 
+		/**
+		 * This is the helper method to handles radio button
+		 * @param b is a boolean
+		 */
 		private void finRadioHandle(Boolean b) {
 			if (b) {
 				finanDependRButtonY.setSelected(true);
@@ -786,6 +799,9 @@ public class TabGui extends JFrame {
 
 		}
 
+		/**
+		 * This is the method implement by ESAInterface
+		 */
 		public void performUpdate(Applicant s) {
 
 			if (s.finInfo != null)
@@ -848,10 +864,16 @@ public class TabGui extends JFrame {
 		}
 
 
+		/**
+		 * This is the method implement by ESAInterface
+		 */
 		public void performCancel() {
 			TabGui.this.setVisible(false);
 		}
 
+		/**
+		 * This is the method implemented by ESAInterface
+		 */
 		public void performReset() {
 			buttongroup1.clearSelection();
 			buttongroup2.clearSelection();
@@ -1154,6 +1176,9 @@ public class TabGui extends JFrame {
 			rightPanel.add(empty2);
 		}
 
+		/**
+		 * This is the method implemented by ESAInterface
+		 */
 		public void performUpdate(Applicant student) {
 			if (havServedMilitaryY.isSelected()) {
 
@@ -1203,10 +1228,16 @@ public class TabGui extends JFrame {
 
 		}
 
+		/**
+		 * This is the method implemented by ESAInterface
+		 */
 		public void performCancel() {
 			TabGui.this.setVisible(false);
 		}
 
+		/**
+		 * This is the method implemented by ESAInterface
+		 */
 		public void performReset() {
 			buttonGroup1.clearSelection();
 			buttonGroup2.clearSelection();
@@ -1333,6 +1364,9 @@ public class TabGui extends JFrame {
 			return strDate;
 		}
 
+		/**
+		 * This is the method implemented by ESAInterface
+		 */
 		public void performUpdate(Applicant student) {
 			Date date = stringToDate(entrollDateField.getText());
 			if (date != null) {
@@ -1344,10 +1378,16 @@ public class TabGui extends JFrame {
 
 		}
 
+		/**
+		 * This is the method implemented by ESAInterface
+		 */
 		public void performCancel() {
 			TabGui.this.setVisible(false);
 		}
 
+		/**
+		 * This is the method implemented by ESAInterface
+		 */
 		public void performReset() {
 			entrollDateField.setText("");
 			groupNumField.setText("");
@@ -1356,11 +1396,19 @@ public class TabGui extends JFrame {
 
 	}
 
+	/**
+	 * Helper method to generate Error pop-up if any required field is empty upon update
+	 */
 	public void AllFiledReqPopup() {
 		JOptionPane.showMessageDialog(frame, "Please enter all the fields", "All Fields are Required",
 				JOptionPane.ERROR_MESSAGE);
 	}
 
+	/**
+	 * converts string to specific date format
+	 * @param s is date in string form
+	 * @return Date
+	 */
 	private Date stringToDate(String s) {
 		Date date = null;
 		if (!s.matches("^(0[1-9]|1[0-2])\\/(0[1-9]|1\\d|2\\d|3[01])\\/(19|20)\\d{2}$")) {

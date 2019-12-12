@@ -48,6 +48,9 @@ public Applicant(java.util.Date date){
 		this.eligInfo.isAgeOver55 = period.getYears() > 55;
 }
 
+/*
+ * All the getters and setters 
+ */
 	public String getStudentID() {
 		return studentID;
 	}
