@@ -17,7 +17,16 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
 import edu.umgc.cs.enrollmentapp.models.Applicant;
-
+/**
+ * File: SearchScreen.java
+ * Date: December 15, 2019
+ * @author Pooja Patel
+ * @author Olga Chandran
+ * @author Preethi Suresh
+ * @author Ngoc Nguyen 
+ * @author Richard Bonolis
+ * Purpose: This is class include the GUI for search page of the application and handles action associated with all the buttons.
+ */
 public class SearchScreen {
 
 	private JFrame frame;
@@ -41,7 +50,7 @@ public class SearchScreen {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	@SuppressWarnings("serial")
+	//@SuppressWarnings("serial")
 	private void createSearchPage() {
 		frame = new JFrame("Enrollment Scholarship Application");
 		frame.setBounds(100, 100, 450, 500);

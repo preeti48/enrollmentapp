@@ -6,7 +6,16 @@ import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
+/**
+ * File: App.java
+ * Date: December 15, 2019
+ * @author Pooja Patel
+ * @author Olga Chandran
+ * @author Preethi Suresh
+ * @author Ngoc Nguyen 
+ * @author Richard Bonolis
+ * Purpose: This is the main class that launches the Enrollment Scholarship Application.
+ */
 public class App {
 	private static JFrame frame;
 	private static JTextField userIdField;

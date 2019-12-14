@@ -23,6 +23,16 @@ import edu.umgc.cs.enrollmentapp.models.EligibilityFactors;
 import edu.umgc.cs.enrollmentapp.models.EnrollmentDecision;
 import edu.umgc.cs.enrollmentapp.models.FinancialInformation;
 
+/**
+ * File: ESADBConnection.java
+ * Date: December 15, 2019
+ * @author Pooja Patel
+ * @author Olga Chandran
+ * @author Preethi Suresh
+ * @author Ngoc Nguyen 
+ * @author Richard Bonolis
+ * Purpose: This is the database class. This class handles the connection to the  database for all the queries for search and update operations.
+ */
 public class ESADBConnection {
 	static Connection conn = null;
 	static String url = "jdbc:sqlite:ESA.db";

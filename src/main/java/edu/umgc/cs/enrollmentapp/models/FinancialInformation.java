@@ -1,7 +1,16 @@
 package edu.umgc.cs.enrollmentapp.models;
-
+/**
+ * File: FinancialInformation.java
+ * Date: December 15, 2019
+ * @author Pooja Patel
+ * @author Olga Chandran
+ * @author Preethi Suresh
+ * @author Ngoc Nguyen 
+ * @author Richard Bonolis
+ * Purpose: This class represents Financial Information associated with applicant.
+ */
 public class FinancialInformation {
-	private String studentID;
+	//private String studentID;
 	private boolean isFinanDepended;
 	private double studentIncomeLast;
 	private double parentIncomeLast;

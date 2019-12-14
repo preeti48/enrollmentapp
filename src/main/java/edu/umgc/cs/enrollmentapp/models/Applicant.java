@@ -4,7 +4,16 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
 import java.util.Date;
-
+/**
+ * File: Applicant.java
+ * Date: December 15, 2019
+ * @author Pooja Patel
+ * @author Olga Chandran
+ * @author Preethi Suresh
+ * @author Ngoc Nguyen 
+ * @author Richard Bonolis
+ * Purpose: This is represents the applicant for the Application.
+ */
 public class Applicant {
 	public String studentID;
 

@@ -19,7 +19,17 @@ import edu.umgc.cs.enrollmentapp.models.Applicant;
 import edu.umgc.cs.enrollmentapp.models.ESAInterface;
 import edu.umgc.cs.enrollmentapp.models.EligibilityFactors;
 import edu.umgc.cs.enrollmentapp.models.FinancialInformation;
-
+/**
+ * File: TabGui.java
+ * Date: December 15, 2019
+ * @author Pooja Patel
+ * @author Olga Chandran
+ * @author Preethi Suresh
+ * @author Ngoc Nguyen 
+ * @author Richard Bonolis
+ * Purpose: This class include the GUI for all the tabs and includes 4 inner class that represents each GUI.
+ *          All the inner class implements ESAInterface class to handle button actions. 
+ */
 public class TabGui extends JFrame {
 	private static JFrame frame = new JFrame();
 	private JTabbedPane jtpTabPane;

@@ -1,6 +1,15 @@
 package edu.umgc.cs.enrollmentapp.models;
 import edu.umgc.cs.enrollmentapp.enums.*;
-
+/**
+ * File: EligibilityFactors.java
+ * Date: December 15, 2019
+ * @author Pooja Patel
+ * @author Olga Chandran
+ * @author Preethi Suresh
+ * @author Ngoc Nguyen 
+ * @author Richard Bonolis
+ * Purpose: This class is to represent the eligibility factors for applicant.
+ */
 public class EligibilityFactors {
 	private String studentID;
 	private boolean everServedMilitary;

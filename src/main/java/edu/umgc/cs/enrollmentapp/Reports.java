@@ -5,7 +5,16 @@ import java.io.*;
 import java.sql.*;
 
 import javax.swing.JFileChooser;
-
+/**
+ * File: Reports.java
+ * Date: December 15, 2019
+ * @author Pooja Patel
+ * @author Olga Chandran
+ * @author Preethi Suresh
+ * @author Ngoc Nguyen 
+ * @author Richard Bonolis
+ * Purpose: This class generates the report for individual group and handles all the activity associated with View Reports button.
+ */
 public class Reports {
 	static Connection conn = null;
 	static String url = "jdbc:sqlite:ESA.db";
