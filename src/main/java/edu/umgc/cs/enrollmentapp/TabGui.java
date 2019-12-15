@@ -27,9 +27,13 @@ import edu.umgc.cs.enrollmentapp.models.FinancialInformation;
  * @author Preethi Suresh
  * @author Ngoc Nguyen 
  * @author Richard Bonolis
+ * 
  * Purpose: This class include the GUI for all the tabs and includes 4 inner class that represents each GUI.
- *          All the inner class implements ESAInterface class to handle button actions. 
+ *          All the inner class implements ESAInterface class to handle button actions.
+ *          TabGui class creates four Tabs That contain all UI elements such as Text boxes and buttons. 
+ * 			The constructor of GuiTab class creates instance of each inner class. 
  */
+
 public class TabGui extends JFrame {
 	private static JFrame frame = new JFrame();
 	private JTabbedPane jtpTabPane;
@@ -40,6 +44,11 @@ public class TabGui extends JFrame {
 	int age;
 	Applicant theApplicant = null;
 
+	/**
+	 * Calculate each applicant's group number
+	 * Display the group number in the EnrollmentDecisionTab's textfield. 
+	 * Also display group description in the EnrollmentDecisionTab's textarea.
+	 */
 	private void calculatePriority(Applicant applicant) {
 		System.out.println("calculatePriority called");
 	
