@@ -24,19 +24,20 @@ import edu.umgc.cs.enrollmentapp.models.EnrollmentDecision;
 import edu.umgc.cs.enrollmentapp.models.FinancialInformation;
 
 /**
- * File: ESADBConnection.java
- * Date: December 15, 2019
+ * File: ESADBConnection.java Date: December 15, 2019
+ * 
  * @author Pooja Patel
  * @author Olga Chandran
  * @author Preethi Suresh
- * @author Ngoc Nguyen 
- * @author Richard Bonolis
- * Purpose: This is the database class. This class handles the connection to the  database for all the queries for search and update operations.
+ * @author Ngoc Nguyen
+ * @author Richard Bonolis Purpose: This is the database class. This class
+ *         handles the connection to the database for all the queries for search
+ *         and update operations.
  */
 public class ESADBConnection {
 	static Connection conn = null;
 	static String url = "jdbc:sqlite:ESA.db";
-	//private static JFrame frame;
+	// private static JFrame frame;
 
 	public static Connection dbConnector() throws ClassNotFoundException {
 		try {
@@ -60,8 +61,9 @@ public class ESADBConnection {
 
 	/**
 	 * This method search for the student by entered studentID
+	 * 
 	 * @param studentID a studentID entered by User
-	 * @return applicant 
+	 * @return applicant
 	 */
 	public static Applicant searchByStudentID(String studentID) {
 		Applicant applicant = new Applicant();
@@ -109,8 +111,9 @@ public class ESADBConnection {
 
 	/**
 	 * This method search for the student by entered SSN and Lastname
+	 * 
 	 * @param ssn is SSN entered by User
-	 * @param ln is Lastname entered by User
+	 * @param ln  is Lastname entered by User
 	 * @return applicant
 	 */
 	public static Applicant searchBySSNandLname(String ssn, String ln) {
@@ -155,6 +158,7 @@ public class ESADBConnection {
 
 	/**
 	 * This method sets financial information of applicant on financial tab
+	 * 
 	 * @param student is a applicant
 	 */
 	private static void setFinancialInfo(Applicant student) {
@@ -187,7 +191,7 @@ public class ESADBConnection {
 
 		} catch (SQLException ex) {
 			System.out.println("Get Student exception " + ex.getMessage());
-		}finally {
+		} finally {
 			try {
 				conn.close();
 
@@ -199,6 +203,7 @@ public class ESADBConnection {
 
 	/**
 	 * This method sets Eligibility information of applicant on eligibility tab
+	 * 
 	 * @param student is a applicant
 	 */
 	private static void setEligibilityInfo(Applicant student) {
@@ -236,14 +241,16 @@ public class ESADBConnection {
 			Period period = Period.between(birthday, today);// Finding age
 			student.eligInfo.isAgeOver55 = period.getYears() > 55;
 			student.eligInfo.areYouDepended = radioHandle(eligData[9]);
-			
+
 		} catch (SQLException ex) {
 			System.out.println("Get Student exception " + ex.getMessage());
 		}
 	}
 
 	/**
-	 * This method gets enrollment decision data from applicant and set it to enrollment decision tab
+	 * This method gets enrollment decision data from applicant and set it to
+	 * enrollment decision tab
+	 * 
 	 * @param student is applicant
 	 */
 	private static void getEnrollmentDecision(Applicant student) {
@@ -277,6 +284,7 @@ public class ESADBConnection {
 
 	/**
 	 * This is a helper method to get residency status for the database
+	 * 
 	 * @param s is a string type of Residency status
 	 * @return enum type of Residency status
 	 */
@@ -299,6 +307,7 @@ public class ESADBConnection {
 
 	/**
 	 * This is a helper method to get Year of residency for the database
+	 * 
 	 * @param s is a string type of Year of residency
 	 * @return enum type of Year of residency
 	 */
@@ -310,10 +319,9 @@ public class ESADBConnection {
 				returnResult = YearOfResidency.LessThanOneYears;
 			} else if (s.equals("BetweenOneAndFveYears")) {
 				returnResult = YearOfResidency.BetweenOneAndFveYears;
-			} else if(s.equals("Over5Years")){
+			} else if (s.equals("Over5Years")) {
 				returnResult = YearOfResidency.Over5Years;
-			}
-			else{
+			} else {
 				returnResult = YearOfResidency.NoYearsOfResidency;
 			}
 		}
@@ -322,6 +330,7 @@ public class ESADBConnection {
 
 	/**
 	 * This is a helper method to get Active Years for the database
+	 * 
 	 * @param s is a string type of Active Years
 	 * @return enum type of Year of Active Years
 	 */
@@ -333,9 +342,9 @@ public class ESADBConnection {
 				returnResult = ActiveYears.LessThanOneYears;
 			} else if (s.equals("BetweenOneAndFveYears")) {
 				returnResult = ActiveYears.BetweenOneAndFveYears;
-			} else if(s.equals("Over5Years")){
+			} else if (s.equals("Over5Years")) {
 				returnResult = ActiveYears.Over5Years;
-			}else{
+			} else {
 				returnResult = ActiveYears.NoActiveYears;
 			}
 		}
@@ -346,8 +355,9 @@ public class ESADBConnection {
 
 	/**
 	 * This method set student data to Overview tab for update button
+	 * 
 	 * @param student is applicant who's data to be display
-	 * @param record is array of string carrying data
+	 * @param record  is array of string carrying data
 	 * @return applicant with updated data
 	 */
 	private static Applicant setStudent(Applicant student, String[] record) {
@@ -374,6 +384,7 @@ public class ESADBConnection {
 
 	/**
 	 * This is the helper method to handle Usa Residence radio buttons
+	 * 
 	 * @param gen is a string yes or no
 	 * @return true if yes false otherwise
 	 */
@@ -391,6 +402,7 @@ public class ESADBConnection {
 
 	/**
 	 * This is the helper method that converts string to Date in specific formate
+	 * 
 	 * @param s is date as a string
 	 * @return Date
 	 */
@@ -408,11 +420,18 @@ public class ESADBConnection {
 		return date;
 	}
 
-	
+	/**
+	 * This method verifies if the student exists in DB, if not then sets a student
+	 * 
+	 * @param ssn a Last name, First Name and DOB
+	 * @return applicant
+	 */
+
 	public static Applicant checkIfstudentExists(String ssn, String lName, String fName, String dOB) {
 		Applicant applicant = new Applicant();
 		// first check if students exists
-		//String query = "Select * from Student where last_name = \'" + lName + "\' and ssn =\'" + ssn + "\'";
+		// String query = "Select * from Student where last_name = \'" + lName + "\' and
+		// ssn =\'" + ssn + "\'";
 		String query = "Select * from Student where  ssn =\'" + ssn + "\'";
 
 		try {
@@ -436,6 +455,12 @@ public class ESADBConnection {
 		return applicant;
 	}
 
+	/**
+	 * This method add a student to DB
+	 * 
+	 * @param ssn a Last name, First Name and DOB
+	 * @return applicant
+	 */
 	public static Applicant addStudent(String ssn, String lName, String fName, java.util.Date date) {
 		Applicant applicant = new Applicant(date);
 		String generatedStudentID = null;
@@ -483,6 +508,7 @@ public class ESADBConnection {
 
 	/**
 	 * This method converts date into string
+	 * 
 	 * @param indate is a Date
 	 * @return a date in string format to save in database and display in GUI
 	 */
@@ -497,7 +523,10 @@ public class ESADBConnection {
 		return dateString;
 	}
 
-	
+	/**
+	 * This method generates random StudentID, length 7 digits * @return Student ID
+	 */
+
 	public static String generateStudentID(Connection conn) {
 		String number = null;
 
@@ -510,7 +539,7 @@ public class ESADBConnection {
 		while (regenerate) {
 			n = 1000000 + rand.nextInt(9000000);
 			number = String.valueOf(n);
-			
+
 			// check if it existis , otherwise regenerate
 			// if student id does not exist, leave the loop
 			String query = "Select * from Student where student_id=\'" + n + "\'";
@@ -529,12 +558,19 @@ public class ESADBConnection {
 		return number;
 	}
 
+	/**
+	 * This method adds Eligibility factors to DB and generates eligibility Factors
+	 * ID
+	 * 
+	 * @param Student ID and connection
+	 * @return eligibility Factors ID
+	 */
 	private static int populateEligibilityFactorsAddStudent(String studentID, Connection conn) {
 
 		String query = "Select max(Eligibility_Information_ID) from EligibilityFactors ";
 		int tempIDint = 1;
 		int count = -1;// if no records are inserted
-		
+
 		try {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
@@ -570,6 +606,12 @@ public class ESADBConnection {
 		return count;
 	}
 
+	/**
+	 * This method adds Enrollment Decision to DB and generates Enrollment_ID
+	 * 
+	 * @param Student ID and connection
+	 * @return Enrollment_ID
+	 */
 	private static int populateEnrollmentDecision(String studentID, Connection conn) {
 		String query = "Select max(Enrollment_ID) from EnrollmentDecision ";
 		int tempIDint = 1;
@@ -609,12 +651,18 @@ public class ESADBConnection {
 		return count;
 	}
 
+	/**
+	 * This method adds Financial Information to DB and generates Financial_Information_ID
+	 * 
+	 * @param Student ID and connection
+	 * @return Financial_Information_ID
+	 */
 	private static int populateFinancialInformation(String studentID, Connection conn) {
 
 		String query = "Select max(Financial_Information_ID) from FinancialInformation  ";
 		int tempIDint = 1;
 		int count = -1;// if no records are inserted
-		
+
 		try {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
@@ -671,9 +719,9 @@ public class ESADBConnection {
 			pstmt.executeUpdate();
 			System.out.println("Database updated successfully ");
 
-			//String pquery = "Select * from Student where student_ID = " + applicant.getStudentID();
+			// String pquery = "Select * from Student where student_ID = " +
+			// applicant.getStudentID();
 
-			
 		} catch (SQLException ex) {
 			System.out.println("Get Student exception " + ex.getMessage());
 		} finally {
@@ -688,6 +736,7 @@ public class ESADBConnection {
 
 	/**
 	 * This method checks for a duplicate SSN in database
+	 * 
 	 * @param ssn is SSN entered by user
 	 * @return true is duplicate ssn exist, false otherwise
 	 */
@@ -712,6 +761,7 @@ public class ESADBConnection {
 
 	/**
 	 * This method updates financial Record in database
+	 * 
 	 * @param applicant whose record needs to be updated
 	 */
 	public static void updateFinancialRecord(Applicant applicant) {
@@ -731,8 +781,8 @@ public class ESADBConnection {
 			pstmt.executeUpdate();
 			System.out.println("Database updated successfully ");
 
-			//String pquery = "Select * from FinancialInformation where student_ID = " + applicant.getStudentID();
-
+			// String pquery = "Select * from FinancialInformation where student_ID = " +
+			// applicant.getStudentID();
 
 		} catch (SQLException ex) {
 			System.out.println("Get Student exception " + ex.getMessage());
@@ -748,6 +798,7 @@ public class ESADBConnection {
 
 	/**
 	 * This method updates eligibility Record in database
+	 * 
 	 * @param applicant whose record needs to be updated
 	 */
 	public static void updateEligibilityRecord(Applicant applicant) {
@@ -769,8 +820,9 @@ public class ESADBConnection {
 			pstmt.executeUpdate();
 			System.out.println("Database updated successfully ");
 
-			//String pquery = "Select * from EligibilityFactors where student_ID = " + applicant.getStudentID();
-			
+			// String pquery = "Select * from EligibilityFactors where student_ID = " +
+			// applicant.getStudentID();
+
 		} catch (SQLException ex) {
 			System.out.println("Get Student exception " + ex.getMessage());
 		} finally {
@@ -786,12 +838,14 @@ public class ESADBConnection {
 
 	/**
 	 * This method updates enrollment Record in database
+	 * 
 	 * @param applicant whose record needs to be updated
 	 */
 	public static void updateEnrollmentRecord(Applicant applicant) {
 		String query = "UPDATE EnrollmentDecision SET " + " Enrollment_Date =  '"
-				+ convertStringToDate(applicant.enrollDecision.getEnrollDate()) + "', Group_number = " +applicant.enrollDecision.getGroup() + ", group_description= ' " + applicant.enrollDecision.getGrpDiscription() + "' where student_id = "
-				+ applicant.getStudentID();
+				+ convertStringToDate(applicant.enrollDecision.getEnrollDate()) + "', Group_number = "
+				+ applicant.enrollDecision.getGroup() + ", group_description= ' "
+				+ applicant.enrollDecision.getGrpDiscription() + "' where student_id = " + applicant.getStudentID();
 
 		try {
 
@@ -800,7 +854,8 @@ public class ESADBConnection {
 			pstmt.executeUpdate();
 			System.out.println("Database updated successfully ");
 
-		//	String pquery = "Select * from EnrollmentDecision where student_ID = " + applicant.getStudentID();
+			// String pquery = "Select * from EnrollmentDecision where student_ID = " +
+			// applicant.getStudentID();
 
 		} catch (SQLException ex) {
 			System.out.println("Get Student exception " + ex.getMessage());

@@ -65,7 +65,7 @@ public class Reports {
 
 	}
 	public static void generateGroup2Report() {
-		// Select students form two tables for Group1
+		// Select students form two tables for Group2
 		String query = "Select Student.Student_ID, Student.First_Name, Student.Last_Name, Student.Birth_Sex, EnrollmentDecision.Group_Description\r\n"
 				+ "FROM EnrollmentDecision\r\n" + "JOIN Student\r\n"
 				+ "ON EnrollmentDecision.Student_ID = Student.Student_ID\r\n"
@@ -88,7 +88,7 @@ public class Reports {
 
 	}
 	public static void generateGroup3Report() {
-		// Select students form two tables for Group1
+		// Select students form two tables for Group3
 		String query = "Select Student.Student_ID, Student.First_Name, Student.Last_Name, Student.Birth_Sex, EnrollmentDecision.Group_Description\r\n"
 				+ "FROM EnrollmentDecision\r\n" + "JOIN Student\r\n"
 				+ "ON EnrollmentDecision.Student_ID = Student.Student_ID\r\n"
@@ -111,7 +111,7 @@ public class Reports {
 
 	}
 	public static void generateGroup4Report() {
-		// Select students form two tables for Group1
+		// Select students form two tables for Group4
 		String query = "Select Student.Student_ID, Student.First_Name, Student.Last_Name, Student.Birth_Sex, EnrollmentDecision.Group_Description\r\n"
 				+ "FROM EnrollmentDecision\r\n" + "JOIN Student\r\n"
 				+ "ON EnrollmentDecision.Student_ID = Student.Student_ID\r\n"
@@ -134,7 +134,7 @@ public class Reports {
 
 	}
 	public static void generateGroup5Report() {
-		// Select students form two tables for Group1
+		// Select students form two tables for Group5
 		String query = "Select Student.Student_ID, Student.First_Name, Student.Last_Name, Student.Birth_Sex, EnrollmentDecision.Group_Description\r\n"
 				+ "FROM EnrollmentDecision\r\n" + "JOIN Student\r\n"
 				+ "ON EnrollmentDecision.Student_ID = Student.Student_ID\r\n"
@@ -156,6 +156,7 @@ public class Reports {
 		}
 
 	}
+	// This method generates the report
 	private static void createReport(String query, JFileChooser fileChooser) throws IOException, SQLException {
 		int userSelection = fileChooser.showSaveDialog(null);
 		if (userSelection == JFileChooser.APPROVE_OPTION) {
